@@ -87,6 +87,19 @@ Use this file to coordinate multiple coding agents working in the same repo.
   - added `scripts/aws/launch_fpga_dev_instance.sh` to provision security group, key handling, and EC2 launch via AWS CLI
   - added `scripts/aws/fpga-dev.env.example` with `f2-dev`, `f2-hardware`, and disabled-by-default `f1-retired` profiles
 
+### 2026-04-13 16:02 CDT — COMPLETED
+
+- Agent: Codex (GPT-5.4)
+- Scope: local AWS launch env preset
+- Files:
+  - `scripts/aws/fpga-dev.env`
+  - `.gitignore`
+  - `docs/status-log.md`
+  - `docs/coordination-board.md`
+- Checkpoint:
+  - added a machine-local `scripts/aws/fpga-dev.env` with sane defaults for this workstation
+  - updated `.gitignore` so `scripts/aws/fpga-dev.env` stays local and customization-safe
+
 ## Outstanding Unclaimed Work
 
 - `fpga/hls/scripts/vitis_hls.tcl`: DONE — commit `6d6b1bd`

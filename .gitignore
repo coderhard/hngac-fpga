@@ -16,3 +16,5 @@ fpga/hls/*.log
 *.xclbin
 *.xo
 *.wdb
+*.swp
+scripts/aws/fpga-dev.env

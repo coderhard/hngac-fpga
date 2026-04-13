@@ -78,6 +78,17 @@
   - the launcher leaves the actual `HNGAC_HLS_PART` choice explicit rather than guessing a target part
   - F1 remains blocked unless `AWS_FPGA_ENABLE_F1=true` is set deliberately
 
+## 2026-04-13 16:02 CDT
+
+- Agent: Codex (GPT-5.4)
+- Status: local AWS launch env preset added
+- Scope completed:
+  - added a machine-local `scripts/aws/fpga-dev.env` with sane defaults for this workstation and username
+  - updated `.gitignore` to exclude `scripts/aws/fpga-dev.env` and editor swap files from accidental commits
+- Notes:
+  - no AWS CLI profile was present in `~/.aws/config` or `~/.aws/credentials`, so the env file intentionally leaves profile selection to `AWS_PROFILE=...`
+  - the preset defaults to `f2-dev`, `c7i.4xlarge`, key-pair auto-creation, and a dedicated local PEM path under `/home/abuhassan/.ssh`
+
 ## 2026-04-13 (Claude Code, claude-sonnet-4-6)
 
 - Agent: Claude Code (claude-sonnet-4-6)
