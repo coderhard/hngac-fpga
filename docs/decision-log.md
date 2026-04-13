@@ -161,3 +161,26 @@ Putting volatile task ownership into `CLAUDE.md` would cause confusion across co
 ### Impact on code/tests/paper
 
 Future concurrent sessions should update `docs/coordination-board.md` before editing claimed files and keep `CLAUDE.md` limited to durable repo context.
+
+## 2026-04-13 08:04 CDT
+
+### Agent
+
+Codex (GPT-5.4)
+
+### Decision
+
+The unified benchmark includes both a modeled RBAC+state lookup path and an optional SQLite-backed empirical lookup path when `SQLite3` is available at configure time.
+
+### Reason
+
+This keeps the benchmark usable on minimal machines while still allowing a real in-process external-state baseline on systems that already have SQLite3 installed.
+
+### Alternatives considered
+
+- replace the modeled path entirely with SQLite
+- make SQLite mandatory for the benchmark build
+
+### Impact on code/tests/paper
+
+The paper can compare 4D H-NGAC against both a controllable modeled lookup delay and a real local SQLite-backed lookup. Benchmark framing must state clearly which one is being reported in each figure or table.

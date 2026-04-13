@@ -39,6 +39,37 @@ Interpretation:
 - The 4D path stays near the best-case RBAC hash-map floor in this local software run.
 - The modeled external-state path remains far slower than the in-process 4D path.
 
+## 2026-04-13 SQLite validation run
+
+Command:
+
+```bash
+/tmp/hngac-fpga-build-sqlite/hngac_compare_benchmark 2000 10000
+```
+
+Modeled configuration:
+
+- iterations: 2,000
+- RBAC external-state lookup delay: 10,000 ns
+- warmup: 1,000 iterations per model
+- SQLite3 found by CMake and linked into `hngac_compare_benchmark`
+
+Observed output:
+
+- RBAC hash map mean: 23.9025 ns
+- NGAC-DAG traversal mean: 167.672 ns
+- 3D baseline mean: 15.9185 ns
+- 4D state-aware mean: 24.4805 ns
+- RBAC plus state lookup mean: 10,280.8 ns
+- RBAC plus SQLite state lookup mean: 463.377 ns
+- RBAC plus SQLite state lookup allowed count: 1,000 / 2,000
+- computed RBAC plus SQLite vs 4D mean slowdown: 18.9284x
+
+Interpretation:
+
+- The SQLite-backed lookup is much cheaper than the intentionally delayed modeled lookup path, but still materially slower than the in-process 4D bitmask path.
+- The SQLite-backed path preserves the same allow/deny split as the 4D and modeled RBAC+lookup paths on the mixed scenario set.
+
 ## 2026-04-13 smoke run
 
 Command:

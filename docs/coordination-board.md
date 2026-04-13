@@ -25,28 +25,37 @@ Use this file to coordinate multiple coding agents working in the same repo.
   - `docs/decision-log.md`
   - `docs/status-log.md`
   - `docs/coordination-board.md`
-- Planned checkpoint:
-  - commit the five-model comparison harness
-  - track repo-state files in git
-  - refresh benchmark and agent guidance docs
+- Checkpoint:
+  - completed in commit `5dbd64d` (`Add five-model benchmark harness and coordination board`)
 
-### 2026-04-13 (Claude Code, claude-sonnet-4-6)
+### 2026-04-13 07:59 CDT
+
+- Agent: Codex (GPT-5.4)
+- Scope: optional real SQLite-backed RBAC+state baseline
+- Files:
+  - `fpga/hls/bench/hngac_compare_benchmark.cpp`
+  - `fpga/hls/CMakeLists.txt`
+  - `docs/benchmark-gap-analysis.md`
+  - `docs/local-benchmark-notes.md`
+  - `docs/decision-log.md`
+  - `docs/status-log.md`
+  - `docs/coordination-board.md`
+- Checkpoint:
+  - optional SQLite-backed lookup path added alongside the modeled lookup path
+  - build remains usable when SQLite is absent and gains the extra baseline when SQLite is found
+  - local benchmark and single-delay sweep validated on this machine
+
+### 2026-04-13 (Claude Code, claude-sonnet-4-6) — COMPLETED
 
 - Agent: Claude Code (claude-sonnet-4-6)
 - Scope: unit test expansion + HLS pragma pass
-- Files claimed (do not edit while this claim is active):
-  - `fpga/hls/tb/hngac_kernel_tb.cpp`
-  - `fpga/hls/src/hngac_kernel.cpp`
-- Planned checkpoint:
-  - expand testbench: calibration_required isolation, object out-of-range, empty policy, superset-state semantics, first-match-wins, zero-required-states rule
-  - add `#pragma HLS PIPELINE` to the rule-scan loop in hngac_kernel.cpp
-  - commit and push
-- Release condition: claim released after both checkpoints are committed
+- Files: `fpga/hls/tb/hngac_kernel_tb.cpp`, `fpga/hls/src/hngac_kernel.cpp`
+- Checkpoint: commit `38731dd` — 11 → 34 tests, HLS INTERFACE + PIPELINE pragmas added
+- Note for Codex: add `-Wno-unknown-pragmas` to `hngac_kernel` target in `fpga/hls/CMakeLists.txt` to silence expected pragma warnings from g++
+- CLAIM RELEASED
 
 ## Outstanding Unclaimed Work
 
 - `fpga/hls/scripts/vitis_hls.tcl`: first synthesis/report capture workflow
 - `benchmarks/`: legacy benchmark reconciliation or deprecation notes
-- optional real SQLite-backed RBAC+state baseline (replaces simulated delay in compare benchmark)
 - optional OPA baseline (out-of-process, separate latency scale)
-- CSV output for all five models via sweep script (currently sweep covers three models)

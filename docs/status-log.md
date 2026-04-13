@@ -24,6 +24,37 @@
   - static baselines still over-authorize the mixed request set by design
   - `RBAC + state lookup` remains a modeled delay, not a real SQLite path
 
+## 2026-04-13 08:04 CDT
+
+- Agent: Codex (GPT-5.4)
+- Status: optional SQLite-backed RBAC+state baseline added to the unified benchmark
+- Scope completed:
+  - added optional `SQLite3` discovery to `fpga/hls/CMakeLists.txt`
+  - added `RBAC + SQLite state lookup` to `hngac_compare_benchmark` when SQLite is available
+  - updated the sweep runner to emit optional SQLite columns
+- Validation:
+  - `/tmp/hngac-fpga-build-sqlite/hngac_compare_benchmark 2000 10000`
+- Notes:
+  - SQLite is available on this machine and the benchmark linked successfully
+  - the current worktree also contains an active Claude-owned edit to `fpga/hls/tb/hngac_kernel_tb.cpp`; that file was not modified by this slice
+
+## 2026-04-13 08:14 CDT
+
+- Agent: Codex (GPT-5.4)
+- Status: SQLite benchmark slice build-clean and sweep-validated
+- Scope completed:
+  - suppressed host-compiler `unknown pragma` noise for HLS pragmas in `fpga/hls/CMakeLists.txt`
+  - refreshed `docs/benchmark-gap-analysis.md` to match the current pragma and SQLite benchmark state
+  - validated `fpga/hls/scripts/run_local_compare_sweep.sh` with SQLite columns enabled
+- Validation:
+  - `cmake -S /mnt/c/Users/nomadic/projects/hngac-fpga/fpga/hls -B /tmp/hngac-fpga-build-current`
+  - `cmake --build /tmp/hngac-fpga-build-current`
+  - `ctest --test-dir /tmp/hngac-fpga-build-current --output-on-failure`
+  - `/mnt/c/Users/nomadic/projects/hngac-fpga/fpga/hls/scripts/run_local_compare_sweep.sh 2000 /tmp/hngac-fpga-sweep-check 10000`
+- Notes:
+  - clean host build confirmed: the HLS pragma warnings no longer appear under g++
+  - verified sweep artifacts: `/tmp/hngac-fpga-sweep-check/sweep_summary.csv` and `/tmp/hngac-fpga-sweep-check/sweep_summary_20260413_081411.log`
+
 ## 2026-04-13 (Claude Code, claude-sonnet-4-6)
 
 - Agent: Claude Code (claude-sonnet-4-6)
@@ -36,3 +67,8 @@
   - HLS kernel has no pragmas (`PIPELINE`, `INTERFACE`, `UNROLL`) — synthesis will not be pipelined until added
   - CLAUDE.md updated: added explicit autonomous permissions section per user instruction
   - RBAC+state lookup is still simulated delay — not a real SQLite-backed path
+- Completed: commit `38731dd` pushed to origin/main
+  - `fpga/hls/tb/hngac_kernel_tb.cpp`: 11 → 34 passing tests
+  - `fpga/hls/src/hngac_kernel.cpp`: HLS INTERFACE (s_axilite + bram) and PIPELINE II=1 pragmas added
+  - Claims on both files released in coordination-board.md
+- Note left for Codex: add `-Wno-unknown-pragmas` to `hngac_kernel` in `fpga/hls/CMakeLists.txt`

@@ -11,7 +11,7 @@
 |---|---|---|
 | `benchmarks/ngac_benchmark.cpp` | Aggregate latency (single start/end, 100k iters) | Legacy 3D NGAC bitmask only |
 | `benchmarks/ngac_jitter.cpp` | Per-call latency distribution (min/avg/p95/p99/max) | Legacy 3D NGAC bitmask only |
-| `fpga/hls/bench/hngac_compare_benchmark.cpp` | Unified mean/p99/max benchmark with 1,000-iteration warmup | RBAC hash map, NGAC-DAG traversal, 3D bitmask, 4D state-aware, RBAC+modeled-state-lookup |
+| `fpga/hls/bench/hngac_compare_benchmark.cpp` | Unified mean/p99/max benchmark with 1,000-iteration warmup | RBAC hash map, NGAC-DAG traversal, 3D bitmask, 4D state-aware, RBAC+modeled-state-lookup, optional RBAC+SQLite-state-lookup |
 | `fpga/hls/scripts/run_local_compare.sh` | Builds and runs the unified benchmark, saves log output | same five |
 | `fpga/hls/scripts/run_local_compare_sweep.sh` | Sweeps modeled lookup delay, saves logs + CSV | same five |
 | `data/final_data.log` | ROS2 runtime gatekeeper log (DCAS baseline) | Not a benchmark — per-event ns timestamps only |
@@ -23,8 +23,9 @@
 - `RBAC hash map` is implemented as a packed `(subject_id << 16) | object_id` key to permission bitmask.
 - `NGAC-DAG traversal` is implemented as a real adjacency-list BFS baseline in the unified harness.
 - `RBAC + state lookup` is still a **parameter-driven simulated delay**. It models external lookup cost; it does not measure a real database or RPC path.
+- `RBAC + SQLite state lookup` is now available when `SQLite3` is found at configure time. It uses an in-memory SQLite state table and a prepared query in the unified harness.
 - The unified harness uses `std::chrono::steady_clock` and performs a 1,000-iteration warmup per model before timing.
-- HLS kernel (`fpga/hls/src/hngac_kernel.cpp`) still has **no HLS pragmas** (`#pragma HLS PIPELINE / UNROLL / INTERFACE`).
+- HLS kernel (`fpga/hls/src/hngac_kernel.cpp`) now includes host-build-tolerant HLS `INTERFACE` and `PIPELINE II=1` pragmas.
 - OPA appears nowhere in the codebase.
 
 ---
@@ -40,12 +41,10 @@
 
 ### Model 2: RBAC + external state — configurable lookup delay or real SQLite call
 
-- **Implemented empirically:** Partially
-- **Implementation:** modeled external lookup delay in the unified harness
-- **Gap:** There is still no real SQLite-backed or RPC-backed lookup path. For publication, either:
-  1. keep the simulated model and label it clearly as modeled deployment latency, or
-  2. add a real SQLite in-process query path for an empirical software lookup baseline
-- **External dependencies:** `sqlite3` only if the real lookup path is added
+- **Implemented empirically:** Yes
+- **Implementation:** both modeled external lookup delay and optional SQLite-backed in-memory state lookup exist in the unified harness
+- **Gap:** The SQLite path is a local in-process external-state baseline, not a remote service or networked store. The paper still needs to frame it correctly.
+- **External dependencies:** `sqlite3` for the empirical SQLite path
 
 ### Model 3: NGAC-DAG — adjacency-list graph traversal
 
@@ -88,7 +87,7 @@ OPA is still a stretch goal. It should not be placed on the same ns-scale chart 
 | Model | Implemented? | Gap severity | Notes |
 |---|---|---|---|
 | RBAC (hash map, no state) | Yes | Low | best-case static software floor |
-| RBAC + external state (real) | Partially | Medium | simulated now, real lookup still optional |
+| RBAC + external state (real) | Yes | Low | SQLite-backed local empirical path now available |
 | NGAC-DAG (adjacency list, BFS) | Yes | Low | static graph baseline only |
 | H-NGAC 3D bitmask | Yes | Low | canonical path is unified harness, not legacy `benchmarks/` |
 | H-NGAC 4D state-aware | Yes | Low | local comparison complete, hardware data pending |
@@ -99,7 +98,7 @@ OPA is still a stretch goal. It should not be placed on the same ns-scale chart 
 ## Build system state
 
 - `benchmarks/CMakeLists.txt`: CMake 3.5, C++17, `-O3 -Wall -Wextra`
-- `fpga/hls/CMakeLists.txt`: CMake 3.16, C++17, `-O3 -Wall -Wextra -Wpedantic`
+- `fpga/hls/CMakeLists.txt`: CMake 3.16, C++17, `-O3 -Wall -Wextra -Wpedantic`, host-build suppression for HLS pragma warnings, optional `SQLite3` linkage for `hngac_compare_benchmark`
 - No linked libraries in `benchmarks/`
 - No LTO, no `-march=native`, no sanitizer flags
 
@@ -107,8 +106,8 @@ OPA is still a stretch goal. It should not be placed on the same ns-scale chart 
 
 ## What to build next (priority order)
 
-1. **Decide whether RBAC+state stays modeled or becomes real SQLite** — this is the main remaining software-baseline framing issue
-2. **Add HLS pragmas to the 4D kernel** — required before claiming any meaningful synthesis tuning
-3. **Run first Vitis HLS synthesis and capture reports** — local software benchmarking is no longer the main blocker
-4. **Reconcile the legacy `benchmarks/` programs with the unified harness story** — either deprecate them in the paper narrative or explicitly label them legacy
+1. **Run first Vitis HLS synthesis and capture reports** — pragmas are in place; synthesis evidence is now the main hardware blocker
+2. **Reconcile the legacy `benchmarks/` programs with the unified harness story** — either deprecate them in the paper narrative or explicitly label them legacy
+3. **Decide whether the paper reports modeled RBAC+lookup, SQLite, or both** — this is now a presentation choice rather than a code gap
+4. **Capture a sweep table/figure from `run_local_compare_sweep.sh`** — useful for the software-baseline section now that both lookup baselines exist
 5. **OPA** — only if time remains and only as a separate-scale baseline

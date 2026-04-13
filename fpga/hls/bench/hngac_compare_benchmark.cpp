@@ -11,6 +11,10 @@
 #include <unordered_set>
 #include <vector>
 
+#ifdef HNGAC_HAVE_SQLITE
+#include <sqlite3.h>
+#endif
+
 #include "hngac_kernel.hpp"
 
 namespace {
@@ -60,6 +64,13 @@ struct NgacDag {
     std::unordered_map<std::uint16_t, std::uint32_t> subject_nodes{};
     std::unordered_map<std::uint16_t, std::uint32_t> object_nodes{};
 };
+
+#ifdef HNGAC_HAVE_SQLITE
+struct SqliteStateLookup {
+    sqlite3* db = nullptr;
+    sqlite3_stmt* select_state_stmt = nullptr;
+};
+#endif
 
 struct Summary {
     double mean_ns = 0.0;
@@ -243,6 +254,120 @@ bool authorize_rbac_lookup(
     }
     return false;
 }
+
+#ifdef HNGAC_HAVE_SQLITE
+bool initialize_sqlite_state_lookup(
+    SqliteStateLookup& sqlite_lookup,
+    const std::vector<AuthorizationRequest>& requests) {
+    if (sqlite3_open(":memory:", &sqlite_lookup.db) != SQLITE_OK) {
+        return false;
+    }
+
+    sqlite3_exec(sqlite_lookup.db, "PRAGMA journal_mode=OFF;", nullptr, nullptr, nullptr);
+    sqlite3_exec(sqlite_lookup.db, "PRAGMA synchronous=OFF;", nullptr, nullptr, nullptr);
+    sqlite3_exec(sqlite_lookup.db, "PRAGMA temp_store=MEMORY;", nullptr, nullptr, nullptr);
+
+    constexpr const char* create_sql =
+        "CREATE TABLE object_state ("
+        "object_id INTEGER NOT NULL, "
+        "observed_state INTEGER NOT NULL, "
+        "PRIMARY KEY (object_id, observed_state));";
+    if (sqlite3_exec(sqlite_lookup.db, create_sql, nullptr, nullptr, nullptr) != SQLITE_OK) {
+        return false;
+    }
+
+    sqlite3_stmt* insert_stmt = nullptr;
+    constexpr const char* insert_sql =
+        "INSERT OR IGNORE INTO object_state(object_id, observed_state) VALUES (?, ?);";
+    if (sqlite3_prepare_v2(sqlite_lookup.db, insert_sql, -1, &insert_stmt, nullptr) != SQLITE_OK) {
+        return false;
+    }
+
+    for (const AuthorizationRequest& request : requests) {
+        sqlite3_bind_int(insert_stmt, 1, static_cast<int>(request.object_id));
+        sqlite3_bind_int(insert_stmt, 2, static_cast<int>(request.object_state));
+        if (sqlite3_step(insert_stmt) != SQLITE_DONE) {
+            sqlite3_finalize(insert_stmt);
+            return false;
+        }
+        sqlite3_reset(insert_stmt);
+        sqlite3_clear_bindings(insert_stmt);
+    }
+    sqlite3_finalize(insert_stmt);
+
+    constexpr const char* select_sql =
+        "SELECT observed_state FROM object_state WHERE object_id = ? AND observed_state = ?;";
+    if (sqlite3_prepare_v2(
+            sqlite_lookup.db, select_sql, -1, &sqlite_lookup.select_state_stmt, nullptr) !=
+        SQLITE_OK) {
+        return false;
+    }
+
+    return true;
+}
+
+bool lookup_sqlite_state(
+    SqliteStateLookup& sqlite_lookup,
+    const AuthorizationRequest& request,
+    StateMask& looked_up_state) {
+    sqlite3_bind_int(sqlite_lookup.select_state_stmt, 1, static_cast<int>(request.object_id));
+    sqlite3_bind_int(
+        sqlite_lookup.select_state_stmt, 2, static_cast<int>(request.object_state));
+
+    const int rc = sqlite3_step(sqlite_lookup.select_state_stmt);
+    if (rc == SQLITE_ROW) {
+        looked_up_state =
+            static_cast<StateMask>(sqlite3_column_int(sqlite_lookup.select_state_stmt, 0));
+        sqlite3_reset(sqlite_lookup.select_state_stmt);
+        sqlite3_clear_bindings(sqlite_lookup.select_state_stmt);
+        return true;
+    }
+
+    sqlite3_reset(sqlite_lookup.select_state_stmt);
+    sqlite3_clear_bindings(sqlite_lookup.select_state_stmt);
+    return false;
+}
+
+bool authorize_rbac_sqlite_lookup(
+    SqliteStateLookup& sqlite_lookup,
+    const RolePermissionRule rules[kMaxPolicyRules],
+    std::uint16_t rule_count,
+    const AuthorizationRequest& request) {
+    StateMask looked_up_state = 0;
+    if (!lookup_sqlite_state(sqlite_lookup, request, looked_up_state)) {
+        return false;
+    }
+
+    for (std::uint16_t i = 0; i < rule_count; ++i) {
+        const RolePermissionRule& rule = rules[i];
+        if (rule.role_id != request.subject_id) {
+            continue;
+        }
+        if (rule.object_id != request.object_id) {
+            continue;
+        }
+        if (!contains_all(request.required_attributes, rule.attributes)) {
+            continue;
+        }
+        if (!contains_all_states(rule.required_states, looked_up_state)) {
+            continue;
+        }
+        return true;
+    }
+    return false;
+}
+
+void destroy_sqlite_state_lookup(SqliteStateLookup& sqlite_lookup) {
+    if (sqlite_lookup.select_state_stmt != nullptr) {
+        sqlite3_finalize(sqlite_lookup.select_state_stmt);
+        sqlite_lookup.select_state_stmt = nullptr;
+    }
+    if (sqlite_lookup.db != nullptr) {
+        sqlite3_close(sqlite_lookup.db);
+        sqlite_lookup.db = nullptr;
+    }
+}
+#endif
 
 void add_unique_edge(
     NgacDag& dag,
@@ -473,6 +598,13 @@ int main(int argc, char** argv) {
         request_d_deny,
     };
 
+#ifdef HNGAC_HAVE_SQLITE
+    SqliteStateLookup sqlite_lookup{};
+    const bool sqlite_available = initialize_sqlite_state_lookup(sqlite_lookup, requests);
+#else
+    const bool sqlite_available = false;
+#endif
+
     std::cout << "Iterations: " << iterations << "\n";
     std::cout << "RBAC modeled external state lookup delay: " << lookup_delay_ns << " ns\n";
     std::cout << "Warmup per model: " << kWarmupIterations << " iterations\n";
@@ -518,6 +650,24 @@ int main(int argc, char** argv) {
             return authorize_rbac_lookup(policy_rbac, kRuleCount, request, lookup_delay_ns);
         });
 
+    Summary sqlite_lookup_summary{};
+    if (sqlite_available) {
+        sqlite_lookup_summary = run_benchmark(
+            "RBAC + SQLite state lookup",
+            requests,
+            iterations,
+            [&](const AuthorizationRequest& request) {
+#ifdef HNGAC_HAVE_SQLITE
+                return authorize_rbac_sqlite_lookup(sqlite_lookup, policy_rbac, kRuleCount, request);
+#else
+                static_cast<void>(request);
+                return false;
+#endif
+            });
+    } else {
+        std::cout << "RBAC + SQLite state lookup: unavailable\n";
+    }
+
     const double overhead_pct =
         ((state_4d.mean_ns - baseline_3d.mean_ns) / baseline_3d.mean_ns) * 100.0;
     const double hashmap_gap_pct =
@@ -529,5 +679,12 @@ int main(int argc, char** argv) {
     std::cout << "4D vs RBAC hash-map mean overhead: " << hashmap_gap_pct << "%\n";
     std::cout << "NGAC-DAG vs 4D mean slowdown: " << dag_slowdown << "x\n";
     std::cout << "RBAC+lookup vs 4D mean slowdown: " << rbac_slowdown << "x\n";
+#ifdef HNGAC_HAVE_SQLITE
+    if (sqlite_available) {
+        const double sqlite_slowdown = sqlite_lookup_summary.mean_ns / state_4d.mean_ns;
+        std::cout << "RBAC+SQLite vs 4D mean slowdown: " << sqlite_slowdown << "x\n";
+    }
+    destroy_sqlite_state_lookup(sqlite_lookup);
+#endif
     return 0;
 }
