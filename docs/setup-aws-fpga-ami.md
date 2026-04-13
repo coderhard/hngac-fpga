@@ -22,36 +22,42 @@ Why this path:
 - AWS's F2 documentation says the AMD tools work best with at least `4 vCPU` and `32 GiB` memory, and explicitly recommends compute-optimized or memory-optimized instances for synthesis.
 - You do **not** need an FPGA-backed instance just to run the first `vitis_hls` synthesis for this repo.
 
-## Instance profiles in this repo
+## Quick start
 
-The launcher in [scripts/aws/launch_fpga_dev_instance.sh](/mnt/c/Users/nomadic/projects/hngac-fpga/scripts/aws/launch_fpga_dev_instance.sh:1) supports three targets:
+1. Install AWS CLI v2 locally.
+2. Authenticate the CLI.
+3. Copy and edit the repo env file.
+4. Run the launcher.
+5. SSH to the new instance and run `vitis_hls`.
 
-- `f2-dev`
-  - default
-  - AMI: `ami-06691812f80312a04`
-  - instance type: `c7i.4xlarge`
-  - use this for the first HLS synthesis and general tool work
-- `f2-hardware`
-  - AMI: `ami-06691812f80312a04`
-  - instance type: `f2.6xlarge`
-  - use this later if you need actual F2 hardware on the box
-- `f1-retired`
-  - disabled by default
-  - intended only as a legacy fallback
-  - blocked unless `AWS_FPGA_ENABLE_F1=true`
+## Install AWS CLI v2
 
-## F1 status
+On WSL/Ubuntu:
 
-AWS's official `aws-fpga` repository states that Amazon EC2 `F1` reached end of life on **December 20, 2025**.
+```bash
+cd /tmp
+curl -fsSLO "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+unzip -q awscli-exe-linux-x86_64.zip
+sudo ./aws/install
+aws --version
+```
 
-It also states:
+To update later:
 
-- only existing F1 customers who ran F1 instances between **December 2023 and December 2024** can restart or launch new F1 instances
-- by default, AWS accounts historically had an `F1` launch limit of `0`
+```bash
+cd /tmp
+curl -fsSLO "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+unzip -q awscli-exe-linux-x86_64.zip
+sudo ./aws/install --update
+aws --version
+```
 
-That is why the repo's launcher keeps the F1 profile disabled until you explicitly enable it.
+The default install locations are typically:
 
-## AWS CLI prerequisites
+- binary: `/usr/local/bin/aws`
+- install dir: `/usr/local/aws-cli`
+
+## Authenticate AWS CLI
 
 You need:
 
@@ -78,6 +84,12 @@ If you use long-lived access keys instead:
 aws configure --profile hngac-aws
 ```
 
+Sanity check:
+
+```bash
+AWS_PROFILE=hngac-aws aws sts get-caller-identity
+```
+
 ## Repo automation files
 
 - env template: [scripts/aws/fpga-dev.env.example](/mnt/c/Users/nomadic/projects/hngac-fpga/scripts/aws/fpga-dev.env.example:1)
@@ -97,7 +109,7 @@ The launcher does all of the following:
 
 It also supports an optional `AWS_FPGA_USER_DATA_FILE` hook if you later want EC2 user-data to bootstrap a repo checkout or kick off a build automatically.
 
-## Recommended first launch
+## First launch
 
 1. Copy the env template:
 
@@ -143,6 +155,24 @@ export HNGAC_HLS_WORKDIR=/tmp/hngac-fpga-hls
 vitis_hls -f fpga/hls/scripts/vitis_hls.tcl
 ```
 
+## Instance profiles in this repo
+
+The launcher supports three targets:
+
+- `f2-dev`
+  - default
+  - AMI: `ami-06691812f80312a04`
+  - instance type: `c7i.4xlarge`
+  - use this for the first HLS synthesis and general tool work
+- `f2-hardware`
+  - AMI: `ami-06691812f80312a04`
+  - instance type: `f2.6xlarge`
+  - use this later if you need actual F2 hardware on the box
+- `f1-retired`
+  - disabled by default
+  - intended only as a legacy fallback
+  - blocked unless `AWS_FPGA_ENABLE_F1=true`
+
 ## About the target part
 
 This repo's local HLS Tcl flow currently expects `HNGAC_HLS_PART` to be set explicitly. The launcher does **not** guess the part value for you because that decision depends on whether you are doing:
@@ -178,6 +208,17 @@ That is the clean place to automate:
 
 The repo does not force a default user-data build because repo access, secrets, and target part selection are project-specific.
 
+## F1 status
+
+AWS's official `aws-fpga` repository states that Amazon EC2 `F1` reached end of life on **December 20, 2025**.
+
+It also states:
+
+- only existing F1 customers who ran F1 instances between **December 2023 and December 2024** can restart or launch new F1 instances
+- by default, AWS accounts historically had an `F1` launch limit of `0`
+
+That is why the repo's launcher keeps the F1 profile disabled until you explicitly enable it.
+
 ## F1 fallback
 
 If you later decide to pursue the legacy F1 path anyway:
@@ -206,6 +247,8 @@ Treat this profile as best-effort only.
   <https://awsdocs-fpga-f2.readthedocs-hosted.com/latest/User-Guide-AWS-EC2-FPGA-Development-Kit.html>
 - AWS F2 `f2.6xlarge` availability announcement:
   <https://aws.amazon.com/about-aws/whats-new/2025/02/amazon-ec2-f2-6xlarge-new-f2-instance-size/>
+- AWS CLI v2 install guide:
+  <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html>
 - AWS EC2 compute optimized instance specs:
   <https://docs.aws.amazon.com/ec2/latest/instancetypes/co.html>
 - AWS EC2 memory optimized instance specs:
