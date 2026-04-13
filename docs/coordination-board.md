@@ -72,6 +72,21 @@ Use this file to coordinate multiple coding agents working in the same repo.
   - added `docs/setup-vitis-wsl.md` with WSL-local install paths, AMD install steps, shell setup, and the first synthesis command
   - recorded the local prerequisite and memory assumptions for the first HLS run
 
+### 2026-04-13 08:45 CDT — COMPLETED
+
+- Agent: Codex (GPT-5.4)
+- Scope: AWS FPGA Developer AMI setup + AWS CLI launch automation
+- Files:
+  - `docs/setup-aws-fpga-ami.md`
+  - `scripts/aws/launch_fpga_dev_instance.sh`
+  - `scripts/aws/fpga-dev.env.example`
+  - `docs/status-log.md`
+  - `docs/coordination-board.md`
+- Planned checkpoint:
+  - added `docs/setup-aws-fpga-ami.md` with current `us-east-1` AMI defaults, instance guidance, IAM/CLI login notes, and F1 retirement context
+  - added `scripts/aws/launch_fpga_dev_instance.sh` to provision security group, key handling, and EC2 launch via AWS CLI
+  - added `scripts/aws/fpga-dev.env.example` with `f2-dev`, `f2-hardware`, and disabled-by-default `f1-retired` profiles
+
 ## Outstanding Unclaimed Work
 
 - `fpga/hls/scripts/vitis_hls.tcl`: DONE — commit `6d6b1bd`

@@ -66,6 +66,18 @@
   - instructions intentionally keep installs under `~/tools` and temporary synthesis work under `/tmp`
   - the doc avoids the currently claimed `README.md` files and leaves broader docs consolidation for later
 
+## 2026-04-13 08:45 CDT
+
+- Agent: Codex (GPT-5.4)
+- Status: AWS FPGA Developer AMI setup doc and AWS CLI launcher added
+- Scope completed:
+  - added `docs/setup-aws-fpga-ami.md` with current `us-east-1` AMI defaults, instance recommendations, IAM/CLI login notes, and F1 retirement guidance
+  - added `scripts/aws/launch_fpga_dev_instance.sh` to automate security-group setup, key handling, and EC2 launch via AWS CLI
+  - added `scripts/aws/fpga-dev.env.example` with `f2-dev`, `f2-hardware`, and disabled-by-default `f1-retired` settings
+- Notes:
+  - the launcher leaves the actual `HNGAC_HLS_PART` choice explicit rather than guessing a target part
+  - F1 remains blocked unless `AWS_FPGA_ENABLE_F1=true` is set deliberately
+
 ## 2026-04-13 (Claude Code, claude-sonnet-4-6)
 
 - Agent: Claude Code (claude-sonnet-4-6)
