@@ -76,3 +76,23 @@ This keeps the top-level interface narrow, HLS-friendly, and aligned with the 4D
 ### Impact on code/tests/paper
 
 The testbench and future benchmarks should treat request construction as the stable interface boundary. Vitis HLS work can now target a single request-plus-policy-array kernel shape.
+
+## 2026-04-13
+
+### Decision
+
+Local pre-AWS evaluation uses a single comparison harness that measures 3D baseline, 4D state-aware kernel, and RBAC plus external-state-lookup on the same request set.
+
+### Reason
+
+This keeps the paper’s two baseline comparisons aligned to one benchmark method and avoids incomparable measurements from different harnesses.
+
+### Alternatives considered
+
+- separate microbenchmarks for each comparison path
+- only 3D vs 4D before AWS
+- only RBAC vs 4D before AWS
+
+### Impact on code/tests/paper
+
+The repo now has one local comparison executable that can produce mean, p99, and max latency for all three paths before any FPGA deployment work. Reported smoke numbers must be labeled as local software measurements, not hardware results.
