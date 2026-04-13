@@ -20,6 +20,7 @@ The interface also reserves a provenance field so a later 5D variant can be adde
 - `src/hngac_kernel.cpp`: HLS-oriented authorization function
 - `tb/hngac_kernel_tb.cpp`: local C++ testbench for logic validation
 - `bench/hngac_compare_benchmark.cpp`: local 3D vs 4D vs RBAC+lookup comparison harness
+- `scripts/run_local_compare.sh`: local benchmark build-and-run wrapper
 - `scripts/vitis_hls.tcl`: starter Vitis HLS script with environment-driven target settings
 
 ## Design Choices
@@ -64,6 +65,12 @@ The current benchmark request set is intentionally mixed:
 - four requests match subject/object/attribute but fail the state constraints
 
 This means the 3D baseline will tend to over-authorize relative to the 4D and RBAC+lookup paths, which is part of the point of the comparison.
+
+For a repeatable local run with a saved log:
+
+```bash
+./fpga/hls/scripts/run_local_compare.sh 20000 100000 /tmp/hngac-fpga-local-compare
+```
 
 ## Vitis HLS Starter
 
