@@ -8,3 +8,11 @@ lib/
 massif.out*
 .vscode/
 .DS_Store
+.Xil/
+fpga/hls/build/
+fpga/hls/work/
+fpga/hls/*.jou
+fpga/hls/*.log
+*.xclbin
+*.xo
+*.wdb

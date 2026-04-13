@@ -1,96 +1,47 @@
-# Hardware-Accelerated NGAC Authorization for Real-Time Multi-Robot Systems
+# hngac-fpga
 
-Companion code for the IEEE DCAS 2026 paper:
+`hngac-fpga` is the FPGA/HLS working repo for the H-NGAC authorization primitive.
 
-> Hassan Karim, Sai Sitharaman, Deepti Gupta. "Hardware-Accelerated NGAC Authorization for Real-Time Multi-Robot Systems." *IEEE DCAS 2026.*
+This repo starts from the IEEE DCAS 2026 software baseline and adds a clean path for the next step: pushing the core permit/deny primitive through Vitis HLS and onto FPGA.
 
-This repository contains the ROS 2 implementation, microbenchmarks, raw experimental data, and analysis scripts used to produce the results in the paper.
+## Current Repo Shape
 
----
+There are two useful layers here:
 
-## Repository Structure
+- the imported software baseline under `benchmarks/`, `ros2_ws/`, `analysis/`, and `data/`
+- the new FPGA work area under `fpga/hls/`
 
-```
-hw-gac_project_share/
-├── ros2_ws/src/ngac_auth/src/
-│   ├── auth_node.cpp          # NGAC Gatekeeper node (policy enforcement)
-│   └── bad_actor_node.cpp     # Fault injection node (authorized + unauthorized commands)
-├── benchmarks/
-│   ├── ngac_benchmark.cpp     # Core bitmask authorization microbenchmark
-│   ├── ngac_jitter.cpp        # Jitter characterization benchmark
-│   └── run_memory_profile.sh  # Memory footprint profiling script
-├── analysis/
-│   ├── plot_publication.py    # Generates the latency scatter plot (Figure 1)
-│   ├── calculate_stats.py     # Computes latency statistics from log data
-│   └── plot_results.py        # Exploratory plot (earlier version)
-├── data/
-│   ├── final_data.log         # Raw ROS 2 authorization latency log (N=1,631 samples)
-│   └── results_ngac_jitter.txt # Microbenchmark jitter results
-└── getting-started/
-    ├── STEP_1_BEFORE_ROS2.md  # Environment setup guide
-    ├── install_ROS2.bash       # ROS 2 Jazzy install script
-    └── jitter_checker.bash     # System jitter diagnostic
-```
+The software baseline is preserved so the original logic, measurements, and ROS2 harness stay close at hand. The active HLS candidate lives in `fpga/hls/`.
 
----
+## Where To Start
 
-## Requirements
+If the goal is software reproduction, use the original benchmark and ROS2 paths.
 
-- Ubuntu 24.04 (or WSL2 equivalent)
-- ROS 2 Jazzy
-- C++17
-- Python 3.12+ with `matplotlib`
+If the goal is FPGA bring-up, start here:
 
-See `getting-started/STEP_1_BEFORE_ROS2.md` for full environment setup.
+- [`fpga/hls/README.md`](fpga/hls/README.md)
+- [`fpga/hls/src/hngac_kernel.cpp`](fpga/hls/src/hngac_kernel.cpp)
+- [`fpga/hls/tb/hngac_kernel_tb.cpp`](fpga/hls/tb/hngac_kernel_tb.cpp)
 
----
-
-## Building the ROS 2 Workspace
+## Local HLS Candidate Test
 
 ```bash
-cd ros2_ws
-colcon build
-source install/setup.bash
+cmake -S fpga/hls -B fpga/hls/build
+cmake --build fpga/hls/build
+ctest --test-dir fpga/hls/build --output-on-failure
 ```
 
----
+## Baseline DCAS Context
 
-## Running the Experiment
+The imported software package contains:
 
-Open three terminals, sourcing the workspace in each:
+- `benchmarks/ngac_benchmark.cpp`: standalone microbenchmark for the bitmask authorization primitive
+- `benchmarks/ngac_jitter.cpp`: jitter characterization
+- `ros2_ws/src/ngac_auth/src/auth_node.cpp`: ROS2 gatekeeper implementation
+- `analysis/plot_publication.py`: paper-figure generation
+- `data/final_data.log`: prior ROS2 latency log
 
-**Terminal 1 — NGAC Gatekeeper:**
-```bash
-ros2 run ngac_auth auth_node
-```
-
-**Terminal 2 — Fault Injection (Bad Actor):**
-```bash
-ros2 run ngac_auth bad_actor_node
-```
-
-**Terminal 3 — Log capture:**
-```bash
-ros2 topic echo /rosout > final_data.log
-```
-
-The bad actor alternates between Subject 1 (authorized) and Subject 99 (unauthorized) at 2 Hz. The gatekeeper logs `[PASS]` or `[BLOCK]` with nanosecond timestamps.
-
----
-
-## Reproducing the Paper Figure
-
-From the repo root:
-
-```bash
-python analysis/plot_publication.py
-```
-
-Outputs `ngac_latency_results_v2.pdf` — the scatter plot used as Figure 1 in the paper.
-
----
-
-## Key Results
+Representative prior results from the software baseline:
 
 | Metric | Value |
 |---|---|
@@ -99,9 +50,6 @@ Outputs `ngac_latency_results_v2.pdf` — the scatter plot used as Figure 1 in t
 | Worst-case (OS preemption) | 157 μs |
 | Pure C++ microbenchmark | 38 ns |
 | Memory footprint | < 10 KB |
-| Samples | N = 1,631 |
-
----
 
 ## License
 
@@ -114,5 +62,3 @@ This software is licensed under the [Business Source License 1.1 (BUSL-1.1)](htt
 - **Change License:** MIT
 
 On the Change Date, this software will automatically convert to the MIT License. Until then, commercial use, production deployment, and derivative products require a separate commercial license from Stable Cyber LLC.
-
-For licensing inquiries: hassan@stablecyber.com
