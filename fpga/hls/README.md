@@ -58,6 +58,13 @@ The benchmark arguments are:
 
 The RBAC comparison is intentionally modeled as a separate authorization step plus a configurable external state fetch delay so the overhead assumptions stay explicit.
 
+The current benchmark request set is intentionally mixed:
+
+- four requests satisfy the state constraints and should be allowed by 4D H-NGAC
+- four requests match subject/object/attribute but fail the state constraints
+
+This means the 3D baseline will tend to over-authorize relative to the 4D and RBAC+lookup paths, which is part of the point of the comparison.
+
 ## Vitis HLS Starter
 
 Set the FPGA part in the environment before launching Vitis HLS:

@@ -140,11 +140,10 @@ bool authorize_3d(
 bool authorize_rbac_lookup(
     const RolePermissionRule rules[kMaxPolicyRules],
     std::uint16_t rule_count,
-    const std::array<StateMask, kMaxNodes>& state_store,
     const AuthorizationRequest& request,
     std::uint64_t state_lookup_delay_ns) {
     busy_wait_ns(state_lookup_delay_ns);
-    const StateMask looked_up_state = state_store[request.object_id];
+    const StateMask looked_up_state = request.object_state;
 
     for (std::uint16_t i = 0; i < rule_count; ++i) {
         const RolePermissionRule& rule = rules[i];
@@ -246,27 +245,32 @@ int main(int argc, char** argv) {
     add_rule_rbac(policy_rbac, 2, 3, 12, 7, {StateBit::safety_interlock});
     add_rule_rbac(policy_rbac, 3, 4, 13, 8, {StateBit::calibration_required});
 
-    std::array<StateMask, kMaxNodes> state_store{};
-    AuthorizationRequest request_a = make_request(1, 10, 5, {StateBit::battery_low});
-    AuthorizationRequest request_b = make_request(2, 11, 6, {StateBit::maintenance_mode});
-    AuthorizationRequest request_c = make_request(3, 12, 7, {StateBit::safety_interlock});
-    AuthorizationRequest request_d =
+    AuthorizationRequest request_a_allow = make_request(1, 10, 5, {StateBit::battery_low});
+    AuthorizationRequest request_b_allow = make_request(2, 11, 6, {StateBit::maintenance_mode});
+    AuthorizationRequest request_c_allow = make_request(3, 12, 7, {StateBit::safety_interlock});
+    AuthorizationRequest request_d_allow =
         make_request(4, 13, 8, {StateBit::calibration_required});
 
-    state_store[request_a.object_id] = request_a.object_state;
-    state_store[request_b.object_id] = request_b.object_state;
-    state_store[request_c.object_id] = request_c.object_state;
-    state_store[request_d.object_id] = request_d.object_state;
+    AuthorizationRequest request_a_deny = make_request(1, 10, 5, {});
+    AuthorizationRequest request_b_deny = make_request(2, 11, 6, {StateBit::battery_low});
+    AuthorizationRequest request_c_deny = make_request(3, 12, 7, {});
+    AuthorizationRequest request_d_deny =
+        make_request(4, 13, 8, {StateBit::safety_interlock});
 
     const std::vector<AuthorizationRequest> requests = {
-        request_a,
-        request_b,
-        request_c,
-        request_d,
+        request_a_allow,
+        request_b_allow,
+        request_c_allow,
+        request_d_allow,
+        request_a_deny,
+        request_b_deny,
+        request_c_deny,
+        request_d_deny,
     };
 
     std::cout << "Iterations: " << iterations << "\n";
     std::cout << "RBAC modeled external state lookup delay: " << lookup_delay_ns << " ns\n";
+    std::cout << "Scenario mix: 4 state-satisfying requests + 4 state-failing requests\n";
 
     const Summary baseline_3d = run_benchmark(
         "3D baseline",
@@ -289,7 +293,7 @@ int main(int argc, char** argv) {
         requests,
         iterations,
         [&](const AuthorizationRequest& request) {
-            return authorize_rbac_lookup(policy_rbac, 4, state_store, request, lookup_delay_ns);
+            return authorize_rbac_lookup(policy_rbac, 4, request, lookup_delay_ns);
         });
 
     const double overhead_pct =
