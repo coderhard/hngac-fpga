@@ -65,7 +65,10 @@ Set the FPGA part in the environment before launching Vitis HLS:
 ```bash
 export HNGAC_HLS_PART=<your-installed-vu9p-part>
 export HNGAC_HLS_CLOCK_NS=5.0
+export HNGAC_HLS_WORKDIR=/tmp/hngac-fpga-hls
 vitis_hls -f fpga/hls/scripts/vitis_hls.tcl
 ```
 
 The script intentionally does not hardcode the exact part string because that can vary with the installed Vitis platform package.
+
+By default the HLS project is created under `/tmp/hngac-fpga-hls` so synthesis work does not depend on write access inside the repo checkout.

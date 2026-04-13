@@ -11,7 +11,17 @@ if {[info exists ::env(HNGAC_HLS_CLOCK_NS)]} {
     set clock_ns $::env(HNGAC_HLS_CLOCK_NS)
 }
 
-open_project -reset [file join $hls_root work hngac_authorize]
+set work_root "/tmp/hngac-fpga-hls"
+if {[info exists ::env(HNGAC_HLS_WORKDIR)]} {
+    set work_root $::env(HNGAC_HLS_WORKDIR)
+}
+
+set project_dir [file normalize [file join $work_root hngac_authorize]]
+file mkdir $work_root
+
+puts "Using HLS work directory: $project_dir"
+
+open_project -reset $project_dir
 set_top hngac_authorize
 
 add_files [file join $hls_root src hngac_kernel.cpp] -cflags "-I[file join $hls_root include]"

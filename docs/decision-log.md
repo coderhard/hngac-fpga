@@ -96,3 +96,22 @@ This keeps the paper’s two baseline comparisons aligned to one benchmark metho
 ### Impact on code/tests/paper
 
 The repo now has one local comparison executable that can produce mean, p99, and max latency for all three paths before any FPGA deployment work. Reported smoke numbers must be labeled as local software measurements, not hardware results.
+
+## 2026-04-13
+
+### Decision
+
+The Vitis HLS script uses a configurable work directory and defaults to `/tmp/hngac-fpga-hls` instead of creating synthesis projects inside the repo checkout.
+
+### Reason
+
+The repo lives on a Windows-backed filesystem in this environment, and local tool output should not depend on write access or pollute the tracked tree.
+
+### Alternatives considered
+
+- keep HLS work products under `fpga/hls/work`
+- require a manually supplied output path every time
+
+### Impact on code/tests/paper
+
+Future synthesis runs can execute without mutating the repo tree. This makes the HLS path more portable across local environments and reduces noise in the working copy.
