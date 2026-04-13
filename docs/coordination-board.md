@@ -54,8 +54,15 @@ Use this file to coordinate multiple coding agents working in the same repo.
 - Note for Codex: add `-Wno-unknown-pragmas` to `hngac_kernel` target in `fpga/hls/CMakeLists.txt` to silence expected pragma warnings from g++
 - CLAIM RELEASED
 
+### 2026-04-13 (Claude Code, claude-sonnet-4-6) — IN PROGRESS
+
+- Agent: Claude Code (claude-sonnet-4-6)
+- Scope: README.md update + benchmarks/ legacy note
+- Files: `README.md`, `benchmarks/README.md` (new file)
+
 ## Outstanding Unclaimed Work
 
-- `fpga/hls/scripts/vitis_hls.tcl`: first synthesis/report capture workflow
-- `benchmarks/`: legacy benchmark reconciliation or deprecation notes
+- `fpga/hls/scripts/vitis_hls.tcl`: DONE — commit `6d6b1bd`
+- `benchmarks/`: legacy reconciliation — claimed above (Claude Code)
+- `README.md`: update for 4D scope and five-model harness — claimed above (Claude Code)
 - optional OPA baseline (out-of-process, separate latency scale)
