@@ -72,6 +72,12 @@ For a repeatable local run with a saved log:
 ./fpga/hls/scripts/run_local_compare.sh 20000 100000 /tmp/hngac-fpga-local-compare
 ```
 
+For a simple lookup-delay sweep:
+
+```bash
+./fpga/hls/scripts/run_local_compare_sweep.sh 20000 /tmp/hngac-fpga-local-compare-sweep
+```
+
 ## Vitis HLS Starter
 
 Set the FPGA part in the environment before launching Vitis HLS:
