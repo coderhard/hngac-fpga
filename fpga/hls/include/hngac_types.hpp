@@ -11,14 +11,34 @@ constexpr std::size_t kMaskWordBits = 64;
 constexpr std::size_t kMaskWords = kMaxNodes / kMaskWordBits;
 constexpr std::size_t kMaxPolicyRules = 512;
 
+enum class StateBit : std::uint8_t {
+    battery_low = 0,
+    maintenance_mode = 1,
+    safety_interlock = 2,
+    calibration_required = 3,
+};
+
 struct Bitmask256 {
     std::array<std::uint64_t, kMaskWords> words{};
 };
+
+using StateMask = std::uint32_t;
+using ProvenanceMask = std::uint32_t;
 
 struct PolicyRule {
     Bitmask256 subjects{};
     Bitmask256 objects{};
     Bitmask256 attributes{};
+    StateMask required_states = 0;
+    ProvenanceMask reserved_provenance = 0;
+};
+
+struct AuthorizationRequest {
+    std::uint16_t subject_id = 0;
+    std::uint16_t object_id = 0;
+    Bitmask256 required_attributes{};
+    StateMask object_state = 0;
+    ProvenanceMask reserved_provenance = 0;
 };
 
 inline void set_bit(Bitmask256& mask, std::size_t index) {
@@ -46,6 +66,14 @@ inline bool contains_all(const Bitmask256& required, const Bitmask256& available
         }
     }
     return true;
+}
+
+inline void set_state_bit(StateMask& mask, StateBit bit) {
+    mask |= (StateMask{1} << static_cast<std::uint8_t>(bit));
+}
+
+inline bool contains_all_states(StateMask required, StateMask available) {
+    return (required & available) == required;
 }
 
 }  // namespace hngac::fpga

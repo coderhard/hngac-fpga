@@ -1,8 +1,14 @@
 # hngac-fpga
 
-`hngac-fpga` is the FPGA/HLS working repo for the H-NGAC authorization primitive.
+`hngac-fpga` is the FPGA/HLS working repo for the 4D state-aware H-NGAC authorization primitive.
 
 This repo starts from the IEEE DCAS 2026 software baseline and adds a clean path for the next step: pushing the core permit/deny primitive through Vitis HLS and onto FPGA.
+
+The active implementation and decision record live here:
+
+- `fpga/hls/`
+- `docs/implementation-plan-4d-hngac.md`
+- `docs/decision-log.md`
 
 ## Current Repo Shape
 

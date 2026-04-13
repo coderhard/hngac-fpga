@@ -5,10 +5,8 @@ namespace hngac::fpga {
 bool hngac_authorize(
     const PolicyRule policy[kMaxPolicyRules],
     std::uint16_t rule_count,
-    std::uint16_t subject_id,
-    std::uint16_t object_id,
-    const Bitmask256& required_attributes) {
-    if (subject_id >= kMaxNodes || object_id >= kMaxNodes) {
+    const AuthorizationRequest& request) {
+    if (request.subject_id >= kMaxNodes || request.object_id >= kMaxNodes) {
         return false;
     }
 
@@ -18,13 +16,16 @@ bool hngac_authorize(
     for (std::uint16_t i = 0; i < bounded_rule_count; ++i) {
         const PolicyRule& rule = policy[i];
 
-        if (!test_bit(rule.subjects, subject_id)) {
+        if (!test_bit(rule.subjects, request.subject_id)) {
             continue;
         }
-        if (!test_bit(rule.objects, object_id)) {
+        if (!test_bit(rule.objects, request.object_id)) {
             continue;
         }
-        if (!contains_all(required_attributes, rule.attributes)) {
+        if (!contains_all(request.required_attributes, rule.attributes)) {
+            continue;
+        }
+        if (!contains_all_states(rule.required_states, request.object_state)) {
             continue;
         }
         return true;
