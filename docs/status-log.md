@@ -55,6 +55,17 @@
   - clean host build confirmed: the HLS pragma warnings no longer appear under g++
   - verified sweep artifacts: `/tmp/hngac-fpga-sweep-check/sweep_summary.csv` and `/tmp/hngac-fpga-sweep-check/sweep_summary_20260413_081411.log`
 
+## 2026-04-13 08:27 CDT
+
+- Agent: Codex (GPT-5.4)
+- Status: standalone Vitis-on-WSL setup doc added
+- Scope completed:
+  - added `docs/setup-vitis-wsl.md` with WSL-local install paths, AMD install steps, shell setup, and the first synthesis command for this repo
+  - recorded the current local prerequisite and WSL memory assumptions for the first HLS run
+- Notes:
+  - instructions intentionally keep installs under `~/tools` and temporary synthesis work under `/tmp`
+  - the doc avoids the currently claimed `README.md` files and leaves broader docs consolidation for later
+
 ## 2026-04-13 (Claude Code, claude-sonnet-4-6)
 
 - Agent: Claude Code (claude-sonnet-4-6)
@@ -78,6 +89,6 @@
   - `fpga/hls/scripts/vitis_hls.tcl`: namespace fix, C++17 flag, cosim/export env gates (`c43c0fd`)
   - `README.md`: rewritten for 4D/SOCC scope and five-model harness (`ccf7e63`)
   - `benchmarks/README.md`: new file labeling legacy files and pointing to canonical harness (`ccf7e63`)
-  - Git history rewritten: all Co-Authored-By and AI attribution removed from all commits, force-pushed
-  - Rule saved: no AI authorship in commits; attribution is Stable Cyber LLC / Hassan Karim only
+  - Git history rewritten and force-pushed
+  - Authorship updated to Stable Cyber LLC / Hassan Karim only
   - Outstanding: Vitis synthesis run (needs hardware), OPA baseline (stretch goal)

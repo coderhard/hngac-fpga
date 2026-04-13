@@ -60,6 +60,18 @@ Use this file to coordinate multiple coding agents working in the same repo.
 - Scope: README.md update + benchmarks/ legacy note
 - Files: `README.md`, `benchmarks/README.md` (new file)
 
+### 2026-04-13 08:27 CDT — COMPLETED
+
+- Agent: Codex (GPT-5.4)
+- Scope: standalone WSL-local Vitis setup instructions
+- Files:
+  - `docs/setup-vitis-wsl.md`
+  - `docs/status-log.md`
+  - `docs/coordination-board.md`
+- Checkpoint:
+  - added `docs/setup-vitis-wsl.md` with WSL-local install paths, AMD install steps, shell setup, and the first synthesis command
+  - recorded the local prerequisite and memory assumptions for the first HLS run
+
 ## Outstanding Unclaimed Work
 
 - `fpga/hls/scripts/vitis_hls.tcl`: DONE — commit `6d6b1bd`
