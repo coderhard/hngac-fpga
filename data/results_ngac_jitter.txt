@@ -1,0 +1,8 @@
+=== NGAC Latency Distribution (Instrumented) ===
+NOTE: Includes ~20-50ns overhead per call due to clock read.
+Iterations: 100000
+Min: 42 ns
+Avg: 49.9043 ns
+p95: 66 ns
+p99: 79 ns
+Max: 16511 ns

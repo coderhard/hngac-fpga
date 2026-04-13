@@ -1,0 +1,10 @@
+build/
+install/
+log/
+bin/
+lib/
+*.o
+*.so
+massif.out*
+.vscode/
+.DS_Store
