@@ -115,3 +115,49 @@ The repo lives on a Windows-backed filesystem in this environment, and local too
 ### Impact on code/tests/paper
 
 Future synthesis runs can execute without mutating the repo tree. This makes the HLS path more portable across local environments and reduces noise in the working copy.
+
+## 2026-04-13 07:52 CDT
+
+### Agent
+
+Codex (GPT-5.4)
+
+### Decision
+
+The canonical local SOCC benchmark is a single five-model harness covering RBAC hash map, NGAC-DAG traversal, 3D bitmask, 4D state-aware bitmask, and RBAC plus modeled external-state lookup.
+
+### Reason
+
+The benchmark-gap analysis should be backed by executable code, not a placeholder list. Keeping the local comparison in one harness also reduces the risk of incomparable measurement methods.
+
+### Alternatives considered
+
+- leave RBAC hash map and NGAC-DAG as unimplemented paper-only baselines
+- split every baseline into a separate executable
+
+### Impact on code/tests/paper
+
+The paper can now report a five-model local software comparison from one executable with one request mix. The remaining benchmark-design question is whether the RBAC+state path stays modeled or becomes a real SQLite-backed lookup.
+
+## 2026-04-13 07:52 CDT
+
+### Agent
+
+Codex (GPT-5.4)
+
+### Decision
+
+`CLAUDE.md` remains a stable shared-context file, while `docs/coordination-board.md` and `docs/status-log.md` carry live ownership and execution state.
+
+### Reason
+
+Putting volatile task ownership into `CLAUDE.md` would cause confusion across concurrent agents. Stable repo facts and live coordination need separate homes.
+
+### Alternatives considered
+
+- put both durable repo context and live task claims into `CLAUDE.md`
+- keep all coordination implicit in commit history only
+
+### Impact on code/tests/paper
+
+Future concurrent sessions should update `docs/coordination-board.md` before editing claimed files and keep `CLAUDE.md` limited to durable repo context.

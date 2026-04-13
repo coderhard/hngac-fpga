@@ -24,29 +24,39 @@ CSV_FILE="${OUTPUT_DIR}/sweep_summary.csv"
   echo
 } | tee "${SUMMARY_FILE}"
 
-echo "lookup_delay_ns,baseline3d_mean_ns,state4d_mean_ns,rbac_lookup_mean_ns,baseline3d_allowed,state4d_allowed,rbac_lookup_allowed,overhead_pct,rbac_slowdown_x" > "${CSV_FILE}"
+echo "lookup_delay_ns,rbac_hash_mean_ns,ngac_dag_mean_ns,baseline3d_mean_ns,state4d_mean_ns,rbac_lookup_mean_ns,rbac_hash_allowed,ngac_dag_allowed,baseline3d_allowed,state4d_allowed,rbac_lookup_allowed,overhead_pct,hashmap_gap_pct,dag_slowdown_x,rbac_slowdown_x" > "${CSV_FILE}"
 
 for delay in "${LOOKUP_DELAYS[@]}"; do
   echo "=== lookup_delay_ns=${delay} ===" | tee -a "${SUMMARY_FILE}"
   RUN_OUTPUT="$(bash "${SCRIPT_DIR}/run_local_compare.sh" "${ITERATIONS}" "${delay}" "${OUTPUT_DIR}/delay_${delay}")"
   echo "${RUN_OUTPUT}" | tee -a "${SUMMARY_FILE}"
 
+  rbac_hash_line="$(echo "${RUN_OUTPUT}" | grep '^RBAC hash map:')"
+  dag_line="$(echo "${RUN_OUTPUT}" | grep '^NGAC-DAG traversal:')"
   baseline_line="$(echo "${RUN_OUTPUT}" | grep '^3D baseline:')"
   state4d_line="$(echo "${RUN_OUTPUT}" | grep '^4D state-aware:')"
   rbac_line="$(echo "${RUN_OUTPUT}" | grep '^RBAC + state lookup:')"
   overhead_line="$(echo "${RUN_OUTPUT}" | grep '^4D vs 3D mean overhead:')"
+  hashmap_gap_line="$(echo "${RUN_OUTPUT}" | grep '^4D vs RBAC hash-map mean overhead:')"
+  dag_slowdown_line="$(echo "${RUN_OUTPUT}" | grep '^NGAC-DAG vs 4D mean slowdown:')"
   slowdown_line="$(echo "${RUN_OUTPUT}" | grep '^RBAC+lookup vs 4D mean slowdown:')"
 
+  rbac_hash_mean="$(echo "${rbac_hash_line}" | sed -E 's/.*mean=([^ ]+) ns.*/\1/')"
+  dag_mean="$(echo "${dag_line}" | sed -E 's/.*mean=([^ ]+) ns.*/\1/')"
   baseline3d_mean="$(echo "${RUN_OUTPUT}" | awk -F'mean=| ns p99=' '/^3D baseline:/ {print $2}')"
   state4d_mean="$(echo "${RUN_OUTPUT}" | awk -F'mean=| ns p99=' '/^4D state-aware:/ {print $2}')"
   rbac_mean="$(echo "${rbac_line}" | sed -E 's/.*mean=([^ ]+) ns.*/\1/')"
+  rbac_hash_allowed="$(echo "${rbac_hash_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
+  dag_allowed="$(echo "${dag_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
   baseline3d_allowed="$(echo "${baseline_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
   state4d_allowed="$(echo "${state4d_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
   rbac_allowed="$(echo "${rbac_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
   overhead_pct="$(echo "${overhead_line}" | sed -E 's/.*: ([^%]+)%.*/\1/')"
+  hashmap_gap_pct="$(echo "${hashmap_gap_line}" | sed -E 's/.*: ([^%]+)%.*/\1/')"
+  dag_slowdown="$(echo "${dag_slowdown_line}" | sed -E 's/.*: ([^x]+)x.*/\1/')"
   rbac_slowdown="$(echo "${slowdown_line}" | sed -E 's/.*: ([^x]+)x.*/\1/')"
 
-  echo "${delay},${baseline3d_mean},${state4d_mean},${rbac_mean},${baseline3d_allowed},${state4d_allowed},${rbac_allowed},${overhead_pct},${rbac_slowdown}" >> "${CSV_FILE}"
+  echo "${delay},${rbac_hash_mean},${dag_mean},${baseline3d_mean},${state4d_mean},${rbac_mean},${rbac_hash_allowed},${dag_allowed},${baseline3d_allowed},${state4d_allowed},${rbac_allowed},${overhead_pct},${hashmap_gap_pct},${dag_slowdown},${rbac_slowdown}" >> "${CSV_FILE}"
   echo | tee -a "${SUMMARY_FILE}"
 done
 

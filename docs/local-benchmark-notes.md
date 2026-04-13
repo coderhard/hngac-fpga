@@ -1,5 +1,44 @@
 # Local Benchmark Notes
 
+## 2026-04-13 five-model validation run
+
+Command:
+
+```bash
+/tmp/hngac-fpga-build/hngac_compare_benchmark 2000 10000
+```
+
+Modeled configuration:
+
+- iterations: 2,000
+- RBAC external-state lookup delay: 10,000 ns
+- warmup: 1,000 iterations per model
+- scenario mix: 4 state-satisfying requests and 4 state-failing requests
+
+Observed output:
+
+- RBAC hash map mean: 22.248 ns
+- RBAC hash map allowed count: 2,000 / 2,000
+- NGAC-DAG traversal mean: 178.75 ns
+- NGAC-DAG traversal allowed count: 2,000 / 2,000
+- 3D baseline mean: 16.6525 ns
+- 3D baseline allowed count: 2,000 / 2,000
+- 4D state-aware mean: 22.2875 ns
+- 4D state-aware allowed count: 1,000 / 2,000
+- RBAC plus state lookup mean: 10,185.8 ns
+- RBAC plus state lookup allowed count: 1,000 / 2,000
+- computed 4D vs 3D mean overhead: 33.8388%
+- computed 4D vs RBAC hash-map mean overhead: 0.177544%
+- computed NGAC-DAG vs 4D mean slowdown: 8.02017x
+- computed RBAC plus lookup vs 4D mean slowdown: 457.018x
+
+Interpretation:
+
+- The five-model harness is now executable from one benchmark binary.
+- The static software baselines still over-authorize the mixed request set because they do not encode runtime state.
+- The 4D path stays near the best-case RBAC hash-map floor in this local software run.
+- The modeled external-state path remains far slower than the in-process 4D path.
+
 ## 2026-04-13 smoke run
 
 Command:

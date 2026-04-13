@@ -5,7 +5,10 @@
 #include <cstdlib>
 #include <iostream>
 #include <numeric>
+#include <queue>
 #include <string_view>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "hngac_kernel.hpp"
@@ -30,6 +33,9 @@ using hngac::fpga::set_bit;
 using hngac::fpga::set_state_bit;
 using hngac::fpga::test_bit;
 
+constexpr std::size_t kWarmupIterations = 1000;
+constexpr std::uint16_t kRuleCount = 4;
+
 struct PolicyRule3D {
     Bitmask256 subjects{};
     Bitmask256 objects{};
@@ -44,6 +50,17 @@ struct RolePermissionRule {
     ProvenanceMask reserved_provenance = 0;
 };
 
+struct DagEdge {
+    std::uint32_t to = 0;
+    Bitmask256 required_attributes{};
+};
+
+struct NgacDag {
+    std::unordered_map<std::uint32_t, std::vector<DagEdge>> adjacency{};
+    std::unordered_map<std::uint16_t, std::uint32_t> subject_nodes{};
+    std::unordered_map<std::uint16_t, std::uint32_t> object_nodes{};
+};
+
 struct Summary {
     double mean_ns = 0.0;
     double p99_ns = 0.0;
@@ -51,10 +68,38 @@ struct Summary {
     std::size_t allowed = 0;
 };
 
+Bitmask256 make_full_mask() {
+    Bitmask256 mask{};
+    for (std::uint64_t& word : mask.words) {
+        word = ~std::uint64_t{0};
+    }
+    return mask;
+}
+
+bool masks_equal(const Bitmask256& lhs, const Bitmask256& rhs) {
+    for (std::size_t i = 0; i < lhs.words.size(); ++i) {
+        if (lhs.words[i] != rhs.words[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void or_mask(Bitmask256& destination, const Bitmask256& source) {
+    for (std::size_t i = 0; i < destination.words.size(); ++i) {
+        destination.words[i] |= source.words[i];
+    }
+}
+
+std::uint32_t pack_subject_object_key(std::uint16_t subject, std::uint16_t object) {
+    return (static_cast<std::uint32_t>(subject) << 16) | static_cast<std::uint32_t>(object);
+}
+
 void busy_wait_ns(std::uint64_t delay_ns) {
     if (delay_ns == 0) {
         return;
     }
+
     const auto start = Clock::now();
     while (std::chrono::duration_cast<Ns>(Clock::now() - start).count() <
            static_cast<long long>(delay_ns)) {
@@ -137,6 +182,41 @@ bool authorize_3d(
     return false;
 }
 
+std::unordered_map<std::uint32_t, Bitmask256> build_rbac_hash_map(
+    const PolicyRule3D policy[kMaxPolicyRules],
+    std::uint16_t rule_count) {
+    std::unordered_map<std::uint32_t, Bitmask256> permission_map;
+
+    for (std::uint16_t i = 0; i < rule_count; ++i) {
+        for (std::size_t subject = 0; subject < kMaxNodes; ++subject) {
+            if (!test_bit(policy[i].subjects, subject)) {
+                continue;
+            }
+            for (std::size_t object = 0; object < kMaxNodes; ++object) {
+                if (!test_bit(policy[i].objects, object)) {
+                    continue;
+                }
+                Bitmask256& permissions = permission_map[pack_subject_object_key(
+                    static_cast<std::uint16_t>(subject),
+                    static_cast<std::uint16_t>(object))];
+                or_mask(permissions, policy[i].attributes);
+            }
+        }
+    }
+
+    return permission_map;
+}
+
+bool authorize_rbac_hash_map(
+    const std::unordered_map<std::uint32_t, Bitmask256>& permission_map,
+    const AuthorizationRequest& request) {
+    const auto it = permission_map.find(pack_subject_object_key(request.subject_id, request.object_id));
+    if (it == permission_map.end()) {
+        return false;
+    }
+    return contains_all(request.required_attributes, it->second);
+}
+
 bool authorize_rbac_lookup(
     const RolePermissionRule rules[kMaxPolicyRules],
     std::uint16_t rule_count,
@@ -161,6 +241,123 @@ bool authorize_rbac_lookup(
         }
         return true;
     }
+    return false;
+}
+
+void add_unique_edge(
+    NgacDag& dag,
+    std::uint32_t from,
+    std::uint32_t to,
+    const Bitmask256& required_attributes) {
+    std::vector<DagEdge>& edges = dag.adjacency[from];
+    for (const DagEdge& edge : edges) {
+        if (edge.to == to && masks_equal(edge.required_attributes, required_attributes)) {
+            return;
+        }
+    }
+    edges.push_back({to, required_attributes});
+}
+
+NgacDag build_ngac_dag(const PolicyRule3D policy[kMaxPolicyRules], std::uint16_t rule_count) {
+    NgacDag dag{};
+    std::unordered_map<std::uint16_t, std::uint32_t> ua_nodes;
+    std::uint32_t next_node_id = 1;
+    const Bitmask256 all_attributes = make_full_mask();
+
+    const auto ensure_subject_node = [&](std::uint16_t subject_id) {
+        auto it = dag.subject_nodes.find(subject_id);
+        if (it != dag.subject_nodes.end()) {
+            return it->second;
+        }
+        const std::uint32_t node_id = next_node_id++;
+        dag.subject_nodes.emplace(subject_id, node_id);
+        return node_id;
+    };
+
+    const auto ensure_ua_node = [&](std::uint16_t subject_id) {
+        auto it = ua_nodes.find(subject_id);
+        if (it != ua_nodes.end()) {
+            return it->second;
+        }
+        const std::uint32_t node_id = next_node_id++;
+        ua_nodes.emplace(subject_id, node_id);
+        return node_id;
+    };
+
+    const auto ensure_object_node = [&](std::uint16_t object_id) {
+        auto it = dag.object_nodes.find(object_id);
+        if (it != dag.object_nodes.end()) {
+            return it->second;
+        }
+        const std::uint32_t node_id = next_node_id++;
+        dag.object_nodes.emplace(object_id, node_id);
+        return node_id;
+    };
+
+    for (std::uint16_t i = 0; i < rule_count; ++i) {
+        const std::uint32_t pc_node = next_node_id++;
+
+        for (std::size_t subject = 0; subject < kMaxNodes; ++subject) {
+            if (!test_bit(policy[i].subjects, subject)) {
+                continue;
+            }
+            const std::uint16_t subject_id = static_cast<std::uint16_t>(subject);
+            const std::uint32_t subject_node = ensure_subject_node(subject_id);
+            const std::uint32_t ua_node = ensure_ua_node(subject_id);
+            add_unique_edge(dag, subject_node, ua_node, all_attributes);
+            add_unique_edge(dag, ua_node, pc_node, all_attributes);
+        }
+
+        for (std::size_t object = 0; object < kMaxNodes; ++object) {
+            if (!test_bit(policy[i].objects, object)) {
+                continue;
+            }
+            const std::uint32_t oa_node = next_node_id++;
+            const std::uint32_t object_node =
+                ensure_object_node(static_cast<std::uint16_t>(object));
+            add_unique_edge(dag, pc_node, oa_node, policy[i].attributes);
+            add_unique_edge(dag, oa_node, object_node, policy[i].attributes);
+        }
+    }
+
+    return dag;
+}
+
+bool authorize_ngac_dag(const NgacDag& dag, const AuthorizationRequest& request) {
+    const auto subject_it = dag.subject_nodes.find(request.subject_id);
+    const auto object_it = dag.object_nodes.find(request.object_id);
+    if (subject_it == dag.subject_nodes.end() || object_it == dag.object_nodes.end()) {
+        return false;
+    }
+
+    std::queue<std::uint32_t> frontier;
+    std::unordered_set<std::uint32_t> visited;
+    frontier.push(subject_it->second);
+    visited.insert(subject_it->second);
+
+    while (!frontier.empty()) {
+        const std::uint32_t node = frontier.front();
+        frontier.pop();
+
+        if (node == object_it->second) {
+            return true;
+        }
+
+        const auto edges_it = dag.adjacency.find(node);
+        if (edges_it == dag.adjacency.end()) {
+            continue;
+        }
+
+        for (const DagEdge& edge : edges_it->second) {
+            if (!contains_all(request.required_attributes, edge.required_attributes)) {
+                continue;
+            }
+            if (visited.insert(edge.to).second) {
+                frontier.push(edge.to);
+            }
+        }
+    }
+
     return false;
 }
 
@@ -189,6 +386,11 @@ Summary run_benchmark(
     const std::vector<AuthorizationRequest>& requests,
     std::size_t iterations,
     Fn&& fn) {
+    for (std::size_t i = 0; i < kWarmupIterations; ++i) {
+        const AuthorizationRequest& request = requests[i % requests.size()];
+        static_cast<void>(fn(request));
+    }
+
     std::vector<std::uint64_t> samples;
     samples.reserve(iterations);
     std::size_t allowed = 0;
@@ -245,6 +447,9 @@ int main(int argc, char** argv) {
     add_rule_rbac(policy_rbac, 2, 3, 12, 7, {StateBit::safety_interlock});
     add_rule_rbac(policy_rbac, 3, 4, 13, 8, {StateBit::calibration_required});
 
+    const auto permission_map = build_rbac_hash_map(policy_3d, kRuleCount);
+    const NgacDag dag = build_ngac_dag(policy_3d, kRuleCount);
+
     AuthorizationRequest request_a_allow = make_request(1, 10, 5, {StateBit::battery_low});
     AuthorizationRequest request_b_allow = make_request(2, 11, 6, {StateBit::maintenance_mode});
     AuthorizationRequest request_c_allow = make_request(3, 12, 7, {StateBit::safety_interlock});
@@ -270,14 +475,31 @@ int main(int argc, char** argv) {
 
     std::cout << "Iterations: " << iterations << "\n";
     std::cout << "RBAC modeled external state lookup delay: " << lookup_delay_ns << " ns\n";
+    std::cout << "Warmup per model: " << kWarmupIterations << " iterations\n";
     std::cout << "Scenario mix: 4 state-satisfying requests + 4 state-failing requests\n";
+
+    const Summary rbac_hash_map = run_benchmark(
+        "RBAC hash map",
+        requests,
+        iterations,
+        [&](const AuthorizationRequest& request) {
+            return authorize_rbac_hash_map(permission_map, request);
+        });
+
+    const Summary ngac_dag = run_benchmark(
+        "NGAC-DAG traversal",
+        requests,
+        iterations,
+        [&](const AuthorizationRequest& request) {
+            return authorize_ngac_dag(dag, request);
+        });
 
     const Summary baseline_3d = run_benchmark(
         "3D baseline",
         requests,
         iterations,
         [&](const AuthorizationRequest& request) {
-            return authorize_3d(policy_3d, 4, request);
+            return authorize_3d(policy_3d, kRuleCount, request);
         });
 
     const Summary state_4d = run_benchmark(
@@ -285,7 +507,7 @@ int main(int argc, char** argv) {
         requests,
         iterations,
         [&](const AuthorizationRequest& request) {
-            return hngac_authorize(policy_4d, 4, request);
+            return hngac_authorize(policy_4d, kRuleCount, request);
         });
 
     const Summary rbac_lookup = run_benchmark(
@@ -293,14 +515,19 @@ int main(int argc, char** argv) {
         requests,
         iterations,
         [&](const AuthorizationRequest& request) {
-            return authorize_rbac_lookup(policy_rbac, 4, request, lookup_delay_ns);
+            return authorize_rbac_lookup(policy_rbac, kRuleCount, request, lookup_delay_ns);
         });
 
     const double overhead_pct =
         ((state_4d.mean_ns - baseline_3d.mean_ns) / baseline_3d.mean_ns) * 100.0;
+    const double hashmap_gap_pct =
+        ((state_4d.mean_ns - rbac_hash_map.mean_ns) / rbac_hash_map.mean_ns) * 100.0;
+    const double dag_slowdown = ngac_dag.mean_ns / state_4d.mean_ns;
     const double rbac_slowdown = rbac_lookup.mean_ns / state_4d.mean_ns;
 
     std::cout << "4D vs 3D mean overhead: " << overhead_pct << "%\n";
+    std::cout << "4D vs RBAC hash-map mean overhead: " << hashmap_gap_pct << "%\n";
+    std::cout << "NGAC-DAG vs 4D mean slowdown: " << dag_slowdown << "x\n";
     std::cout << "RBAC+lookup vs 4D mean slowdown: " << rbac_slowdown << "x\n";
     return 0;
 }
