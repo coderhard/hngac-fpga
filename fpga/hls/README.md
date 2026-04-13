@@ -19,6 +19,7 @@ The interface also reserves a provenance field so a later 5D variant can be adde
 - `include/hngac_kernel.hpp`: top-level HLS candidate declaration
 - `src/hngac_kernel.cpp`: HLS-oriented authorization function
 - `tb/hngac_kernel_tb.cpp`: local C++ testbench for logic validation
+- `bench/hngac_compare_benchmark.cpp`: local 3D vs 4D vs RBAC+lookup comparison harness
 - `scripts/vitis_hls.tcl`: starter Vitis HLS script with environment-driven target settings
 
 ## Design Choices
@@ -47,7 +48,15 @@ From the repo root:
 cmake -S fpga/hls -B fpga/hls/build
 cmake --build fpga/hls/build
 ctest --test-dir fpga/hls/build --output-on-failure
+./fpga/hls/build/hngac_compare_benchmark 20000 100000
 ```
+
+The benchmark arguments are:
+
+- first argument: iteration count
+- second argument: modeled RBAC external-state lookup delay in nanoseconds
+
+The RBAC comparison is intentionally modeled as a separate authorization step plus a configurable external state fetch delay so the overhead assumptions stay explicit.
 
 ## Vitis HLS Starter
 

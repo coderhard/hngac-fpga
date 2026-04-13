@@ -16,5 +16,11 @@ add_executable(hngac_kernel_tb
 target_link_libraries(hngac_kernel_tb PRIVATE hngac_kernel)
 target_compile_options(hngac_kernel_tb PRIVATE -O3 -Wall -Wextra -Wpedantic)
 
+add_executable(hngac_compare_benchmark
+    bench/hngac_compare_benchmark.cpp
+)
+target_link_libraries(hngac_compare_benchmark PRIVATE hngac_kernel)
+target_compile_options(hngac_compare_benchmark PRIVATE -O3 -Wall -Wextra -Wpedantic)
+
 enable_testing()
 add_test(NAME hngac_kernel_tb COMMAND hngac_kernel_tb)
