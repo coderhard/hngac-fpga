@@ -8,6 +8,8 @@ lib/
 massif.out*
 .vscode/
 .DS_Store
+CLAUDE.md
+claude.md
 .Xil/
 fpga/hls/build/
 fpga/hls/work/
