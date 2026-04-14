@@ -1,0 +1,340 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{parskip}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue
+}
+
+\title{AWS Setup for \texttt{hngac-fpga}\\Screen-by-Screen Guide}
+\author{Stable Cyber LLC}
+\date{2026-04-14}
+
+\begin{document}
+\maketitle
+
+\section*{What This Guide Is For}
+
+This guide is for a solo AWS account with no IAM Identity Center / SSO. It walks through the exact screens and commands needed to:
+
+\begin{itemize}
+\item create a normal IAM admin user
+\item create an AWS CLI access key for that user
+\item configure the AWS CLI in WSL
+\item launch the AWS FPGA Developer AMI with the repo launcher
+\item SSH into the instance and run the first Vitis HLS synthesis
+\end{itemize}
+
+Do not create root access keys. Use the root user only to get into the console and create your normal IAM user.
+
+\section*{Before You Start}
+
+You need:
+
+\begin{itemize}
+\item browser access to the AWS console
+\item root user access for the account, if this is the first setup pass
+\item WSL/Ubuntu on your workstation
+\item the repo cloned locally at \texttt{/mnt/c/Users/nomadic/projects/hngac-fpga}
+\end{itemize}
+
+On this machine the AWS CLI is already installed at \texttt{/usr/local/bin/aws}.
+
+\section*{Recommended Values}
+
+Use these values unless you have a reason to change them:
+
+\begin{itemize}
+\item IAM user name: \texttt{abuhassan-admin}
+\item AWS CLI profile: \texttt{hngac-aws}
+\item region: \texttt{us-east-1}
+\item repo launch target: \texttt{f2-dev}
+\item EC2 instance type: \texttt{c7i.4xlarge}
+\item root volume: \texttt{200 GiB gp3}
+\end{itemize}
+
+\section*{Screen 1: AWS Console Sign-In}
+
+\begin{enumerate}
+\item Go to \url{https://console.aws.amazon.com/}.
+\item Sign in as the \textbf{root user} if this is your first setup pass.
+\item If AWS prompts you to set up MFA for the root user, do it now.
+\end{enumerate}
+
+Stop here only if you do not have root access. Otherwise continue.
+
+\section*{Screen 2: IAM Users}
+
+\begin{enumerate}
+\item In the AWS console, search for \textbf{IAM}.
+\item Open \textbf{IAM}.
+\item In the left nav, click \textbf{Users}.
+\item Click \textbf{Create user}.
+\item In the user name field, enter:
+\end{enumerate}
+
+\begin{verbatim}
+abuhassan-admin
+\end{verbatim}
+
+\begin{enumerate}
+\setcounter{enumi}{5}
+\item If the console access toggle is shown and you want browser access too, enable it.
+\item Continue to permissions.
+\end{enumerate}
+
+\section*{Screen 3: Permissions}
+
+\begin{enumerate}
+\item Choose \textbf{Attach policies directly}.
+\item Search for:
+\end{enumerate}
+
+\begin{verbatim}
+AdministratorAccess
+\end{verbatim}
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item Check \textbf{AdministratorAccess}.
+\item Continue through review.
+\item Click \textbf{Create user}.
+\end{enumerate}
+
+You now have a normal IAM admin user for day-to-day work.
+
+\section*{Screen 4: Access Keys}
+
+\begin{enumerate}
+\item Still in \textbf{IAM}, open \textbf{Users}.
+\item Click the new user:
+\end{enumerate}
+
+\begin{verbatim}
+abuhassan-admin
+\end{verbatim}
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item Open the \textbf{Security credentials} tab.
+\item Scroll to \textbf{Access keys}.
+\item Click \textbf{Create access key}.
+\item If the console asks for a use case, choose \textbf{Command Line Interface (CLI)}.
+\item Continue.
+\item Save both values immediately:
+\end{enumerate}
+
+\begin{itemize}
+\item Access key ID
+\item Secret access key
+\end{itemize}
+
+The secret is shown only once.
+
+\section*{Screen 5: AWS CLI In WSL}
+
+If AWS CLI is not already installed, use the official zip installer:
+
+\begin{verbatim}
+cd /tmp
+curl -fsSLO "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+unzip -q awscli-exe-linux-x86_64.zip
+sudo ./aws/install
+aws --version
+\end{verbatim}
+
+If AWS CLI is already installed, skip to the next screen.
+
+\section*{Screen 6: Configure The Profile}
+
+In WSL, run:
+
+\begin{verbatim}
+aws configure --profile hngac-aws
+\end{verbatim}
+
+When prompted, enter:
+
+\begin{itemize}
+\item AWS Access Key ID: paste the key you just created
+\item AWS Secret Access Key: paste the secret you just created
+\item Default region name: \texttt{us-east-1}
+\item Default output format: \texttt{json}
+\end{itemize}
+
+\section*{Screen 7: Verify The Login}
+
+Run:
+
+\begin{verbatim}
+AWS_PROFILE=hngac-aws aws sts get-caller-identity
+\end{verbatim}
+
+Expected result:
+
+\begin{itemize}
+\item an account ID
+\item an ARN for the IAM user
+\item no authentication error
+\end{itemize}
+
+If this fails, fix the CLI credentials before launching anything.
+
+\section*{Screen 8: Review The Repo Launch Preset}
+
+The repo includes a local launch preset at:
+
+\begin{verbatim}
+scripts/aws/fpga-dev.env
+\end{verbatim}
+
+Open it if you want to check the defaults:
+
+\begin{verbatim}
+cd /mnt/c/Users/nomadic/projects/hngac-fpga
+sed -n '1,220p' scripts/aws/fpga-dev.env
+\end{verbatim}
+
+Current defaults:
+
+\begin{itemize}
+\item target: \texttt{f2-dev}
+\item instance type: \texttt{c7i.4xlarge}
+\item key pair name: \texttt{hngac-fpga-dev-abuhassan}
+\item PEM path: \texttt{/home/abuhassan/.ssh/hngac-fpga-dev-abuhassan.pem}
+\item owner tag: \texttt{abuhassan}
+\end{itemize}
+
+\section*{Screen 9: Launch The Instance}
+
+From the repo root:
+
+\begin{verbatim}
+cd /mnt/c/Users/nomadic/projects/hngac-fpga
+AWS_PROFILE=hngac-aws scripts/aws/launch_fpga_dev_instance.sh \
+  scripts/aws/fpga-dev.env
+\end{verbatim}
+
+What the launcher does:
+
+\begin{itemize}
+\item checks AWS authentication
+\item finds the default VPC and subnet if you did not set custom ones
+\item creates or reuses a security group
+\item locks SSH to your current public IP
+\item creates the EC2 key pair if needed
+\item launches the instance with a \texttt{gp3} root volume
+\item waits for the instance to be ready
+\item prints the public IP, DNS, and SSH command
+\end{itemize}
+
+\section*{Screen 10: SSH In}
+
+Use the SSH command printed by the launcher. It will look like:
+
+\begin{verbatim}
+ssh -i /home/abuhassan/.ssh/hngac-fpga-dev-abuhassan.pem \
+  ubuntu@ec2-xx-xx-xx-xx.compute-1.amazonaws.com
+\end{verbatim}
+
+\section*{Screen 11: Verify Vitis}
+
+On the instance, run:
+
+\begin{verbatim}
+source /etc/profile.d/default_module.sh
+vitis_hls -version
+vivado -version
+\end{verbatim}
+
+If those commands work, the AMI is ready for HLS work.
+
+\section*{Screen 12: Clone The Repo And Run HLS}
+
+On the EC2 instance, clone the repo onto the instance filesystem:
+
+\begin{verbatim}
+git clone <your-repo-url>
+cd hngac-fpga
+\end{verbatim}
+
+Then run the first HLS synthesis:
+
+\begin{verbatim}
+export HNGAC_HLS_PART=<your-target-part>
+export HNGAC_HLS_CLOCK_NS=5.0
+export HNGAC_HLS_WORKDIR=/tmp/hngac-fpga-hls
+vitis_hls -f fpga/hls/scripts/vitis_hls.tcl
+\end{verbatim}
+
+\section*{If You Want A GUI}
+
+If you want Amazon DCV / GUI access later, set:
+
+\begin{verbatim}
+AWS_FPGA_ENABLE_DCV=true
+\end{verbatim}
+
+in \texttt{scripts/aws/fpga-dev.env} before launching.
+
+\section*{F1 Is Off By Default}
+
+The launcher keeps the legacy F1 profile disabled.
+
+Do not switch to:
+
+\begin{verbatim}
+AWS_FPGA_TARGET=f1-retired
+AWS_FPGA_ENABLE_F1=true
+\end{verbatim}
+
+unless you deliberately want the legacy path and know your account can still launch F1.
+
+\section*{Troubleshooting}
+
+\subsection*{If AWS CLI login fails}
+
+Rerun:
+
+\begin{verbatim}
+AWS_PROFILE=hngac-aws aws sts get-caller-identity
+\end{verbatim}
+
+If it still fails, recreate the access key or rerun \texttt{aws configure --profile hngac-aws}.
+
+\subsection*{If key creation fails}
+
+If the launcher says the key already exists, either:
+
+\begin{itemize}
+\item reuse it by setting \verb|AWS_FPGA_CREATE_KEY_PAIR=false|
+\item or change \verb|AWS_FPGA_KEY_NAME| in \texttt{scripts/aws/fpga-dev.env}
+\end{itemize}
+
+\subsection*{If there is no default VPC}
+
+Set these explicitly in \texttt{scripts/aws/fpga-dev.env}:
+
+\begin{verbatim}
+AWS_FPGA_VPC_ID=<your-vpc-id>
+AWS_FPGA_SUBNET_ID=<your-subnet-id>
+\end{verbatim}
+
+\section*{References}
+
+\begin{itemize}
+\item AWS root user best practices: \url{https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html}
+\item Create an administrative user: \url{https://docs.aws.amazon.com/accounts/latest/reference/getting-started-step4.html}
+\item Create IAM users: \url{https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html}
+\item Manage access keys: \url{https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html}
+\item AWS CLI install guide: \url{https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html}
+\item AWS FPGA Developer AMI docs: \url{https://awsdocs-fpga-f2.readthedocs-hosted.com/latest/User-Guide-AWS-EC2-FPGA-Development-Kit.html}
+\item AWS \texttt{aws-fpga} repository: \url{https://github.com/aws/aws-fpga}
+\end{itemize}
+
+\end{document}

@@ -89,6 +89,17 @@
   - no AWS CLI profile was present in `~/.aws/config` or `~/.aws/credentials`, so the env file intentionally leaves profile selection to `AWS_PROFILE=...`
   - the preset defaults to `f2-dev`, `c7i.4xlarge`, key-pair auto-creation, and a dedicated local PEM path under `/home/abuhassan/.ssh`
 
+## 2026-04-14 09:10 CDT
+
+- Agent: Codex (GPT-5.4)
+- Status: AWS screen-by-screen PDF walkthrough created
+- Scope completed:
+  - added `docs/aws-setup-screen-by-screen.tex` as a solo-account AWS walkthrough
+  - generated `docs/aws-setup-screen-by-screen.pdf` from the source file for offline use
+- Notes:
+  - the walkthrough covers root sign-in, IAM admin user creation, AWS CLI access-key setup, repo launcher use, and the first HLS synthesis run
+  - the doc assumes no SSO and reuses the repo's existing AWS launcher plus local env preset
+
 ## 2026-04-13 (Claude Code, claude-sonnet-4-6)
 
 - Agent: Claude Code (claude-sonnet-4-6)

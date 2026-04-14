@@ -100,6 +100,19 @@ Use this file to coordinate multiple coding agents working in the same repo.
   - added a machine-local `scripts/aws/fpga-dev.env` with sane defaults for this workstation
   - updated `.gitignore` so `scripts/aws/fpga-dev.env` stays local and customization-safe
 
+### 2026-04-14 09:10 CDT — COMPLETED
+
+- Agent: Codex (GPT-5.4)
+- Scope: PDF walkthrough for AWS setup without SSO
+- Files:
+  - `docs/aws-setup-screen-by-screen.tex`
+  - `docs/aws-setup-screen-by-screen.pdf`
+  - `docs/status-log.md`
+  - `docs/coordination-board.md`
+- Checkpoint:
+  - added `docs/aws-setup-screen-by-screen.tex` as a dedicated solo-account AWS walkthrough
+  - generated `docs/aws-setup-screen-by-screen.pdf` for offline use outside chat
+
 ## Outstanding Unclaimed Work
 
 - `fpga/hls/scripts/vitis_hls.tcl`: DONE — commit `6d6b1bd`
