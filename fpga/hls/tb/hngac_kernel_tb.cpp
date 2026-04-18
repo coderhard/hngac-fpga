@@ -7,10 +7,12 @@ namespace {
 using hngac::fpga::Bitmask256;
 using hngac::fpga::PolicyRule;
 using hngac::fpga::AuthorizationRequest;
+using hngac::fpga::ProvenanceBit;
 using hngac::fpga::StateBit;
 using hngac::fpga::hngac_authorize;
 using hngac::fpga::kMaxPolicyRules;
 using hngac::fpga::set_bit;
+using hngac::fpga::set_provenance_bit;
 using hngac::fpga::set_state_bit;
 
 void add_single_rule(
@@ -242,6 +244,94 @@ int main() {
     check("rule_count clamped: still finds matching rule",
         hngac_authorize(policy, static_cast<std::uint16_t>(kMaxPolicyRules + 1),
             make_request(1, 2, 5, {StateBit::battery_low})));
+
+    // --- 5D provenance cases ---
+    // Policy: subject 20, object 30, attr 2, state battery_low, provenance authenticated_ros2_node
+    PolicyRule policy_5d[kMaxPolicyRules] = {};
+    set_bit(policy_5d[0].subjects, 20);
+    set_bit(policy_5d[0].objects, 30);
+    set_bit(policy_5d[0].attributes, 2);
+    set_state_bit(policy_5d[0].required_states, StateBit::battery_low);
+    set_provenance_bit(policy_5d[0].required_provenance, ProvenanceBit::authenticated_ros2_node);
+
+    // Correct state + correct provenance: allow
+    {
+        AuthorizationRequest r = make_request(20, 30, 2, {StateBit::battery_low});
+        set_provenance_bit(r.source_provenance, ProvenanceBit::authenticated_ros2_node);
+        check("5D: correct state + correct provenance allowed", hngac_authorize(policy_5d, 1, r));
+    }
+    // Correct state + wrong provenance (compromised node scenario): deny
+    {
+        AuthorizationRequest r = make_request(20, 30, 2, {StateBit::battery_low});
+        set_provenance_bit(r.source_provenance, ProvenanceBit::remote_operator);
+        check("5D: correct state + wrong provenance denied", !hngac_authorize(policy_5d, 1, r));
+    }
+    // Correct state + no provenance set: deny
+    {
+        AuthorizationRequest r = make_request(20, 30, 2, {StateBit::battery_low});
+        check("5D: correct state + no provenance denied", !hngac_authorize(policy_5d, 1, r));
+    }
+    // Superset provenance (source carries extra bits beyond what rule requires): allow
+    {
+        AuthorizationRequest r = make_request(20, 30, 2, {StateBit::battery_low});
+        set_provenance_bit(r.source_provenance, ProvenanceBit::authenticated_ros2_node);
+        set_provenance_bit(r.source_provenance, ProvenanceBit::local_terminal);
+        check("5D: superset provenance allowed", hngac_authorize(policy_5d, 1, r));
+    }
+    // Rule with required_provenance == 0 is a wildcard: any source allowed
+    {
+        PolicyRule policy_noprov[kMaxPolicyRules] = {};
+        set_bit(policy_noprov[0].subjects, 20);
+        set_bit(policy_noprov[0].objects, 30);
+        set_bit(policy_noprov[0].attributes, 2);
+        set_state_bit(policy_noprov[0].required_states, StateBit::battery_low);
+        // required_provenance left at 0
+
+        AuthorizationRequest r_ros2 = make_request(20, 30, 2, {StateBit::battery_low});
+        set_provenance_bit(r_ros2.source_provenance, ProvenanceBit::authenticated_ros2_node);
+        check("5D: zero required_provenance allows authenticated_ros2_node",
+              hngac_authorize(policy_noprov, 1, r_ros2));
+
+        AuthorizationRequest r_remote = make_request(20, 30, 2, {StateBit::battery_low});
+        set_provenance_bit(r_remote.source_provenance, ProvenanceBit::remote_operator);
+        check("5D: zero required_provenance allows remote_operator",
+              hngac_authorize(policy_noprov, 1, r_remote));
+
+        AuthorizationRequest r_none = make_request(20, 30, 2, {StateBit::battery_low});
+        check("5D: zero required_provenance allows zero source_provenance",
+              hngac_authorize(policy_noprov, 1, r_none));
+    }
+    // State fail still denies even when provenance is correct
+    {
+        AuthorizationRequest r = make_request(20, 30, 2, {});
+        set_provenance_bit(r.source_provenance, ProvenanceBit::authenticated_ros2_node);
+        check("5D: correct provenance + wrong state denied", !hngac_authorize(policy_5d, 1, r));
+    }
+    // Rule requires two provenance types; either one satisfies it
+    {
+        PolicyRule policy_twoprov[kMaxPolicyRules] = {};
+        set_bit(policy_twoprov[0].subjects, 20);
+        set_bit(policy_twoprov[0].objects, 30);
+        set_bit(policy_twoprov[0].attributes, 2);
+        set_state_bit(policy_twoprov[0].required_states, StateBit::battery_low);
+        set_provenance_bit(policy_twoprov[0].required_provenance, ProvenanceBit::authenticated_ros2_node);
+        set_provenance_bit(policy_twoprov[0].required_provenance, ProvenanceBit::local_terminal);
+
+        AuthorizationRequest r_ros2 = make_request(20, 30, 2, {StateBit::battery_low});
+        set_provenance_bit(r_ros2.source_provenance, ProvenanceBit::authenticated_ros2_node);
+        check("5D: two-provenance rule, first type allowed",
+              hngac_authorize(policy_twoprov, 1, r_ros2));
+
+        AuthorizationRequest r_local = make_request(20, 30, 2, {StateBit::battery_low});
+        set_provenance_bit(r_local.source_provenance, ProvenanceBit::local_terminal);
+        check("5D: two-provenance rule, second type allowed",
+              hngac_authorize(policy_twoprov, 1, r_local));
+
+        AuthorizationRequest r_remote = make_request(20, 30, 2, {StateBit::battery_low});
+        set_provenance_bit(r_remote.source_provenance, ProvenanceBit::remote_operator);
+        check("5D: two-provenance rule, third type denied",
+              !hngac_authorize(policy_twoprov, 1, r_remote));
+    }
 
     std::printf("\n%d passed, %d failed\n", passed, failed);
     return failed == 0 ? 0 : 1;

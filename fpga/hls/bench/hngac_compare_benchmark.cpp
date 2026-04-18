@@ -3,6 +3,7 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdlib>
+#include <iomanip>
 #include <iostream>
 #include <numeric>
 #include <queue>
@@ -33,7 +34,9 @@ using hngac::fpga::contains_all_states;
 using hngac::fpga::hngac_authorize;
 using hngac::fpga::kMaxNodes;
 using hngac::fpga::kMaxPolicyRules;
+using hngac::fpga::ProvenanceBit;
 using hngac::fpga::set_bit;
+using hngac::fpga::set_provenance_bit;
 using hngac::fpga::set_state_bit;
 using hngac::fpga::test_bit;
 
@@ -121,13 +124,17 @@ AuthorizationRequest make_request(
     std::uint16_t subject,
     std::uint16_t object,
     std::uint16_t attribute,
-    std::initializer_list<StateBit> states) {
+    std::initializer_list<StateBit> states,
+    std::initializer_list<ProvenanceBit> provenance_bits = {}) {
     AuthorizationRequest request{};
     request.subject_id = subject;
     request.object_id = object;
     set_bit(request.required_attributes, attribute);
     for (StateBit bit : states) {
         set_state_bit(request.object_state, bit);
+    }
+    for (ProvenanceBit bit : provenance_bits) {
+        set_provenance_bit(request.source_provenance, bit);
     }
     return request;
 }
@@ -144,6 +151,20 @@ void add_rule_4d(
     set_bit(policy[index].attributes, attribute);
     for (StateBit bit : states) {
         set_state_bit(policy[index].required_states, bit);
+    }
+}
+
+void add_rule_5d(
+    PolicyRule policy[kMaxPolicyRules],
+    std::uint16_t index,
+    std::uint16_t subject,
+    std::uint16_t object,
+    std::uint16_t attribute,
+    std::initializer_list<StateBit> states,
+    std::initializer_list<ProvenanceBit> provenance_bits) {
+    add_rule_4d(policy, index, subject, object, attribute, states);
+    for (ProvenanceBit bit : provenance_bits) {
+        set_provenance_bit(policy[index].required_provenance, bit);
     }
 }
 
@@ -533,9 +554,10 @@ Summary run_benchmark(
     }
 
     const Summary summary = summarize(samples, allowed);
-    std::cout << label << ": mean=" << summary.mean_ns << " ns"
-              << " p99=" << summary.p99_ns << " ns"
-              << " max=" << summary.max_ns << " ns"
+    std::cout << std::fixed
+              << std::setprecision(2) << label << ": mean=" << summary.mean_ns << " ns"
+              << std::setprecision(1) << " p99=" << summary.p99_ns << " ns"
+              << " max=" << static_cast<double>(summary.max_ns) << " ns"
               << " allowed=" << summary.allowed << "/" << iterations << "\n";
     return summary;
 }
@@ -554,6 +576,7 @@ int main(int argc, char** argv) {
     }
 
     PolicyRule policy_4d[kMaxPolicyRules] = {};
+    PolicyRule policy_5d[kMaxPolicyRules] = {};
     PolicyRule3D policy_3d[kMaxPolicyRules] = {};
     RolePermissionRule policy_rbac[kMaxPolicyRules] = {};
 
@@ -561,6 +584,13 @@ int main(int argc, char** argv) {
     add_rule_4d(policy_4d, 1, 2, 11, 6, {StateBit::maintenance_mode});
     add_rule_4d(policy_4d, 2, 3, 12, 7, {StateBit::safety_interlock});
     add_rule_4d(policy_4d, 3, 4, 13, 8, {StateBit::calibration_required});
+
+    // 5D: same subjects/objects/attributes/states as 4D, plus provenance restriction.
+    // Rules 0-1 require authenticated_ros2_node. Rules 2-3 require local_terminal.
+    add_rule_5d(policy_5d, 0, 1, 10, 5, {StateBit::battery_low},       {ProvenanceBit::authenticated_ros2_node});
+    add_rule_5d(policy_5d, 1, 2, 11, 6, {StateBit::maintenance_mode},   {ProvenanceBit::authenticated_ros2_node});
+    add_rule_5d(policy_5d, 2, 3, 12, 7, {StateBit::safety_interlock},   {ProvenanceBit::local_terminal});
+    add_rule_5d(policy_5d, 3, 4, 13, 8, {StateBit::calibration_required}, {ProvenanceBit::local_terminal});
 
     add_rule_3d(policy_3d, 0, 1, 10, 5);
     add_rule_3d(policy_3d, 1, 2, 11, 6);
@@ -596,6 +626,23 @@ int main(int argc, char** argv) {
         request_b_deny,
         request_c_deny,
         request_d_deny,
+    };
+
+    // 5D request mix: correct state + correct provenance (allow), correct state + wrong provenance (deny).
+    // Rules 0-1 require authenticated_ros2_node; rules 2-3 require local_terminal.
+    AuthorizationRequest req5_a_allow = make_request(1, 10, 5, {StateBit::battery_low},        {ProvenanceBit::authenticated_ros2_node});
+    AuthorizationRequest req5_b_allow = make_request(2, 11, 6, {StateBit::maintenance_mode},    {ProvenanceBit::authenticated_ros2_node});
+    AuthorizationRequest req5_c_allow = make_request(3, 12, 7, {StateBit::safety_interlock},    {ProvenanceBit::local_terminal});
+    AuthorizationRequest req5_d_allow = make_request(4, 13, 8, {StateBit::calibration_required},{ProvenanceBit::local_terminal});
+    // Same state as allow cases but wrong provenance type — compromised node scenario.
+    AuthorizationRequest req5_a_deny  = make_request(1, 10, 5, {StateBit::battery_low},        {ProvenanceBit::remote_operator});
+    AuthorizationRequest req5_b_deny  = make_request(2, 11, 6, {StateBit::maintenance_mode},    {ProvenanceBit::local_terminal});
+    AuthorizationRequest req5_c_deny  = make_request(3, 12, 7, {StateBit::safety_interlock},    {ProvenanceBit::remote_operator});
+    AuthorizationRequest req5_d_deny  = make_request(4, 13, 8, {StateBit::calibration_required},{ProvenanceBit::authenticated_ros2_node});
+
+    const std::vector<AuthorizationRequest> requests_5d = {
+        req5_a_allow, req5_b_allow, req5_c_allow, req5_d_allow,
+        req5_a_deny,  req5_b_deny,  req5_c_deny,  req5_d_deny,
     };
 
 #ifdef HNGAC_HAVE_SQLITE
@@ -642,6 +689,14 @@ int main(int argc, char** argv) {
             return hngac_authorize(policy_4d, kRuleCount, request);
         });
 
+    const Summary provenance_5d = run_benchmark(
+        "5D provenance-aware",
+        requests_5d,
+        iterations,
+        [&](const AuthorizationRequest& request) {
+            return hngac_authorize(policy_5d, kRuleCount, request);
+        });
+
     const Summary rbac_lookup = run_benchmark(
         "RBAC + state lookup",
         requests,
@@ -670,12 +725,15 @@ int main(int argc, char** argv) {
 
     const double overhead_pct =
         ((state_4d.mean_ns - baseline_3d.mean_ns) / baseline_3d.mean_ns) * 100.0;
+    const double overhead_5d_pct =
+        ((provenance_5d.mean_ns - state_4d.mean_ns) / state_4d.mean_ns) * 100.0;
     const double hashmap_gap_pct =
         ((state_4d.mean_ns - rbac_hash_map.mean_ns) / rbac_hash_map.mean_ns) * 100.0;
     const double dag_slowdown = ngac_dag.mean_ns / state_4d.mean_ns;
     const double rbac_slowdown = rbac_lookup.mean_ns / state_4d.mean_ns;
 
     std::cout << "4D vs 3D mean overhead: " << overhead_pct << "%\n";
+    std::cout << "5D vs 4D mean overhead: " << overhead_5d_pct << "%\n";
     std::cout << "4D vs RBAC hash-map mean overhead: " << hashmap_gap_pct << "%\n";
     std::cout << "NGAC-DAG vs 4D mean slowdown: " << dag_slowdown << "x\n";
     std::cout << "RBAC+lookup vs 4D mean slowdown: " << rbac_slowdown << "x\n";

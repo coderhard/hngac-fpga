@@ -34,6 +34,9 @@ bool hngac_authorize(
         if (!contains_all_states(rule.required_states, request.object_state)) {
             continue;
         }
+        if (!provenance_permitted(rule.required_provenance, request.source_provenance)) {
+            continue;
+        }
         return true;
     }
 

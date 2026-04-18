@@ -18,6 +18,12 @@ enum class StateBit : std::uint8_t {
     calibration_required = 3,
 };
 
+enum class ProvenanceBit : std::uint8_t {
+    authenticated_ros2_node = 0,
+    local_terminal = 1,
+    remote_operator = 2,
+};
+
 struct Bitmask256 {
     std::array<std::uint64_t, kMaskWords> words{};
 };
@@ -30,7 +36,7 @@ struct PolicyRule {
     Bitmask256 objects{};
     Bitmask256 attributes{};
     StateMask required_states = 0;
-    ProvenanceMask reserved_provenance = 0;
+    ProvenanceMask required_provenance = 0;
 };
 
 struct AuthorizationRequest {
@@ -38,7 +44,7 @@ struct AuthorizationRequest {
     std::uint16_t object_id = 0;
     Bitmask256 required_attributes{};
     StateMask object_state = 0;
-    ProvenanceMask reserved_provenance = 0;
+    ProvenanceMask source_provenance = 0;
 };
 
 inline void set_bit(Bitmask256& mask, std::size_t index) {
@@ -74,6 +80,19 @@ inline void set_state_bit(StateMask& mask, StateBit bit) {
 
 inline bool contains_all_states(StateMask required, StateMask available) {
     return (required & available) == required;
+}
+
+inline void set_provenance_bit(ProvenanceMask& mask, ProvenanceBit bit) {
+    mask |= (ProvenanceMask{1} << static_cast<std::uint8_t>(bit));
+}
+
+// required == 0 means any source is permitted (wildcard).
+// Otherwise at least one bit in required must match the source's provenance bit.
+inline bool provenance_permitted(ProvenanceMask required, ProvenanceMask source) {
+    if (required == 0) {
+        return true;
+    }
+    return (required & source) != 0;
 }
 
 }  // namespace hngac::fpga
