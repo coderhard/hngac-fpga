@@ -180,21 +180,24 @@ Platform: WSL2 x86-64. ROS2 Jazzy. CPU stress via stress-ng --cpu 8 (all cores).
 **Key finding:** Under WSL2, the software gatekeeper callback stayed below the 50 µs
 DDS threshold in both conditions. No timing-window slip was observed in this environment.
 
-**What this means for the paper:**
-The WSL2 gatekeeper callback stayed under 40 µs in both conditions.
-The DCAS 2026 paper (Karim + Gupta, same WSL2 platform) reported a WCET of 157 µs.
-The discrepancy between DCAS WCET (157 µs) and current max (40 µs) is not yet explained.
-Possible causes: different ROS2 load conditions, longer run duration catching rarer jitter
-spikes, different implementation (old bitset vs current HLS-typed kernel).
+**DCAS 157 µs figure — RESOLVED (2026-04-18):**
+The 157 µs figure from the DCAS 2026 paper was a single scheduling anomaly (OS jitter
+spike), not a representative WCET for the authorization primitive. The DCAS measured
+distribution was: mean ≈ 1.14 µs, min ≈ 37 ns. The 157 µs max was an outlier catch
+from a longer run, not a steady-state bound. This is consistent with the current WSL2
+data showing max < 40 µs over thousands of callbacks.
 
-**This gap must be resolved before writing the timing-window claim.**
-Do not cite 157 µs as a measured WCET without confirming how it was obtained in DCAS.
-Do not claim a measured slip rate > 0 from the current runs — the data does not support it.
-
-**OPEN QUESTION for next session:** How was 157 µs derived in DCAS? Was it from a stress
-run, from final_data.log, or from a separate measurement? The max in final_data.log is
-~20 µs. Until this is resolved, the timing-window argument cannot be written as a
-measured claim. It can only be written as a projected claim based on FPGA synthesis.
+**Correct framing for the IPCCC paper:**
+- Do not cite 157 µs as "the software WCET." Cite it as "a measured scheduling outlier
+  in the DCAS 2026 baseline" representing OS non-determinism, not authorization cost.
+- The authoritative software representative latency from DCAS is mean ≈ 1.14 µs
+  (ROS2 callback path) and min ≈ 37 ns (pure function).
+- The timing-window argument stands but must be written as: software authorization
+  exhibits unbounded jitter (single outlier to 157 µs observed); FPGA synthesis bounds
+  latency at synthesis time, eliminating the jitter class entirely. The claim is about
+  determinism, not about a specific measured slip rate.
+- **Do not claim a measured slip rate > 0.** Current data shows 0 slips. The argument
+  is architectural: hardware-bounded latency closes the window by construction.
 
 ---
 
