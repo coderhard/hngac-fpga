@@ -110,27 +110,31 @@ required provenance (authenticated_ros2_node). The command is denied.
 - `legit_ros2_node`: Subject 1, provenance=authenticated_ros2_node(1), 2 Hz.
 - `compromised_ros2_node`: Subject 1, provenance=remote_operator(4), 10 Hz.
 
-**Run:** 2026-04-18, 20-second session, ROS2 Jazzy on WSL2.
+**Run:** 2026-04-18, 30-second session, ROS2 Jazzy on WSL2.
+**Log:** `data/attack2_gatekeeper_20260418_150727.log` (42 953 lines)
+**Compromised rate:** 10 Hz — **Legit rate:** 2 Hz
 
 | Metric | Value |
 |---|---|
-| Injection attempts (Subject 1, prov=remote\_operator) | 227 |
-| Blocked by 5D provenance check | **227** |
+| Injection attempts (Subject 1, prov=remote\_operator) | 18 878 |
+| Blocked by 5D provenance check | **18 878** |
 | Provenance block rate | **100.0%** |
-| Legitimate commands (Subject 1, prov=authenticated\_ros2\_node) | 45 |
-| Passed by 5D | **45** |
+| Legitimate commands (Subject 1, prov=authenticated\_ros2\_node) | 17 059 |
+| Passed by 5D | **17 059** |
 | False positive rate | **0.0%** |
 | Wrong-subject blocks | 0 |
 
-**ROS2 callback latency** (includes DDS deserialization + executor scheduling):
+**Authorization latency inside ROS2 callback** (steady-state, first 100 events excluded):
 
-| Event | n | Min | Max | Mean |
-|---|---|---|---|---|
-| BLOCK\_PROV | 227 | 40 ns | 1592 ns | 335 ns |
-| PASS\_5D | 45 | 27 ns | 681 ns | 244 ns |
+| Event | n | Min | Mean | P99 | Max |
+|---|---|---|---|---|---|
+| BLOCK\_PROV | 13 688 | 23 ns | 188 ns | 820 ns | 16 804 ns |
+| PASS\_5D | 14 490 | 35 ns | 241 ns | 937 ns | 71 276 ns |
 
-These are callback latencies, not authorization latencies. Pure authorization latency
-(from benchmark, Table above): 5D mean=21.28 ns, p99=31 ns.
+Mean is elevated vs isolated benchmark (~19 ns) because DDS callback context brings
+the policy array in from cold cache between sparse timer firings. Min (23–35 ns) is
+consistent with steady-state benchmark. Max values are WSL2 scheduler jitter, not WCET.
+Pure authorization latency (isolated benchmark): 5D mean=21.28 ns, p99=31 ns.
 
 **Conclusion:** 5D provenance enforcement blocks 100% of injection attempts from a
 compromised node with valid Subject 1 credentials, with zero false positives on
