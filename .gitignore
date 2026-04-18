@@ -18,3 +18,5 @@ fpga/hls/*.log
 *.wdb
 *.swp
 scripts/aws/fpga-dev.env
+.codex
+paper/
