@@ -120,22 +120,31 @@ Use this file to coordinate multiple coding agents working in the same repo.
 - `README.md`: update for 4D scope and five-model harness — claimed above (Claude Code)
 - optional OPA baseline (out-of-process, separate latency scale)
 
----
+### 2026-04-20 — STANDING RULES (Claude Code, claude-sonnet-4-6)
 
-## Human Collaborator Ownership (as of 2026-04-20)
+- Agent: Claude Code (claude-sonnet-4-6)
+- Scope: coordination policy update — venue pivot to IPCCC, 5D in scope, HW team re-oriented
+- Files:
+  - `docs/coordination-board.md`
+  - `docs/project-overview.md` (new)
+  - `docs/hw-team-update-2026-04-20.md` (new)
+  - `docs/decision-log.md`
+  - `README.md`
+  - `paper/main.tex` (gitignored — local only)
+  - `paper/refs.bib` (gitignored — local only)
+- Checkpoint: commit `ff680da` — CLAIM RELEASED
 
-| Owner | Responsibility | Constraint |
-|---|---|---|
-| Hassan Karim | Paper framing, writing, all section structure, submission | No agent restructures sections without Hassan sign-off |
-| Badawy Lab HW Lead | Vitis HLS synthesis, co-sim, hardware run (Badawy board or F2) | No agent edits `fpga/hls/src/` while synthesis is in progress |
-| Deepti Gupta | DCAS lineage continuity, paper review, related work input | — |
-| Sai Sitharaman | Cloud/AWS resource coordination, BigData 2025 framing | — |
+### Human Collaborator Ownership
 
-## Agent Parallel Work Rules (as of 2026-04-20)
+- Hassan Karim — paper framing, writing, section structure, submission. No agent restructures sections without Hassan sign-off.
+- Badawy Lab HW Lead — Vitis HLS synthesis, co-sim, hardware run (Badawy board or F2). `fpga/hls/src/hngac_kernel.cpp` is locked to agents while synthesis is in progress.
+- Deepti Gupta — DCAS lineage, paper review, related work input.
+- Sai Sitharaman — cloud/AWS resources, BigData 2025 framing.
 
-1. Claim a file on this board before editing. Release after commit.
-2. `paper/main.tex` — one agent at a time.
-3. `fpga/hls/src/hngac_kernel.cpp` — **locked while Badawy HW lead is running synthesis.** No agent edits until synthesis deliverables are returned.
-4. New files (`docs/project-overview.md`, `docs/hw-team-update-*.md`) — claimable independently, no conflict.
-5. `paper/refs.bib` — one agent at a time; research agent owns during bib update pass.
-6. `README.md`, `docs/decision-log.md` — lightweight, short claims fine.
+### Parallel Work Rules
+
+- Claim a file on this board before editing. Release after commit.
+- `paper/main.tex` — one agent at a time.
+- `fpga/hls/src/hngac_kernel.cpp` — locked while Badawy HW lead is running synthesis. No agent edits until synthesis deliverables are returned.
+- `paper/refs.bib` — one agent at a time; research agent owns during bib update pass.
+- `README.md`, `docs/decision-log.md` — lightweight, short claims fine.
