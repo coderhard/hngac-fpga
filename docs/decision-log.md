@@ -1,5 +1,27 @@
 # Decision Log
 
+## 2026-04-20
+
+### Decision
+
+5D provenance-aware extension is now full paper scope. Venue changed from IEEE SOCC to IEEE IPCCC 2026.
+
+### Reason
+
+The Attack Class 2 ROS2 demo (April 18) produced clean empirical results: 18,878 injections blocked at 100%, 0 false positives. The zero-cost hardware claim (5D resolves in the same LUT stage count as 3D on UltraScale+) is the paper's key finding and requires 5D to be in scope, not follow-on. The IPCCC venue is a better fit for the hardware-security-for-CPS framing.
+
+### Alternatives considered
+
+- Keep 5D as future work / R-003 (abandoned — too strong a result to withhold)
+- Submit to SOCC (venue changed due to better alignment of IPCCC scope)
+
+### Impact on code/tests/paper
+
+- Kernel, testbench, and benchmark already implement 5D (completed April 13–18).
+- HLS synthesis must be run for both 4D and 5D kernels (Badawy lab task).
+- Paper scope: 3 attack classes / 3 dimensions / 1 hardware primitive is now the central framing.
+- Prior decision log entries describing 5D as "reserved hook only" are superseded by this entry.
+
 ## 2026-04-13
 
 ### Decision

@@ -1,8 +1,8 @@
 # hngac-fpga
 
-4D state-aware H-NGAC authorization primitive targeting FPGA via Vitis HLS.
+5D provenance-aware H-NGAC authorization primitive targeting FPGA via Vitis HLS.
 
-This is the IEEE SOCC 2026 working repo. The core claim: a hardware-accelerated 4D bitmask can enforce runtime object-state constraints (battery, maintenance, safety, calibration) without the external lookup overhead that traditional RBAC deployments require. The repo implements that claim, measures it locally against four software baselines, and prepares the kernel for hardware synthesis.
+This is the IEEE IPCCC 2026 working repo. The core claim: security dimensionality scales at zero hardware cost — the 3D, 4D, and 5D bitmask variants resolve in the same LUT stage count on UltraScale+, blocking three distinct attack classes with a single hardware primitive. The repo implements the kernel, measures it locally against six software baselines, and provides the synthesis flow for hardware evaluation.
 
 ---
 
@@ -13,26 +13,30 @@ This is the IEEE SOCC 2026 working repo. The core claim: a hardware-accelerated 
 cmake -S fpga/hls -B /tmp/hngac-fpga-build
 cmake --build /tmp/hngac-fpga-build
 
-# Run the 34-case kernel testbench
+# Run the 45-case kernel testbench
 ctest --test-dir /tmp/hngac-fpga-build --output-on-failure
 
-# Run the five-model comparison benchmark
-/tmp/hngac-fpga-build/hngac_compare_benchmark 20000 100000
+# Run the seven-model comparison benchmark (canonical: 200k iterations, 1k warmup)
+/tmp/hngac-fpga-build/hngac_compare_benchmark 200000 100000
 ```
 
 ---
 
-## Five-model local comparison
+## Seven-model local comparison
 
-The unified benchmark (`fpga/hls/bench/hngac_compare_benchmark.cpp`) measures five authorization models on the same mixed request set (half state-satisfying, half state-failing):
+The unified benchmark (`fpga/hls/bench/hngac_compare_benchmark.cpp`) measures seven authorization models on the same mixed request set (half state-satisfying, half state-failing):
 
-| Model | Implementation | State-aware? |
+| Model | Implementation | Correct? |
 |---|---|---|
-| RBAC hash map | `unordered_map<(subject,object), permission_mask>` | No — over-authorizes mixed set |
-| NGAC-DAG traversal | adjacency-list BFS | No — over-authorizes mixed set |
-| H-NGAC 3D bitmask | `Bitmask256` fixed-array scan | No — over-authorizes mixed set |
+| RBAC hash map | `unordered_map<(subject,object), permission_mask>` | No — over-authorizes |
+| NGAC-DAG traversal | adjacency-list BFS | No — over-authorizes |
+| H-NGAC 3D bitmask | `Bitmask256` fixed-array scan | No — over-authorizes |
 | **H-NGAC 4D state-aware** | 3D + `StateMask` containment check | **Yes** |
-| RBAC + state lookup | role table + modeled/SQLite external-state query | Yes |
+| **H-NGAC 5D provenance-aware** | 4D + provenance bitmask check | **Yes** |
+| RBAC + SQLite state | role table + in-process SQLite lookup | Yes — empirical |
+| RBAC + modeled state | role table + busy-wait delay | Yes — **NOT empirical** |
+
+Canonical run: `hngac_compare_benchmark 200000 100000` (200k iterations, 1k warmup).
 
 Run a sweep across RBAC lookup delays and get CSV output:
 
@@ -40,7 +44,7 @@ Run a sweep across RBAC lookup delays and get CSV output:
 ./fpga/hls/scripts/run_local_compare_sweep.sh 20000 /tmp/hngac-fpga-sweep 1000 10000 100000
 ```
 
-The sweep script emits `sweep_summary.csv` — one row per delay value, all five models.
+The sweep script emits `sweep_summary.csv` — one row per delay value, all models.
 
 ---
 
@@ -67,7 +71,7 @@ Reports land in `$HNGAC_HLS_WORKDIR/hngac_authorize/sol1/syn/report/`.
 |---|---|
 | `fpga/hls/src/` | HLS kernel — `hngac_authorize()` with INTERFACE and PIPELINE pragmas |
 | `fpga/hls/include/` | `Bitmask256`, `StateMask`, `PolicyRule`, `AuthorizationRequest` types |
-| `fpga/hls/tb/` | 34-case CTest testbench |
+| `fpga/hls/tb/` | 45-case CTest testbench (3D/4D/5D correctness) |
 | `fpga/hls/bench/` | Five-model comparison benchmark |
 | `fpga/hls/scripts/` | Vitis HLS TCL, local benchmark runners, sweep script |
 | `docs/` | Decision log, implementation plan, benchmark gap analysis, status log, coordination board |
