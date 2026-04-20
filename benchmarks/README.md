@@ -1,6 +1,6 @@
 # benchmarks/ — Legacy DCAS Baseline
 
-These files are from the original IEEE DCAS 2026 software baseline. They are **preserved for reference** but are not the canonical harness for the SOCC 2026 paper.
+These files are from the original IEEE DCAS 2026 software baseline. They are **preserved for reference** but are not the canonical harness for the IPCCC 2026 paper.
 
 ## What is here
 
@@ -11,17 +11,17 @@ These files are from the original IEEE DCAS 2026 software baseline. They are **p
 | `CMakeLists.txt` | Builds both binaries with `-O3`. No external dependencies. |
 | `run_memory_profile.sh` | Shell wrapper for `valgrind --tool=massif` memory profiling. |
 
-## Why these are not the SOCC harness
+## Why these are not the IPCCC harness
 
 - Both use `std::bitset<128>` + `std::vector<Hyperedge>` — a different 3D implementation than the kernel types (`Bitmask256`, fixed arrays) in `fpga/hls/`.
-- Neither measures RBAC, NGAC-DAG, or the 4D state-aware path.
+- Neither measures RBAC, NGAC-DAG, 4D state-aware, or 5D provenance paths.
 - No CLI arguments — policy size, iteration count, and request pattern are hardcoded.
 
-## Canonical SOCC harness
+## Canonical IPCCC harness
 
 Use `fpga/hls/bench/hngac_compare_benchmark.cpp`, which:
 - Uses the HLS-kernel-aligned `Bitmask256` types throughout
-- Benchmarks all five models on the same mixed request set
+- Benchmarks all seven models on the same mixed request set
 - Takes `<iterations> <rbac_lookup_delay_ns>` arguments
 - Optionally links SQLite for a real external-state lookup baseline
 - Has a sweep script with CSV output
@@ -29,5 +29,5 @@ Use `fpga/hls/bench/hngac_compare_benchmark.cpp`, which:
 ```bash
 cmake -S fpga/hls -B /tmp/hngac-fpga-build
 cmake --build /tmp/hngac-fpga-build
-/tmp/hngac-fpga-build/hngac_compare_benchmark 20000 100000
+/tmp/hngac-fpga-build/hngac_compare_benchmark 200000 100000
 ```

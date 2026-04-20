@@ -12,6 +12,23 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 ## Active Claims
 
+### 2026-04-20 17:22 CDT — IN PROGRESS
+
+- Agent: Codex (GPT-5.4)
+- Scope: reviewer-fair in-memory 5D hash baseline + benchmark/doc alignment
+- Files:
+  - `fpga/hls/bench/hngac_compare_benchmark.cpp`
+  - `fpga/hls/scripts/run_local_compare_sweep.sh`
+  - `docs/benchmark-gap-analysis.md`
+  - `docs/local-benchmark-notes.md`
+  - `docs/decision-log.md`
+  - `docs/status-log.md`
+  - `docs/coordination-board.md`
+- Checkpoint:
+  - add a flattened in-memory 5D decision baseline alongside the current hash, DAG, SQLite, and H-NGAC paths
+  - widen reported metrics to cover tail latency, jitter, memory/build/update cost, and scaling notes needed for reviewer-facing fairness
+  - align stale 4D/SOCC-era benchmark docs to the current 5D/IPCCC scope
+
 ### 2026-04-20 09:55 CDT — COMPLETED
 
 - Agent: Codex (GPT-5.4)
@@ -70,11 +87,13 @@ Use this file to coordinate multiple coding agents working in the same repo.
 - Note for Codex: add `-Wno-unknown-pragmas` to `hngac_kernel` target in `fpga/hls/CMakeLists.txt` to silence expected pragma warnings from g++
 - CLAIM RELEASED
 
-### 2026-04-13 (Claude Code, claude-sonnet-4-6) — IN PROGRESS
+### 2026-04-13 (Claude Code, claude-sonnet-4-6) — COMPLETED
 
 - Agent: Claude Code (claude-sonnet-4-6)
 - Scope: README.md update + benchmarks/ legacy note
-- Files: `README.md`, `benchmarks/README.md` (new file)
+- Files: `README.md`, `benchmarks/README.md`
+- Checkpoint: README.md updated (IPCCC, 7 models, 45 tests); benchmarks/README.md
+  updated (SOCC→IPCCC, 5→7 models) — CLAIM RELEASED
 
 ### 2026-04-13 08:27 CDT — COMPLETED
 
@@ -136,7 +155,7 @@ Use this file to coordinate multiple coding agents working in the same repo.
 - `README.md`: update for 4D scope and five-model harness — claimed above (Claude Code)
 - optional OPA baseline (out-of-process, separate latency scale)
 
-## 2026-04-20 17:00 CDT — STANDING RULES (Claude Code, claude-sonnet-4-6)
+### 2026-04-20 17:00 CDT — COMPLETED (Claude Code, claude-sonnet-4-6)
 
 - Agent: Claude Code (claude-sonnet-4-6)
 - Scope: coordination policy update — venue pivot to IPCCC, 5D in scope, HW team re-oriented
@@ -149,19 +168,8 @@ Use this file to coordinate multiple coding agents working in the same repo.
   - `paper/main.tex` (gitignored — local only)
   - `paper/refs.bib` (gitignored — local only)
 - Checkpoint: commit `ff680da` — CLAIM RELEASED
-
-
-### Human Collaborator Ownership
-
-- Hassan Karim — paper framing, writing, section structure, submission. No agent restructures sections without Hassan sign-off.
-- Badawy Lab HW Lead — Vitis HLS synthesis, co-sim, hardware run (Badawy board or F2). `fpga/hls/src/hngac_kernel.cpp` is locked to agents while synthesis is in progress.
-- Deepti Gupta — DCAS lineage, paper review, related work input.
-- Sai Sitharaman — cloud/AWS resources, BigData 2025 framing.
-
-### Parallel Work Rules
-
-- Claim a file on this board before editing. Release after commit.
-- `paper/main.tex` — one agent at a time.
-- `fpga/hls/src/hngac_kernel.cpp` — locked while Badawy HW lead is running synthesis. No agent edits until synthesis deliverables are returned.
-- `paper/refs.bib` — one agent at a time; research agent owns during bib update pass.
-- `README.md`, `docs/decision-log.md` — lightweight, short claims fine.
+- Standing rules added (permanent, not a work claim):
+  - Human owners: Hassan (paper), Badawy lead (HLS/HW), Deepti (review), Sai (AWS)
+  - `fpga/hls/src/hngac_kernel.cpp` locked to agents while HW team runs synthesis
+  - `paper/main.tex` and `paper/refs.bib` — one agent at a time
+  - All agents must use `### YYYY-MM-DD HH:MM CDT — STATUS` timestamp format on this board
