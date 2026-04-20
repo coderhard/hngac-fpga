@@ -3,10 +3,11 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HLS_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 
 ITERATIONS="${1:-20000}"
 LOOKUP_DELAY_NS="${2:-100000}"
-OUTPUT_DIR="${3:-/tmp/hngac-fpga-local-compare}"
+OUTPUT_DIR="${3:-${REPO_ROOT}/data/benchmarks}"
 
 BUILD_DIR="${OUTPUT_DIR}/build"
 LOG_FILE="${OUTPUT_DIR}/compare_$(date +%Y%m%d_%H%M%S).log"

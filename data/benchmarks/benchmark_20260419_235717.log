@@ -1,0 +1,21 @@
+=== hngac benchmark 20260419_235717 ===
+Binary: /home/abuhassan/local/projects/hngac-fpga-build/hngac_compare_benchmark
+Iterations: 200000 | RBAC delay: 100000 ns
+---
+Iterations: 200000
+RBAC modeled external state lookup delay: 100000 ns
+Warmup per model: 1000 iterations
+Scenario mix: 4 state-satisfying requests + 4 state-failing requests
+RBAC hash map: mean=24.27 ns p99=34.0 ns max=26834.0 ns allowed=200000/200000
+NGAC-DAG traversal: mean=205.72 ns p99=445.0 ns max=502103.0 ns allowed=200000/200000
+3D baseline: mean=16.51 ns p99=23.0 ns max=12517.0 ns allowed=200000/200000
+4D state-aware: mean=17.18 ns p99=20.0 ns max=26354.0 ns allowed=100000/200000
+5D provenance-aware: mean=18.13 ns p99=27.0 ns max=18173.0 ns allowed=100000/200000
+RBAC + state lookup: mean=101250.01 ns p99=115262.0 ns max=1943446.0 ns allowed=100000/200000
+RBAC + SQLite state lookup: mean=390.62 ns p99=729.0 ns max=428970.0 ns allowed=100000/200000
+4D vs 3D mean overhead: 4.1%
+5D vs 4D mean overhead: 5.5%
+4D vs RBAC hash-map mean overhead: -29.2%
+NGAC-DAG vs 4D mean slowdown: 12.0x
+RBAC+lookup vs 4D mean slowdown: 5892.3x
+RBAC+SQLite vs 4D mean slowdown: 22.7x

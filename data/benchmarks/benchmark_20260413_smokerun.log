@@ -1,0 +1,12 @@
+=== hngac benchmark 20260413 (reconstructed from local-benchmark-notes.md) ===
+Binary: /tmp/hngac-fpga-hls-build-compare/hngac_compare_benchmark
+Iterations: 20000 | RBAC delay: 100000 ns
+NOTE: Raw output was in /tmp and lost. Numbers reconstructed from docs/local-benchmark-notes.md.
+---
+3D baseline: mean=15.526 ns p99=18 ns max=134 ns allowed=20000/20000
+4D state-aware: mean=15.087 ns p99=17 ns max=722 ns allowed=10000/20000
+RBAC + state lookup: mean=100688 ns p99=102665 ns max=696110 ns allowed=10000/20000
+4D vs 3D mean overhead: -2.83%
+RBAC+lookup vs 4D mean slowdown: 6674.06x
+NOTE: 4D max=722 ns was a cold-start artifact. Confirmed resolved in 200k warmed run.
+NOTE: 5D was not yet implemented at this date.

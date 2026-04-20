@@ -2,9 +2,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 
 ITERATIONS="${1:-20000}"
-OUTPUT_DIR="${2:-/tmp/hngac-fpga-local-compare-sweep}"
+OUTPUT_DIR="${2:-${REPO_ROOT}/data/benchmarks}"
 shift $(( $# > 0 ? 1 : 0 )) || true
 shift $(( $# > 0 ? 1 : 0 )) || true
 

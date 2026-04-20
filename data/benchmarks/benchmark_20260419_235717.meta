@@ -1,0 +1,10 @@
+timestamp: 20260419_235717
+date: 2026-04-19 23:57:17 CDT
+host: Hunter22
+kernel: 6.6.87.2-microsoft-standard-WSL2
+binary: /home/abuhassan/local/projects/hngac-fpga-build/hngac_compare_benchmark
+binary_mtime: 2026-04-18 12:35:52.469046863 -0500
+iterations: 200000
+rbac_lookup_delay_ns: 100000
+git_commit: f599517
+git_branch: main

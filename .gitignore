@@ -20,3 +20,4 @@ fpga/hls/*.log
 scripts/aws/fpga-dev.env
 .codex
 paper/
+data/attack2_*.log
