@@ -12,6 +12,22 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 ## Active Claims
 
+### 2026-04-20 09:55 CDT — COMPLETED
+
+- Agent: Codex (GPT-5.4)
+- Scope: bibliography verification and IPCCC reference expansion
+- Files:
+  - `paper/refs.bib`
+  - `docs/coordination-board.md`
+- Checkpoint:
+  - updated local `paper/refs.bib` with verified ROS2/DDS, FPGA security,
+    WCET/safety, ISO 26262, and NVD CVE entries
+  - normalized existing `mell2017ngac`, `sros2`, and `robotcore2022`
+    metadata; flagged low-confidence self-cite publication details
+  - `paper/` remains gitignored in this repo, so bibliography edits are
+    local-only
+  - CLAIM RELEASED
+
 ### 2026-04-13 07:50 CDT
 
 - Agent: Codex (GPT-5.4)
@@ -120,7 +136,7 @@ Use this file to coordinate multiple coding agents working in the same repo.
 - `README.md`: update for 4D scope and five-model harness — claimed above (Claude Code)
 - optional OPA baseline (out-of-process, separate latency scale)
 
-### 2026-04-20 — STANDING RULES (Claude Code, claude-sonnet-4-6)
+## 2026-04-20 17:00 CDT — STANDING RULES (Claude Code, claude-sonnet-4-6)
 
 - Agent: Claude Code (claude-sonnet-4-6)
 - Scope: coordination policy update — venue pivot to IPCCC, 5D in scope, HW team re-oriented
@@ -133,6 +149,7 @@ Use this file to coordinate multiple coding agents working in the same repo.
   - `paper/main.tex` (gitignored — local only)
   - `paper/refs.bib` (gitignored — local only)
 - Checkpoint: commit `ff680da` — CLAIM RELEASED
+
 
 ### Human Collaborator Ownership
 
