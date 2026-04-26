@@ -1,8 +1,17 @@
-# hngac-fpga
+# hngac-fpga H-NGAC IPCCC 2026
+
+**PI:** Hassan Karim, Stable Cyber LLC
+**Venue:** IEEE IPCCC 2026 (deadlines TBD — est. abstract June, final July 2026)
+**Repo:** `https://github.com/coderhard/hngac-fpga`
 
 5D provenance-aware H-NGAC authorization primitive targeting FPGA via Vitis HLS.
 
-This is the IEEE IPCCC 2026 working repo. The core claim: security dimensionality scales at zero hardware cost — the 3D, 4D, and 5D bitmask variants resolve in the same LUT stage count on UltraScale+, blocking three distinct attack classes with a single hardware primitive. The repo implements the kernel, measures it locally against six software baselines, and provides the synthesis flow for hardware evaluation.
+This is the IEEE IPCCC 2026 working repo. The core claim is that security
+dimensionality should scale at zero hardware cost: the 3D, 4D, and 5D bitmask
+variants are expected to resolve in the same LUT stage count on UltraScale+,
+blocking three distinct attack classes with a single hardware primitive. The repo
+implements the kernel, measures it locally against software baselines, and
+provides the synthesis flow needed to confirm the hardware claim.
 
 ---
 
@@ -16,15 +25,15 @@ cmake --build /tmp/hngac-fpga-build
 # Run the 45-case kernel testbench
 ctest --test-dir /tmp/hngac-fpga-build --output-on-failure
 
-# Run the seven-model comparison benchmark (canonical: 200k iterations, 1k warmup)
+# Run the local comparison benchmark (canonical: 200k iterations, 1k warmup)
 /tmp/hngac-fpga-build/hngac_compare_benchmark 200000 100000
 ```
 
 ---
 
-## Seven-model local comparison
+## Local Comparison Benchmark
 
-The unified benchmark (`fpga/hls/bench/hngac_compare_benchmark.cpp`) measures seven authorization models on the same mixed request set (half state-satisfying, half state-failing):
+The unified benchmark (`fpga/hls/bench/hngac_compare_benchmark.cpp`) measures seven always-on paths, plus an eighth SQLite path when SQLite is available at configure time. All paths run on the same 5D-aware request corpus.
 
 | Model | Implementation | Correct? |
 |---|---|---|
@@ -33,10 +42,11 @@ The unified benchmark (`fpga/hls/bench/hngac_compare_benchmark.cpp`) measures se
 | H-NGAC 3D bitmask | `Bitmask256` fixed-array scan | No — over-authorizes |
 | **H-NGAC 4D state-aware** | 3D + `StateMask` containment check | **Yes** |
 | **H-NGAC 5D provenance-aware** | 4D + provenance bitmask check | **Yes** |
-| RBAC + SQLite state | role table + in-process SQLite lookup | Yes — empirical |
+| Flattened 5D direct lookup | materialized allow-set hash table | Yes — reviewer-fair lookup baseline |
 | RBAC + modeled state | role table + busy-wait delay | Yes — **NOT empirical** |
+| RBAC + SQLite state | role table + in-process SQLite lookup | Yes — empirical, optional |
 
-Canonical run: `hngac_compare_benchmark 200000 100000` (200k iterations, 1k warmup).
+Canonical run: `hngac_compare_benchmark 200000 100000` (200k iterations, 1k warmup). The second argument is the modeled RBAC external-state lookup delay in nanoseconds and only affects `RBAC + modeled state`.
 
 Run a sweep across RBAC lookup delays and get CSV output:
 
@@ -44,7 +54,7 @@ Run a sweep across RBAC lookup delays and get CSV output:
 ./fpga/hls/scripts/run_local_compare_sweep.sh 20000 /tmp/hngac-fpga-sweep 1000 10000 100000
 ```
 
-The sweep script emits `sweep_summary.csv` — one row per delay value, all models.
+The sweep script emits `sweep_summary.csv` — one row per delay value, all parsed benchmark paths.
 
 ---
 
@@ -72,10 +82,10 @@ Reports land in `$HNGAC_HLS_WORKDIR/hngac_authorize/sol1/syn/report/`.
 | `fpga/hls/src/` | HLS kernel — `hngac_authorize()` with INTERFACE and PIPELINE pragmas |
 | `fpga/hls/include/` | `Bitmask256`, `StateMask`, `PolicyRule`, `AuthorizationRequest` types |
 | `fpga/hls/tb/` | 45-case CTest testbench (3D/4D/5D correctness) |
-| `fpga/hls/bench/` | Five-model comparison benchmark |
+| `fpga/hls/bench/` | Local comparison benchmark with H-NGAC, graph, RBAC, SQLite, and flattened lookup paths |
 | `fpga/hls/scripts/` | Vitis HLS TCL, local benchmark runners, sweep script |
 | `docs/` | Decision log, implementation plan, benchmark gap analysis, status log, coordination board |
-| `benchmarks/` | Legacy DCAS 3D bitmask microbenchmarks (preserved, not the canonical SOCC harness) |
+| `benchmarks/` | Legacy DCAS 3D bitmask microbenchmarks (preserved, not the canonical IPCCC harness) |
 | `ros2_ws/`, `analysis/`, `data/` | Preserved DCAS software baseline artifacts |
 
 ---
@@ -94,24 +104,29 @@ Reports land in `$HNGAC_HLS_WORKDIR/hngac_authorize/sol1/syn/report/`.
 
 ---
 
-## 4D matching semantics
+## 5D Matching Semantics
 
-A rule permits a request when all four conditions hold:
+A rule permits a request when all five conditions hold:
 
 1. Subject bit set in rule's subject bitmask
 2. Object bit set in rule's object bitmask
 3. All requested attribute bits present in rule's attribute bitmask
 4. All required state bits present in request's object-state mask
+5. Required provenance is either a wildcard or matches the request's source provenance
 
 Named state bits: `battery_low` · `maintenance_mode` · `safety_interlock` · `calibration_required`
 
+Named provenance bits: `authenticated_ros2_node` · `local_terminal` · `remote_operator`
+
 A rule with `required_states = 0` is a state wildcard (always passes condition 4).
+
+A rule with `required_provenance = 0` is a provenance wildcard. Otherwise, provenance passes when at least one required provenance bit is present in the request's `source_provenance` mask.
 
 ---
 
 ## DCAS baseline context
 
-The imported software baseline (`benchmarks/`, `ros2_ws/`, `data/`) is from the original IEEE DCAS 2026 submission. It is preserved for reference. The files in `benchmarks/` use an older `std::bitset<128>` implementation — they are not the canonical SOCC harness. See `benchmarks/README.md` for details.
+The imported software baseline (`benchmarks/`, `ros2_ws/`, `data/`) is from the original IEEE DCAS 2026 submission. It is preserved for reference. The files in `benchmarks/` use an older `std::bitset<128>` implementation — they are not the canonical IPCCC harness. See `benchmarks/README.md` for details.
 
 Representative prior results from the DCAS ROS2 gatekeeper:
 

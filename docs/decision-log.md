@@ -1,5 +1,62 @@
 # Decision Log
 
+## 2026-04-26
+
+### Decision
+
+Hardware-dependent claims must remain placeholders until Badawy/HW-team synthesis
+or hardware reports are available.
+
+### Reason
+
+The repo currently has local C++ validation and software benchmark evidence, but
+does not yet have Vitis HLS synthesis reports, co-simulation logs, LUT/timing
+tables, or deployed hardware measurements. Stating zero LUT-stage overhead,
+fabric latency, or hardware correctness as completed evidence would overclaim
+the current project state.
+
+### Alternatives considered
+
+- Keep aspirational hardware claims in final-result language (rejected because
+  the evidence is pending)
+- Remove hardware framing entirely (rejected because it remains the core IPCCC
+  contribution once synthesis evidence arrives)
+
+### Impact on code/tests/paper
+
+- README, paper draft, and canonical docs should frame zero-cost dimensionality
+  as the hardware claim to be confirmed by synthesis.
+- Local benchmark and attack-demo results remain usable as software evidence.
+- HLS result tables stay as placeholders until HW-team data arrives.
+
+## 2026-04-26
+
+### Decision
+
+The reviewer-fair flattened 5D direct lookup baseline is part of the local
+software comparison story.
+
+### Reason
+
+A fully materialized 5D allow-set answers the strongest reviewer objection:
+whether H-NGAC is only faster than graph/state baselines because it avoids a
+direct decision lookup formulation. The comparison must include lookup latency,
+memory footprint, and build/reload cost because the flattened representation
+trades compact policy representation for precomputed decisions.
+
+### Alternatives considered
+
+- Compare only against RBAC, NGAC-DAG, and SQLite (incomplete for reviewer fairness)
+- Treat flattened lookup as implementation detail only (rejected because it is a
+  meaningful baseline)
+
+### Impact on code/tests/paper
+
+- Benchmark docs and sweep scripts must parse/report `Flattened 5D direct lookup`.
+- A fresh canonical run is needed before paper tables include flattened 5D numbers.
+- Scaling experiments should report policy size, memory, build/reload cost, and
+  latency distribution.
+
 ## 2026-04-20
 
 ### Decision

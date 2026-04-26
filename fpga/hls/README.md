@@ -4,14 +4,15 @@ This directory is the active FPGA/HLS starting point for `hngac-fpga`.
 
 The imported DCAS repository gives us the software benchmark, ROS2 harness, and prior analysis. This directory strips that down to the core authorization primitive in a form that is easier to drive through Vitis HLS.
 
-The current implementation target is the 4D kernel:
+The current implementation target is the 5D kernel:
 
 - subject
 - object
 - attribute
 - state
+- provenance
 
-The interface also reserves a provenance field so a later 5D variant can be added without reshaping the top-level request and policy types.
+The 4D behavior remains available by using policies with `required_provenance = 0`, which acts as a provenance wildcard.
 
 ## What Is Here
 
@@ -19,7 +20,7 @@ The interface also reserves a provenance field so a later 5D variant can be adde
 - `include/hngac_kernel.hpp`: top-level HLS candidate declaration
 - `src/hngac_kernel.cpp`: HLS-oriented authorization function
 - `tb/hngac_kernel_tb.cpp`: local C++ testbench for logic validation
-- `bench/hngac_compare_benchmark.cpp`: local 3D vs 4D vs RBAC+lookup comparison harness
+- `bench/hngac_compare_benchmark.cpp`: local comparison harness for static, 4D, 5D, flattened lookup, RBAC, and optional SQLite paths
 - `scripts/run_local_compare.sh`: local benchmark build-and-run wrapper
 - `scripts/vitis_hls.tcl`: starter Vitis HLS script with environment-driven target settings
 
@@ -41,6 +42,12 @@ The first four named state bits are:
 - `safety_interlock`
 - `calibration_required`
 
+The named provenance bits are:
+
+- `authenticated_ros2_node`
+- `local_terminal`
+- `remote_operator`
+
 ## Local Test
 
 From the repo root:
@@ -57,14 +64,15 @@ The benchmark arguments are:
 - first argument: iteration count
 - second argument: modeled RBAC external-state lookup delay in nanoseconds
 
-The RBAC comparison is intentionally modeled as a separate authorization step plus a configurable external state fetch delay so the overhead assumptions stay explicit.
+The modeled RBAC comparison is intentionally represented as a separate authorization step plus a configurable external state fetch delay so the overhead assumptions stay explicit. When SQLite3 is available at configure time, the benchmark also includes an empirical in-process SQLite state lookup path.
 
-The current benchmark request set is intentionally mixed:
+The current benchmark request set is generated from the policy rules:
 
-- four requests satisfy the state constraints and should be allowed by 4D H-NGAC
-- four requests match subject/object/attribute but fail the state constraints
+- one request per rule satisfies both state and provenance and should be allowed by 5D H-NGAC
+- state-failing requests are added for rules with required state
+- provenance-failing requests are added for rules with required provenance
 
-This means the 3D baseline will tend to over-authorize relative to the 4D and RBAC+lookup paths, which is part of the point of the comparison.
+This means the static baselines over-authorize relative to the 4D and 5D paths. The 4D and RBAC+state paths enforce runtime state; the 5D and flattened lookup paths enforce both state and provenance.
 
 For a repeatable local run with a saved log:
 

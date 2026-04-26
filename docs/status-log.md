@@ -1,5 +1,23 @@
 # Status Log
 
+## 2026-04-26 15:39 CDT
+
+- Agent: Codex (GPT-5.5)
+- Status: non-HW alignment cleanup in progress
+- Scope completed:
+  - ignored local DOCX generation helper/output: `docs/generate_simple_docx.py` and `docs/hngac-fpga-project-overview.docx`
+  - marked stale April 20 active coordination claim as released while preserving the HW-team kernel lock
+  - updated README, AGENTS/CLAUDE guidance, HLS README, benchmark gap analysis, canonical context, and project overview from stale 4D/SOCC wording to current 5D/IPCCC wording
+  - reframed hardware-dependent paper claims as pending placeholders until synthesis/co-simulation/hardware evidence arrives
+  - updated the local sweep script to parse current `SUMMARY|` and `COMPARE|` benchmark output, including the flattened 5D direct lookup baseline
+- Validation:
+  - `cmake -S fpga/hls -B /tmp/hngac-fpga-build`
+  - `cmake --build /tmp/hngac-fpga-build`
+  - `ctest --test-dir /tmp/hngac-fpga-build --output-on-failure`
+  - `/tmp/hngac-fpga-build/hngac_compare_benchmark 2000 1000`
+  - `./fpga/hls/scripts/run_local_compare_sweep.sh 200 /tmp/hngac-fpga-sweep-smoke 1000`
+  - `git diff --check`
+
 ## 2026-04-13 07:38 CDT
 
 - Agent: Codex (GPT-5.4)

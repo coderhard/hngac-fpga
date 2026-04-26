@@ -25,53 +25,59 @@ CSV_FILE="${OUTPUT_DIR}/sweep_summary.csv"
   echo
 } | tee "${SUMMARY_FILE}"
 
-echo "lookup_delay_ns,rbac_hash_mean_ns,ngac_dag_mean_ns,baseline3d_mean_ns,state4d_mean_ns,rbac_lookup_mean_ns,rbac_sqlite_mean_ns,rbac_hash_allowed,ngac_dag_allowed,baseline3d_allowed,state4d_allowed,rbac_lookup_allowed,rbac_sqlite_allowed,overhead_pct,hashmap_gap_pct,dag_slowdown_x,rbac_slowdown_x,rbac_sqlite_slowdown_x" > "${CSV_FILE}"
+echo "lookup_delay_ns,rbac_hash_mean_ns,ngac_dag_mean_ns,hngac3d_mean_ns,hngac4d_mean_ns,hngac5d_mean_ns,flattened5d_mean_ns,rbac_lookup_mean_ns,rbac_sqlite_mean_ns,rbac_hash_allowed,ngac_dag_allowed,hngac3d_allowed,hngac4d_allowed,hngac5d_allowed,flattened5d_allowed,rbac_lookup_allowed,rbac_sqlite_allowed,overhead_4d_vs_3d_pct,overhead_5d_vs_4d_pct,hngac5d_vs_flattened5d_mean_overhead_pct,hngac5d_vs_flattened5d_p99_ratio_x,flattened5d_memory_vs_hngac5d_x,flattened5d_reload_vs_hngac5d_x,ngacdag_vs_hngac5d_mean_slowdown_x,rbaclookup_vs_hngac5d_mean_slowdown_x,rbacsqlite_vs_hngac5d_mean_slowdown_x" > "${CSV_FILE}"
+
+summary_field() {
+  local output="$1"
+  local label="$2"
+  local field="$3"
+  awk -F'|' -v label="${label}" -v field="${field}" \
+    '$1 == "SUMMARY" && $2 == label {print $field; found=1} END {if (!found) print ""}' \
+    <<< "${output}"
+}
+
+compare_field() {
+  local output="$1"
+  local key="$2"
+  awk -F'|' -v key="${key}" \
+    '$1 == "COMPARE" && $2 == key {print $3; found=1} END {if (!found) print ""}' \
+    <<< "${output}"
+}
 
 for delay in "${LOOKUP_DELAYS[@]}"; do
   echo "=== lookup_delay_ns=${delay} ===" | tee -a "${SUMMARY_FILE}"
   RUN_OUTPUT="$(bash "${SCRIPT_DIR}/run_local_compare.sh" "${ITERATIONS}" "${delay}" "${OUTPUT_DIR}/delay_${delay}")"
   echo "${RUN_OUTPUT}" | tee -a "${SUMMARY_FILE}"
 
-  rbac_hash_line="$(echo "${RUN_OUTPUT}" | grep '^RBAC hash map:')"
-  dag_line="$(echo "${RUN_OUTPUT}" | grep '^NGAC-DAG traversal:')"
-  baseline_line="$(echo "${RUN_OUTPUT}" | grep '^3D baseline:')"
-  state4d_line="$(echo "${RUN_OUTPUT}" | grep '^4D state-aware:')"
-  rbac_line="$(echo "${RUN_OUTPUT}" | grep '^RBAC + state lookup:')"
-  sqlite_line="$(echo "${RUN_OUTPUT}" | grep '^RBAC + SQLite state lookup:')"
-  overhead_line="$(echo "${RUN_OUTPUT}" | grep '^4D vs 3D mean overhead:')"
-  hashmap_gap_line="$(echo "${RUN_OUTPUT}" | grep '^4D vs RBAC hash-map mean overhead:')"
-  dag_slowdown_line="$(echo "${RUN_OUTPUT}" | grep '^NGAC-DAG vs 4D mean slowdown:')"
-  slowdown_line="$(echo "${RUN_OUTPUT}" | grep '^RBAC+lookup vs 4D mean slowdown:')"
-  sqlite_slowdown_line="$(echo "${RUN_OUTPUT}" | grep '^RBAC+SQLite vs 4D mean slowdown:')"
+  rbac_hash_mean="$(summary_field "${RUN_OUTPUT}" "RBAC hash map" 3)"
+  dag_mean="$(summary_field "${RUN_OUTPUT}" "NGAC-DAG traversal" 3)"
+  hngac3d_mean="$(summary_field "${RUN_OUTPUT}" "H-NGAC 3D" 3)"
+  hngac4d_mean="$(summary_field "${RUN_OUTPUT}" "H-NGAC 4D" 3)"
+  hngac5d_mean="$(summary_field "${RUN_OUTPUT}" "H-NGAC 5D" 3)"
+  flattened5d_mean="$(summary_field "${RUN_OUTPUT}" "Flattened 5D direct lookup" 3)"
+  rbac_mean="$(summary_field "${RUN_OUTPUT}" "RBAC + state lookup" 3)"
+  sqlite_mean="$(summary_field "${RUN_OUTPUT}" "RBAC + SQLite state lookup" 3)"
 
-  rbac_hash_mean="$(echo "${rbac_hash_line}" | sed -E 's/.*mean=([^ ]+) ns.*/\1/')"
-  dag_mean="$(echo "${dag_line}" | sed -E 's/.*mean=([^ ]+) ns.*/\1/')"
-  baseline3d_mean="$(echo "${RUN_OUTPUT}" | awk -F'mean=| ns p99=' '/^3D baseline:/ {print $2}')"
-  state4d_mean="$(echo "${RUN_OUTPUT}" | awk -F'mean=| ns p99=' '/^4D state-aware:/ {print $2}')"
-  rbac_mean="$(echo "${rbac_line}" | sed -E 's/.*mean=([^ ]+) ns.*/\1/')"
-  sqlite_mean=""
-  if echo "${sqlite_line}" | grep -q "mean="; then
-    sqlite_mean="$(echo "${sqlite_line}" | sed -E 's/.*mean=([^ ]+) ns.*/\1/')"
-  fi
-  rbac_hash_allowed="$(echo "${rbac_hash_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
-  dag_allowed="$(echo "${dag_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
-  baseline3d_allowed="$(echo "${baseline_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
-  state4d_allowed="$(echo "${state4d_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
-  rbac_allowed="$(echo "${rbac_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
-  sqlite_allowed=""
-  if echo "${sqlite_line}" | grep -q "allowed="; then
-    sqlite_allowed="$(echo "${sqlite_line}" | sed -E 's/.*allowed=([^ ]+).*/\1/')"
-  fi
-  overhead_pct="$(echo "${overhead_line}" | sed -E 's/.*: ([^%]+)%.*/\1/')"
-  hashmap_gap_pct="$(echo "${hashmap_gap_line}" | sed -E 's/.*: ([^%]+)%.*/\1/')"
-  dag_slowdown="$(echo "${dag_slowdown_line}" | sed -E 's/.*: ([^x]+)x.*/\1/')"
-  rbac_slowdown="$(echo "${slowdown_line}" | sed -E 's/.*: ([^x]+)x.*/\1/')"
-  sqlite_slowdown=""
-  if [ -n "${sqlite_slowdown_line}" ]; then
-    sqlite_slowdown="$(echo "${sqlite_slowdown_line}" | sed -E 's/.*: ([^x]+)x.*/\1/')"
-  fi
+  rbac_hash_allowed="$(summary_field "${RUN_OUTPUT}" "RBAC hash map" 8)"
+  dag_allowed="$(summary_field "${RUN_OUTPUT}" "NGAC-DAG traversal" 8)"
+  hngac3d_allowed="$(summary_field "${RUN_OUTPUT}" "H-NGAC 3D" 8)"
+  hngac4d_allowed="$(summary_field "${RUN_OUTPUT}" "H-NGAC 4D" 8)"
+  hngac5d_allowed="$(summary_field "${RUN_OUTPUT}" "H-NGAC 5D" 8)"
+  flattened5d_allowed="$(summary_field "${RUN_OUTPUT}" "Flattened 5D direct lookup" 8)"
+  rbac_allowed="$(summary_field "${RUN_OUTPUT}" "RBAC + state lookup" 8)"
+  sqlite_allowed="$(summary_field "${RUN_OUTPUT}" "RBAC + SQLite state lookup" 8)"
 
-  echo "${delay},${rbac_hash_mean},${dag_mean},${baseline3d_mean},${state4d_mean},${rbac_mean},${sqlite_mean},${rbac_hash_allowed},${dag_allowed},${baseline3d_allowed},${state4d_allowed},${rbac_allowed},${sqlite_allowed},${overhead_pct},${hashmap_gap_pct},${dag_slowdown},${rbac_slowdown},${sqlite_slowdown}" >> "${CSV_FILE}"
+  overhead_4d_vs_3d="$(compare_field "${RUN_OUTPUT}" "4D_vs_3D_mean_overhead_pct")"
+  overhead_5d_vs_4d="$(compare_field "${RUN_OUTPUT}" "5D_vs_4D_mean_overhead_pct")"
+  hngac5d_vs_flattened="$(compare_field "${RUN_OUTPUT}" "HNGAC5D_vs_flattened5D_mean_overhead_pct")"
+  hngac5d_vs_flattened_p99="$(compare_field "${RUN_OUTPUT}" "HNGAC5D_vs_flattened5D_p99_ratio_x")"
+  flattened_memory="$(compare_field "${RUN_OUTPUT}" "flattened5D_memory_vs_HNGAC5D_x")"
+  flattened_reload="$(compare_field "${RUN_OUTPUT}" "flattened5D_reload_vs_HNGAC5D_x")"
+  dag_slowdown="$(compare_field "${RUN_OUTPUT}" "NGACDAG_vs_HNGAC5D_mean_slowdown_x")"
+  rbac_slowdown="$(compare_field "${RUN_OUTPUT}" "RBAClookup_vs_HNGAC5D_mean_slowdown_x")"
+  sqlite_slowdown="$(compare_field "${RUN_OUTPUT}" "RBACSQLite_vs_HNGAC5D_mean_slowdown_x")"
+
+  echo "${delay},${rbac_hash_mean},${dag_mean},${hngac3d_mean},${hngac4d_mean},${hngac5d_mean},${flattened5d_mean},${rbac_mean},${sqlite_mean},${rbac_hash_allowed},${dag_allowed},${hngac3d_allowed},${hngac4d_allowed},${hngac5d_allowed},${flattened5d_allowed},${rbac_allowed},${sqlite_allowed},${overhead_4d_vs_3d},${overhead_5d_vs_4d},${hngac5d_vs_flattened},${hngac5d_vs_flattened_p99},${flattened_memory},${flattened_reload},${dag_slowdown},${rbac_slowdown},${sqlite_slowdown}" >> "${CSV_FILE}"
   echo | tee -a "${SUMMARY_FILE}"
 done
 

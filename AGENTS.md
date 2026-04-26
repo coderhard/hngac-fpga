@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 This file provides repository-local guidance for implementation sessions working in `hngac-fpga`.
 
@@ -12,7 +12,7 @@ The active paper contribution is not just “NGAC on FPGA.” The main claim is 
 
 Treat these as tracked project-state files:
 
-- `CLAUDE.md`
+- `AGENTS.md`
 - `docs/status-log.md`
 - `docs/decision-log.md`
 - `docs/coordination-board.md`
@@ -141,20 +141,20 @@ Current kernel synthesis status:
 
 ## Working Rules
 
-- Keep `CLAUDE.md`, `docs/status-log.md`, and `docs/decision-log.md` updated when repo state materially changes.
+- Keep `AGENTS.md`, `docs/status-log.md`, and `docs/decision-log.md` updated when repo state materially changes.
 - Add benchmark-method changes to `docs/benchmark-gap-analysis.md` and measured local results to `docs/local-benchmark-notes.md`.
 - Save checkpoints as git commits on meaningful boundaries. Push to `origin/main` is authorized.
 - Do not describe a result as FPGA hardware data unless it came from Vitis/AWS hardware execution. Local harness numbers are software measurements only.
 
 ## Autonomous Permissions
 
-For `~/projects/hngac-fpga`, Claude Code may perform all of the following without asking for confirmation:
+For `~/projects/hngac-fpga`, Codex may perform all of the following without asking for confirmation:
 
 - Edit and create files within the repo tree
 - Run the local test suite: `ctest --test-dir /tmp/hngac-fpga-build --output-on-failure`
 - Run the local benchmark harness and sweep scripts
 - Commit checkpoints with descriptive messages
-- Update any source-of-truth doc (`CLAUDE.md`, `docs/status-log.md`, `docs/decision-log.md`, `docs/benchmark-gap-analysis.md`, `docs/local-benchmark-notes.md`, `docs/coordination-board.md`)
+- Update any source-of-truth doc (`AGENTS.md`, `docs/status-log.md`, `docs/decision-log.md`, `docs/benchmark-gap-analysis.md`, `docs/local-benchmark-notes.md`, `docs/coordination-board.md`)
 - Push commits to `origin/main`
 
 Ask before: force-pushing or rebasing shared history, running Vitis HLS synthesis (expensive), any AWS operation, deleting files not created in the current session.

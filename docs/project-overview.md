@@ -15,11 +15,12 @@ type: project
 
 ## Core Claim
 
-A hardware-synthesized H-NGAC bitmask authorization primitive delivers deterministic,
-hardware-bounded WCET that software cannot guarantee regardless of optimization level.
-Security dimensionality scales at zero hardware cost: the 3D, 4D, and 5D variants resolve
-in the same LUT stage count on UltraScale+, blocking three distinct attack classes with
-a single hardware primitive.
+An FPGA-targeted H-NGAC bitmask authorization primitive is intended to deliver
+deterministic, hardware-bounded WCET that software cannot guarantee regardless of
+optimization level. The central hardware claim is that security dimensionality scales
+at zero hardware cost: the 3D, 4D, and 5D variants should resolve in the same LUT
+stage count on UltraScale+. This remains pending until HW-team synthesis reports
+confirm or correct it.
 
 ---
 
@@ -29,12 +30,12 @@ a single hardware primitive.
 |---|---|---|
 | HLS kernel (3D/4D/5D) | **Done** | `fpga/hls/src/hngac_kernel.cpp` |
 | Testbench | **Done** | 45 tests, 0 failed — `fpga/hls/tb/` |
-| 7-model benchmark harness | **Done** | `fpga/hls/bench/` |
+| Local benchmark harness | **Done** | seven always-on paths plus optional SQLite; flattened 5D baseline added locally |
 | April 18 canonical benchmark run | **Done** | 200k iterations, 1k warmup — see below |
 | Attack Class 2 ROS2 demo | **Done** | 18,878 injections blocked, 100%, 0 FP |
 | Attack Class 1 timing data | **Done** | 0 slips under WSL2 load |
 | Paper skeleton | **~70% written** | All sections drafted; hardware tables have placeholders |
-| HLS synthesis reports (4D + 5D) | **Pending** | Badawy lab — see hw-team-update doc |
+| HLS synthesis reports (4D + 5D) | **Pending** | Badawy/HW-team handoff — leave hardware placeholders until reports arrive |
 | Hardware latency measurement | **Optional** | Badawy board or AWS F2; sim-only is acceptable |
 
 ---
@@ -42,7 +43,9 @@ a single hardware primitive.
 ## Canonical Benchmark Numbers (April 18, 2026)
 
 Platform: WSL2 x86-64, GCC -O3, 200k iterations, 1k warmup per model.  
-Request mix: 4 state-satisfying + 4 state-failing, cycled evenly.
+Request mix: generated 5D-aware corpus. The April 18 canonical run predates the
+flattened 5D direct-lookup baseline; run a fresh canonical benchmark before using
+flattened-baseline numbers in the paper.
 
 | Model | Mean (ns) | P99 (ns) | Correctness |
 |---|---|---|---|
@@ -53,10 +56,11 @@ Request mix: 4 state-satisfying + 4 state-failing, cycled evenly.
 | H-NGAC 5D | 21.28 | 31 | **Correct** |
 | RBAC + SQLite state | 376.83 | 674 | Correct — empirical in-process SQLite |
 | RBAC + modeled state | 103,485 | — | Correct — **NOT empirical** (modeled delay) |
+| Flattened 5D direct lookup | pending fresh run | pending fresh run | Correct — materialized allow-set baseline |
 
 Key derived comparisons:
 - 4D vs 3D overhead: +5.0% (within noise — sign fluctuates across runs)
-- 5D vs 4D overhead: +16.5% (software path; hardware LUT overhead: zero)
+- 5D vs 4D overhead: +16.5% (software path; hardware LUT overhead pending synthesis)
 - NGAC-DAG vs 4D slowdown: 12.3×
 - RBAC + SQLite vs 4D slowdown: 20.6×
 
@@ -94,7 +98,7 @@ Authorization callback P99 stayed well below the 50 µs DDS threshold in both co
 | `fpga/hls/src/hngac_kernel.cpp` | HLS kernel — `hngac_authorize()` with INTERFACE + PIPELINE pragmas |
 | `fpga/hls/include/` | `Bitmask256`, `StateMask`, `PolicyRule`, `AuthorizationRequest` types |
 | `fpga/hls/tb/hngac_kernel_tb.cpp` | 45-test correctness testbench |
-| `fpga/hls/bench/hngac_compare_benchmark.cpp` | 7-model comparison benchmark |
+| `fpga/hls/bench/hngac_compare_benchmark.cpp` | local comparison benchmark with H-NGAC, graph, RBAC, SQLite, and flattened lookup paths |
 | `fpga/hls/scripts/vitis_hls.tcl` | Vitis HLS synthesis script (env-var configured) |
 | `fpga/hls/scripts/run_local_compare.sh` | Single benchmark run helper |
 | `paper/main.tex` | Paper draft (gitignored) |
@@ -116,7 +120,7 @@ cmake --build /tmp/hngac-build
 ctest --test-dir /tmp/hngac-build --output-on-failure
 # Expected: 45 passed, 0 failed
 
-# Run the 7-model benchmark
+# Run the local comparison benchmark
 /tmp/hngac-build/hngac_compare_benchmark 200000 100000
 
 # Run HLS synthesis (requires Vitis HLS + target part)
@@ -150,5 +154,6 @@ vitis_hls -f fpga/hls/scripts/vitis_hls.tcl
   out of the latency comparison table; cite as complementary prior work.
 - ICCCN 2026 (TS-NGAC, 0.065 µs) is a different paper — cite as complementary, do not
   reproduce its contribution as this paper's own.
-- The KEY FINDING must lead Section IV and the conclusion: zero-cost security
-  dimensionality. Three attack classes for the resource cost of one.
+- The KEY FINDING must lead Section IV and the conclusion as a hardware claim pending
+  synthesis: zero-cost security dimensionality. Three attack classes for the resource
+  cost of one if 4D/5D reports confirm the same LUT-stage count.

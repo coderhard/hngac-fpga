@@ -44,13 +44,16 @@ to that resource — application layer, not transport layer.
 Provenance bits: Bit 0=authenticated_ros2_node, Bit 1=local_terminal,
 Bit 2=remote_operator, Bits 3+=reserved
 CVE anchor: CVE-2021-38425 (eProsima Fast DDS RTPS injection)
-**Hardware overhead: zero additional LUT stages on UltraScale+.**
-5-input AND tree resolves in same stage count as 3-input.
+**Hardware overhead: pending synthesis confirmation.**
+The working claim is that a 5-input AND tree resolves in the same LUT stage count
+as a 3-input tree on UltraScale+, but this must remain a placeholder until the
+4D and 5D HLS reports confirm or correct it.
 
 ### KEY FINDING (must be central to the paper)
-Security dimensionality scales at zero hardware cost.
-Three attack classes blocked for the resource cost of one.
-This property does NOT hold in software.
+Security dimensionality is expected to scale at zero hardware cost.
+Three attack classes should be blocked for the resource cost of one if synthesis
+confirms equal LUT-stage count across 3D/4D/5D. This property does NOT hold in
+software and must not be stated as measured hardware fact until HLS reports exist.
 
 ---
 
@@ -124,7 +127,7 @@ Command: `hngac_compare_benchmark 200000 100000`
 | RBAC + modeled state | 103,485 ns | — | 100k/200k | NOT empirical |
 
 4D vs 3D: +5.0% (noise — same conclusion as smoke run; sign fluctuates)
-5D vs 4D: +16.5% (software path only; hardware overhead is zero LUT stages)
+5D vs 4D: +16.5% (software path only; hardware overhead pending synthesis)
 NGAC-DAG vs 4D: 12.3×
 RBAC+SQLite vs 4D: 20.6×
 
@@ -158,5 +161,6 @@ Not contradictions — different measurement contexts.
 - BigData 2025 (0.12 s) is a batch sweep result. Do not put it in the latency table.
 - ICCCN 2026 (TS-NGAC, 0.065 µs) is a different paper. Do not reproduce its
   contribution as IPCCC's own. Cite it as complementary prior work.
-- The KEY FINDING must lead Section IV and the conclusion: zero-cost security
-  dimensionality. Three attack classes for the resource cost of one.
+- The KEY FINDING must lead Section IV and the conclusion as a pending hardware
+  claim: zero-cost security dimensionality, or three attack classes for the resource
+  cost of one if 4D/5D synthesis confirms equal LUT-stage count.

@@ -12,7 +12,11 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 ## Active Claims
 
-### 2026-04-20 17:22 CDT — IN PROGRESS
+No active agent claims.
+
+## Released Claims
+
+### 2026-04-20 17:22 CDT — STALE/RELEASED 2026-04-26 15:39 CDT
 
 - Agent: Codex (GPT-5.4)
 - Scope: reviewer-fair in-memory 5D hash baseline + benchmark/doc alignment
@@ -28,6 +32,10 @@ Use this file to coordinate multiple coding agents working in the same repo.
   - add a flattened in-memory 5D decision baseline alongside the current hash, DAG, SQLite, and H-NGAC paths
   - widen reported metrics to cover tail latency, jitter, memory/build/update cost, and scaling notes needed for reviewer-facing fairness
   - align stale 4D/SOCC-era benchmark docs to the current 5D/IPCCC scope
+- Release note:
+  - no other agent is currently running on this repo/project
+  - current Codex session is taking over cleanup and non-HW doc alignment
+  - HW-dependent evidence placeholders remain pending the Badawy/HW-team synthesis handoff
 
 ### 2026-04-20 09:55 CDT — COMPLETED
 
@@ -151,8 +159,9 @@ Use this file to coordinate multiple coding agents working in the same repo.
 ## Outstanding Unclaimed Work
 
 - `fpga/hls/scripts/vitis_hls.tcl`: DONE — commit `6d6b1bd`
-- `benchmarks/`: legacy reconciliation — claimed above (Claude Code)
-- `README.md`: update for 4D scope and five-model harness — claimed above (Claude Code)
+- `benchmarks/`: legacy reconciliation — completed previously; preserved as DCAS baseline context
+- `README.md`: 5D/IPCCC alignment in progress in current Codex cleanup
+- HLS synthesis/co-simulation reports: pending Badawy/HW-team handoff; keep hardware result placeholders until reports arrive
 - optional OPA baseline (out-of-process, separate latency scale)
 
 ### 2026-04-20 17:00 CDT — COMPLETED (Claude Code, claude-sonnet-4-6)
