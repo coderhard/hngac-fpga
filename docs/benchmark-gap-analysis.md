@@ -126,9 +126,18 @@ OPA is still a stretch goal. It should not be placed on the same ns-scale chart 
 
 ## What to build next (priority order)
 
-1. **Run a fresh canonical local benchmark after the flattened 5D baseline settles** — 200k or 1M iterations, 1k warmup, save raw logs.
-2. **Run a policy-size scaling sweep** — characterize H-NGAC 5D versus flattened 5D memory, build/reload cost, and latency.
-3. **Capture a lookup-delay sweep table/figure from `run_local_compare_sweep.sh`** — use modeled RBAC only as sensitivity analysis.
-4. **Report SQLite separately from modeled RBAC** — SQLite is empirical in-process; modeled lookup is not empirical.
-5. **Run first Vitis HLS synthesis and capture reports** — pending HW-team deliverable; leave paper placeholders until reports exist.
-6. **OPA** — only if time remains and only as a separate-scale baseline.
+1. **[DONE 2026-04-28]** Run canonical 8-model benchmark with flattened 5D baseline — 200k iterations, results in `data/benchmarks/benchmark_20260428_055248.log`.
+2. **[DONE 2026-04-28]** Memory scaling calculations for 10/50/100/500 subject-object pairs — documented in `docs/local-benchmark-notes.md`. Memory figures are exact; latency requires runs.
+3. **[NEXT] Run policy-size scaling latency sweep** — 200k iterations at rule_count = 10, 50, 100, 500. Binary already accepts `argv[3]` for rule_count. Save one log + meta per size. This populates the paper's scaling table (`paper/main.tex:601`) and resolves the `\todo{N}` fleet placeholder at line 515 (use 50 AGVs). Memory figures are already calculated; these runs add empirical latency and the cache-miss effect at 50+ rules.
+
+   ```bash
+   for N in 10 50 100 500; do
+     /tmp/hngac-fpga-build/hngac_compare_benchmark 200000 100000 $N \
+       | tee data/benchmarks/benchmark_scaling_${N}rules_$(date +%Y%m%d_%H%M%S).log
+   done
+   ```
+
+4. **Capture lookup-delay sweep table from `run_local_compare_sweep.sh`** — modeled RBAC sensitivity analysis only; label clearly as modeled, not empirical.
+5. **Report SQLite separately from modeled RBAC** — SQLite is empirical in-process; modeled lookup is sensitivity analysis.
+6. **Vitis HLS synthesis reports** — pending HW-team (Badawy lab); leave paper placeholders until reports arrive.
+7. **OPA** — stretch goal only; separate latency scale from in-process baselines.

@@ -1,0 +1,44 @@
+Iterations: 200000
+Rule count: 4
+RBAC modeled external state lookup delay: 100000 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 4 allow and 7 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 11 corpus requests
+H-NGAC 5D policy array build: mean=699.67 ns reload_mean=675.58 ns memory=416.00 B entries=4
+BUILD|H-NGAC 5D policy array|699.67|709|675.58|693|416|4|0
+Flattened 5D direct lookup build: mean=6497.00 ns reload_mean=6283.33 ns memory=8192.00 B entries=160 max_probe=2
+BUILD|Flattened 5D direct lookup|6497.00|10045|6283.33|8521|8192|160|2
+RBAC hash map: mean=25.37 ns p95=26.00 ns p99=30.00 ns max=35029.00 ns stddev=83.28 ns allowed=200000/200000
+SUMMARY|RBAC hash map|25.37|26.00|30.00|35029|83.28|200000|200000
+NGAC-DAG traversal: mean=169.61 ns p95=194.00 ns p99=264.00 ns max=91674.00 ns stddev=306.24 ns allowed=200000/200000
+SUMMARY|NGAC-DAG traversal|169.61|194.00|264.00|91674|306.24|200000|200000
+H-NGAC 3D: mean=17.32 ns p95=18.00 ns p99=23.00 ns max=11590.00 ns stddev=46.61 ns allowed=200000/200000
+SUMMARY|H-NGAC 3D|17.32|18.00|23.00|11590|46.61|200000|200000
+H-NGAC 4D: mean=28.07 ns p95=30.00 ns p99=46.00 ns max=928658.00 ns stddev=2123.13 ns allowed=145455/200000
+SUMMARY|H-NGAC 4D|28.07|30.00|46.00|928658|2123.13|145455|200000
+H-NGAC 5D: mean=21.97 ns p95=28.00 ns p99=34.00 ns max=95270.00 ns stddev=301.50 ns allowed=72728/200000
+SUMMARY|H-NGAC 5D|21.97|28.00|34.00|95270|301.50|72728|200000
+Flattened 5D direct lookup: mean=191.98 ns p95=199.00 ns p99=231.00 ns max=31867.00 ns stddev=193.75 ns allowed=72728/200000
+SUMMARY|Flattened 5D direct lookup|191.98|199.00|231.00|31867|193.75|72728|200000
+RBAC + state lookup: mean=100753.05 ns p95=100157.00 ns p99=109468.00 ns max=1353129.00 ns stddev=10175.79 ns allowed=145455/200000
+SUMMARY|RBAC + state lookup|100753.05|100157.00|109468.00|1353129|10175.79|145455|200000
+RBAC + SQLite state lookup: mean=399.18 ns p95=604.00 ns p99=739.00 ns max=182336.00 ns stddev=922.61 ns allowed=145455/200000
+SUMMARY|RBAC + SQLite state lookup|399.18|604.00|739.00|182336|922.61|145455|200000
+4D vs 3D mean overhead: 62.07%
+5D vs 4D mean overhead: -21.73%
+H-NGAC 5D vs flattened 5D mean overhead: -88.56%
+H-NGAC 5D vs flattened 5D p99 ratio: 0.15x
+Flattened 5D memory vs H-NGAC 5D memory: 19.69x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 9.30x
+NGAC-DAG vs H-NGAC 5D mean slowdown: 7.72x
+RBAC+lookup vs H-NGAC 5D mean slowdown: 4586.88x
+COMPARE|4D_vs_3D_mean_overhead_pct|62.07
+COMPARE|5D_vs_4D_mean_overhead_pct|-21.73
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-88.56
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|0.15
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|19.69
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|9.30
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|7.72
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|4586.88
+RBAC+SQLite vs H-NGAC 5D mean slowdown: 18.17x
+COMPARE|RBACSQLite_vs_HNGAC5D_mean_slowdown_x|18.17
