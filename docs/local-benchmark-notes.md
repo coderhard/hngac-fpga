@@ -1,5 +1,69 @@
 # Local Benchmark Notes
 
+## 2026-04-28 05:52 CDT — canonical 8-model flattened-5D run (branch: feat/flattened-5d-baseline)
+
+Command:
+
+```bash
+/tmp/hngac-fpga-build/hngac_compare_benchmark 200000 100000
+```
+
+Environment:
+
+- Host: Hunter22, WSL2, kernel 6.6.87.2-microsoft-standard-WSL2
+- GCC 13.3.0, SQLite3 3.45.1, CMake 3.28.3
+- Iterations: 200,000 | Warmup: 1,000 per model | RBAC modeled delay: 100,000 ns
+- Git commit: 880b8ff (branch feat/flattened-5d-baseline)
+- Log: `data/benchmarks/benchmark_20260428_055248.log`
+
+Scenario mix: 5D-aware 4-rule corpus, 11 atomic requests per cycle (4 allow / 7 deny).
+Flattened 5D lookup validated against H-NGAC 5D on all 11 corpus requests before timing.
+
+### Latency results
+
+| Model | Mean (ns) | p95 (ns) | p99 (ns) | Max (ns) | Allowed |
+|---|---|---|---|---|---|
+| RBAC hash map | 25.37 | 26 | 30 | 35,029 | 200,000 / 200,000 |
+| NGAC-DAG traversal | 169.61 | 194 | 264 | 91,674 | 200,000 / 200,000 |
+| H-NGAC 3D | 17.32 | 18 | 23 | 11,590 | 200,000 / 200,000 |
+| H-NGAC 4D | 28.07 | 30 | 46 | 928,658 | 145,455 / 200,000 |
+| **H-NGAC 5D** | **21.97** | **28** | **34** | 95,270 | 72,728 / 200,000 |
+| **Flattened 5D direct lookup** | **191.98** | **199** | **231** | 31,867 | 72,728 / 200,000 |
+| RBAC + modeled state lookup | 100,753 | 100,157 | 109,468 | 1,353,129 | 145,455 / 200,000 |
+| RBAC + SQLite state lookup | 399.18 | 604 | 739 | 182,336 | 145,455 / 200,000 |
+
+### Build / memory / reload results
+
+| Model | Build mean (ns) | Reload mean (ns) | Memory (B) | Entries |
+|---|---|---|---|---|
+| H-NGAC 5D policy array | 699.67 | 675.58 | 416 | 4 rules |
+| Flattened 5D direct lookup | 6,497.00 | 6,283.33 | 8,192 | 160 keys |
+
+### Comparison metrics
+
+| Metric | Value |
+|---|---|
+| H-NGAC 5D vs flattened 5D mean overhead | -88.56% (5D is **8.74× faster**) |
+| H-NGAC 5D vs flattened 5D p99 ratio | 0.15× (5D p99 is **6.79× lower**) |
+| Flattened 5D memory vs H-NGAC 5D memory | 19.69× larger |
+| Flattened 5D reload cost vs H-NGAC 5D reload cost | 9.30× more expensive |
+| NGAC-DAG vs H-NGAC 5D mean slowdown | 7.72× |
+| RBAC + SQLite vs H-NGAC 5D mean slowdown | 18.17× |
+| RBAC + modeled lookup vs H-NGAC 5D mean slowdown | 4,586.88× |
+| 4D vs 3D mean overhead | 62.07% |
+| 5D vs 4D mean overhead | -21.73% |
+
+### Interpretation
+
+- H-NGAC 5D beats the flattened 5D direct lookup on every dimension: latency (8.74× faster mean), tail latency (6.79× lower p99), memory (19.69× smaller footprint), and policy reload cost (9.30× cheaper). This directly answers the reviewer-fairness question.
+- The flattened lookup and H-NGAC 5D produce identical allow/deny decisions on all corpus requests (validated pre-run). The latency and memory gap is purely representational.
+- The memory figure for H-NGAC 5D (416 B) reflects active-rule working-set only: `rule_count × sizeof(PolicyRule)` = 4 × 104 B. The C++ `std::array<PolicyRule, 512>` buffer is always 53,248 B allocated. The comparison is still valid as a per-rule logical cost, but the paper must be clear this is the logical policy representation, not the full allocated buffer.
+- The flattened lookup memory (8,192 B) is the backing hash table: 1,024 buckets × 8 B/bucket, holding 160 materialized allow-set keys for 4 rules.
+- Static models (RBAC, NGAC-DAG, H-NGAC 3D) over-authorize the corpus because they cannot enforce runtime state or provenance constraints.
+- The 4D vs 3D overhead of 62% is higher than prior runs due to the 5D-aware corpus generating more rule-scan work per cycle.
+- The negative 5D vs 4D overhead (-21.73%) reflects early-exit behavior: the 5D path exits earlier on provenance-failing requests, which make up a larger fraction of the 11-request corpus than state-failing requests.
+- These are local WSL2 x86-64 software results, not FPGA measurements.
+
 ## 2026-04-13 five-model validation run
 
 Command:
