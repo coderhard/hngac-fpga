@@ -64,6 +64,55 @@ Flattened 5D lookup validated against H-NGAC 5D on all 11 corpus requests before
 - The negative 5D vs 4D overhead (-21.73%) reflects early-exit behavior: the 5D path exits earlier on provenance-failing requests, which make up a larger fraction of the 11-request corpus than state-failing requests.
 - These are local WSL2 x86-64 software results, not FPGA measurements.
 
+## Policy-size scaling analysis — 10 / 50 / 100 / 500 subject-object pairs
+
+Paper reference: `paper/main.tex:601` — scaling table placeholder.  
+Paper motivating example: 50-AGV warehouse fleet (`paper/main.tex:123`).  
+Open placeholder: `paper/main.tex:515` — `\todo{N}-robot fleet` needs a concrete number (use 50).
+
+### Memory (calculated — no benchmark run needed)
+
+Formulas are exact from the harness source:
+- H-NGAC 5D: `rule_count × sizeof(PolicyRule)` = `rule_count × 104 B`
+- Flattened 5D: `next_power_of_two(max(16, rule_count × 128 × 2)) × 8 B`
+  - 128 = `kEnumeratedStateMaskLimit(16) × kEnumeratedProvenanceMaskLimit(8)` — state/provenance combinations per rule
+
+| Subject-object pairs (rules) | H-NGAC 5D memory | Flattened 5D memory | Ratio | Cache tier (H-NGAC / Flattened) |
+|---|---|---|---|---|
+| 4 (this run) | 416 B | 8,192 B | 19.7× | L1 / L1 |
+| 10 | 1,040 B | 32,768 B (32 KB) | 31.5× | L1 / L1 |
+| 50 (AGV fleet) | 5,200 B (5 KB) | 131,072 B (128 KB) | 25.2× | **L1 / L2** |
+| 100 | 10,400 B (10 KB) | 262,144 B (256 KB) | 25.2× | **L1 / L2–L3** |
+| 500 | 52,000 B (51 KB) | 1,048,576 B (1 MB) | 20.2× | **L1–L2 / L3** |
+
+Key finding from calculation: at the paper's motivating scale (50 AGVs), H-NGAC 5D fits entirely in L1 cache while the flattened table has already spilled into L2. This cache-tier divergence is the mechanism behind the latency advantage and is expected to widen empirically at 100 and 500 rules.
+
+### Latency (requires benchmark runs)
+
+The binary already accepts `rule_count` as a third CLI argument:
+
+```bash
+/tmp/hngac-fpga-build/hngac_compare_benchmark <iterations> <rbac_delay_ns> <rule_count>
+```
+
+Planned sweep:
+
+```bash
+for N in 10 50 100 500; do
+  /tmp/hngac-fpga-build/hngac_compare_benchmark 200000 100000 $N \
+    | tee data/benchmarks/benchmark_scaling_${N}rules_$(date +%Y%m%d_%H%M%S).log
+done
+```
+
+Note: rule_count=500 approaches `kMaxPolicyRules=512`. The NGAC-DAG and H-NGAC linear-scan paths will show measurable latency growth; the flattened lookup will show cache-miss inflation. These empirical numbers populate the paper's Table II scaling rows.
+
+### Status
+
+- [x] Memory figures calculated and documented
+- [ ] Latency sweep runs (10 / 50 / 100 / 500 rules) — **next planned step on this branch**
+- [ ] Paper `\todo{N}` at line 515 resolved to 50 (50-AGV fleet)
+- [ ] Paper scaling table at line 601 filled from sweep results
+
 ## 2026-04-13 five-model validation run
 
 Command:
