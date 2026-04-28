@@ -1,5 +1,68 @@
 # Decision Log
 
+## 2026-04-28 08:45 CDT
+
+### Decision
+
+`main_hw_updated.tex` (Omar's file) is the authoritative paper draft and should
+be merged into Overleaf as the new master. `main.tex` is the pre-Omar base and
+is superseded. Do not patch `main.tex` separately.
+
+### Reason
+
+Omar's file integrates synthesis/co-simulation data and formatting fixes on top
+of the April 26 base. Making parallel edits to `main.tex` would create a
+three-way merge conflict when the Overleaf sync happens. All paper edits from
+this point forward should target `main_hw_updated.tex` locally and Overleaf
+remotely.
+
+### Alternatives considered
+
+- Patch both files in parallel (rejected — creates divergence and merge burden)
+- Patch `main.tex` only (rejected — omits Omar's synthesis data)
+
+### Impact on code/tests/paper
+
+- Local edits in this session (acronyms, policy config sentence, Table II
+  flattened 5D row, discussion paragraph) were applied to `main_hw_updated.tex`.
+- `paper/` remains gitignored; changes are local-only until Overleaf merge.
+- Whoever does the Overleaf sync should use `main_hw_updated.tex` as the source,
+  not `main.tex`.
+
+---
+
+## 2026-04-28 08:15 CDT
+
+### Decision
+
+Flattened 5D benchmark data (192 ns mean, 231 ns p99, 4-rule canonical run) fills
+Table II in the paper. The discussion section (§CPU Offload and Fleet Scalability)
+gains a paragraph covering compact bitmask vs. flattened allow-set on memory,
+reload cost, and subject capacity. Full scaling narrative (10/50/100/500 rules)
+is reserved for the journal version.
+
+### Reason
+
+Table II needs the flattened 5D row to be non-placeholder before submission.
+The discussion paragraph is the minimum needed for reviewers to understand why
+the baseline is included. The full scaling sweep (cache-tier transitions, reload
+cost at 500 rules) is too detailed for a 6-page conference paper and belongs in
+the journal extension.
+
+### Alternatives considered
+
+- Add a full new subsection on scaling (rejected — page budget, journal scope)
+- Leave Table II row as \todo{TBD} until journal (rejected — data is in hand)
+
+### Impact on code/tests/paper
+
+- `main_hw_updated.tex` updated locally; backup at
+  `main_hw_updated_backup_20260428_0815.tex`.
+- Source benchmark log: `data/benchmarks/benchmark_20260428_055248.log`
+  (4-rule canonical run, commit bba8397).
+
+---
+
 ## 2026-04-26
 
 ### Decision
