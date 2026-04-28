@@ -64,7 +64,67 @@ Flattened 5D lookup validated against H-NGAC 5D on all 11 corpus requests before
 - The negative 5D vs 4D overhead (-21.73%) reflects early-exit behavior: the 5D path exits earlier on provenance-failing requests, which make up a larger fraction of the 11-request corpus than state-failing requests.
 - These are local WSL2 x86-64 software results, not FPGA measurements.
 
-## Policy-size scaling analysis — 10 / 50 / 100 / 500 subject-object pairs
+## Policy-size and fleet-size scaling analysis
+
+Paper reference: `paper/main.tex:601` — scaling table placeholder (10/50/100/500 subject-object pairs).
+Paper motivating example: 50-AGV warehouse fleet (`paper/main.tex:123`).
+Open placeholder: `paper/main.tex:515` — `\todo{N}-robot fleet` → **resolved: use 50**.
+
+### Memory math sweep (calculated — no benchmark runs needed)
+
+Struct sizes confirmed from source:
+
+| Struct | Size | Fields |
+|---|---|---|
+| `PolicyRule` (5D / 4D) | 104 B | 3 × Bitmask256 (32 B each) + StateMask (4 B) + ProvenanceMask (4 B) |
+| `PolicyRule3D` | 96 B | 3 × Bitmask256 (32 B each) |
+| `RolePermissionRule` | 44 B | role_id (2 B) + object_id (2 B) + Bitmask256 (32 B) + StateMask (4 B) + ProvenanceMask (4 B) |
+| `Bitmask256` | 32 B | 4 × uint64_t |
+
+Memory for analytically-tractable models = `rule_count × sizeof(struct)` (active rules only):
+
+| Model | Per-rule | 10 rules | 50 rules | 100 rules | 500 rules | Cache tier (10/50/100/500) |
+|---|---|---|---|---|---|---|
+| H-NGAC 5D | 104 B | 1,040 B | 5,200 B | 10,400 B | 52,000 B | L1 / L1 / L1 / L1–L2 |
+| H-NGAC 4D | 104 B | 1,040 B | 5,200 B | 10,400 B | 52,000 B | L1 / L1 / L1 / L1–L2 |
+| H-NGAC 3D | 96 B | 960 B | 4,800 B | 9,600 B | 48,000 B | L1 / L1 / L1 / L1–L2 |
+| RBAC policy array | 44 B | 440 B | 2,200 B | 4,400 B | 22,000 B | L1 / L1 / L1 / L1 |
+| Flattened 5D | 8 B/bucket | 32,768 B | 131,072 B | 262,144 B | 1,048,576 B | L1 / **L2** / **L2–L3** / **L3** |
+| RBAC hash map | opaque | — | — | — | — | (unordered_map internals not instrumented) |
+| NGAC-DAG | opaque | — | — | — | — | (unordered_map + vector internals not instrumented) |
+
+Cache tier reference: L1 ≈ 32–48 KB, L2 ≈ 256 KB–1 MB, L3 ≈ 8–32 MB.
+
+Flattened 5D formula: `next_power_of_two(max(16, rule_count × 128 × 2)) × 8 B`
+where 128 = `kEnumeratedStateMaskLimit(16) × kEnumeratedProvenanceMaskLimit(8)`.
+
+**Key finding:** At the paper's 50-AGV scale (50 rules), H-NGAC 5D stays in L1 at 5.2 KB while the flattened table spills into L2 at 128 KB. All H-NGAC variants (3D/4D/5D) remain in L1 across all tested scales. This cache-tier divergence is the mechanism behind the latency advantage and is expected to widen empirically.
+
+### Fleet-size scaling analysis (calculated)
+
+Fleet size and rule count are orthogonal in H-NGAC. Subject IDs are bits in `Bitmask256` (256 bits). Adding more robots to the fleet costs zero extra policy memory up to 256 subjects.
+
+**H-NGAC subject capacity:**
+
+| Fleet size | Bits used (of 256) | Extra policy memory | Notes |
+|---|---|---|---|
+| 10 AGVs | 10 / 256 | **0 B** | 3.9% utilization |
+| 50 AGVs | 50 / 256 | **0 B** | Paper's motivating fleet (19.5% utilization) |
+| 100 AGVs | 100 / 256 | **0 B** | 39% utilization |
+| 256 AGVs | 256 / 256 | **0 B** | Maximum direct subject space |
+| 500 AGVs | > 256 | Role abstraction required | Group robots into roles; each role = 1 bit. Rule count grows with role count, not fleet size. |
+
+**RBAC comparison (role × object pairs, 10 shelves per zone):**
+
+| Scenario | RBAC entries | RBAC memory | H-NGAC 5D memory |
+|---|---|---|---|
+| 50 AGVs, shared roles (5 roles × 10 objects) | 50 | 2,200 B | 5,200 B (50 rules) |
+| 50 AGVs, 1 role/robot (worst case) × 10 objects | 500 | 22,000 B | 5,200 B (50 rules) |
+| 50 AGVs, 1 role/robot × 10 objects + state/provenance | 500 + state-lookup overhead | 22,000 B + external | 5,200 B (50 rules, inline) |
+
+Note: RBAC requires a separate state-lookup call per authorization (external system or SQLite). H-NGAC 5D encodes state and provenance inline; no external call needed.
+
+**Fleet scaling conclusion:** The bitmask representation handles any fleet up to 256 AGVs with zero policy memory growth. Beyond 256, role abstraction is required regardless of model — H-NGAC 5D still wins because it encodes role membership as bits rather than separate hash-map entries.
 
 Paper reference: `paper/main.tex:601` — scaling table placeholder.  
 Paper motivating example: 50-AGV warehouse fleet (`paper/main.tex:123`).  
@@ -106,12 +166,60 @@ done
 
 Note: rule_count=500 approaches `kMaxPolicyRules=512`. The NGAC-DAG and H-NGAC linear-scan paths will show measurable latency growth; the flattened lookup will show cache-miss inflation. These empirical numbers populate the paper's Table II scaling rows.
 
+### Benchmark latency sweep results (2026-04-28 07:54–07:58 CDT)
+
+200k iterations, 1k warmup, 100k ns RBAC modeled delay, GCC 13.3.0 -O3, WSL2.
+Logs: `data/benchmarks/benchmark_scaling_{N}rules_*.log`
+
+#### H-NGAC 5D mean latency vs. Flattened 5D — scaling comparison
+
+| Rules | H-NGAC 5D mean | Flattened 5D mean | 5D advantage | H-NGAC 5D p99 | Flattened p99 | p99 ratio |
+|---|---|---|---|---|---|---|
+| 4 (canonical) | 21.97 ns | 191.98 ns | **8.74×** | 34 ns | 231 ns | 0.15× |
+| 10 | 22.35 ns | 225.93 ns | **10.11×** | 34 ns | 321 ns | 0.11× |
+| 50 (AGV fleet) | 40.18 ns | 197.90 ns | **4.92×** | 74 ns | 305 ns | 0.24× |
+| 100 | 51.95 ns | 172.93 ns | **3.33×** | 77 ns | 221 ns | 0.35× |
+| 500 | 185.04 ns | 216.20 ns | **1.17×** | 310 ns | 335 ns | 0.93× |
+
+#### Full cross-scale summary — all models, mean latency (ns)
+
+| Rules | RBAC map | NGAC-DAG | H-NGAC 3D | H-NGAC 4D | H-NGAC 5D | Flattened 5D | RBAC+SQLite |
+|---|---|---|---|---|---|---|---|
+| 4 | 25.37 | 169.61 | 17.32 | 28.07 | 21.97 | 191.98 | 399.18 |
+| 10 | 27.58 | 252.13 | 18.86 | 20.80 | 22.35 | 225.93 | 415.70 |
+| 50 | 25.45 | 227.83 | 28.06 | 34.54 | 40.18 | 197.90 | 373.26 |
+| 100 | 25.24 | 241.98 | 37.34 | 44.24 | 51.95 | 172.93 | 422.77 |
+| 500 | 25.79 | 324.59 | 137.97 | 160.11 | 185.04 | 216.20 | 484.82 |
+
+#### Build and reload cost scaling
+
+| Rules | H-NGAC 5D build (ns) | H-NGAC 5D reload (ns) | Flat 5D build (ns) | Flat 5D reload (ns) | Flat reload / H-NGAC reload |
+|---|---|---|---|---|---|
+| 4 | 699.67 | 675.58 | 6,497 | 6,283 | 9.30× |
+| 10 | 699.42 | 686.33 | 16,460 | 16,185 | 23.58× |
+| 50 | 799.33 | 734.33 | 88,255 | 81,903 | 111.53× |
+| 100 | 923.58 | 795.58 | 173,717 | 164,908 | 207.28× |
+| 500 | 1,780.58 | 1,530.75 | 984,100 | 879,248 | **574.39×** |
+
+#### Key findings from sweep
+
+**Latency crossover at 500 rules:** H-NGAC 5D's latency advantage over the flattened lookup narrows as rule count grows (linear scan grows; flattened lookup stays roughly O(1) but suffers cache pressure). At 500 rules, H-NGAC 5D is only 1.17× faster by mean — the two paths are converging. However, at the paper's motivating scale (50 rules / 50 AGVs), H-NGAC 5D is still **4.92× faster**.
+
+**The real story is reload cost:** While mean latency converges at 500 rules, the flattened lookup's reload cost explodes to **574× more expensive** than H-NGAC 5D. In an operational fleet, policy updates (new robot, new shelf, new time window) require rebuilding the flattened table. At 50 rules this is already 112× slower to update; at 500 rules it takes ~880 µs vs H-NGAC's ~1.5 µs.
+
+**RBAC hash map is near-constant:** The static RBAC hash map's mean stays flat (25–28 ns) across all rule counts because it's a pure hash lookup. The cost is semantic — it over-authorizes the full corpus and needs an external state call to match H-NGAC's enforcement.
+
+**NGAC-DAG grows with BFS depth:** 169 ns at 4 rules → 325 ns at 500 rules. Still fast by absolute measure but 1.75× slower than H-NGAC 5D at 500 rules, vs. 7.72× slower at 4 rules. The gap narrows as the H-NGAC linear scan dominates.
+
+**Memory advantage holds at all scales:** Flattened 5D is 19.7–31.5× larger than H-NGAC 5D across all tested scales. At 50 rules (50-AGV fleet): H-NGAC 5D = 5,200 B (L1), Flattened = 131,072 B (L2).
+
 ### Status
 
-- [x] Memory figures calculated and documented
-- [ ] Latency sweep runs (10 / 50 / 100 / 500 rules) — **next planned step on this branch**
-- [ ] Paper `\todo{N}` at line 515 resolved to 50 (50-AGV fleet)
-- [ ] Paper scaling table at line 601 filled from sweep results
+- [x] Memory figures calculated and documented (all analytically-tractable models)
+- [x] Fleet-size scaling analysis documented (bitmask capacity, RBAC comparison)
+- [x] Latency sweep runs complete (10 / 50 / 100 / 500 rules)
+- [x] Paper `\todo{N}` at line 515 resolved to 50 (50-AGV fleet)
+- [ ] Paper scaling table at line 601 to be filled from these results
 
 ## 2026-04-13 five-model validation run
 

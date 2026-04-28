@@ -1,0 +1,13 @@
+timestamp: 20260428_075407
+date: 2026-04-28 07:54:07 CDT
+host: Hunter22
+kernel: 6.6.87.2-microsoft-standard-WSL2
+binary: /tmp/hngac-fpga-build/hngac_compare_benchmark
+binary_mtime: 2026-04-28 05:37:37.567524588 -0500
+iterations: 200000
+rbac_lookup_delay_ns: 100000
+rule_count: 10
+git_commit: 6512d39
+git_branch: feat/flattened-5d-baseline
+gcc_version: gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+sqlite3_version: 3.45.1

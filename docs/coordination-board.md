@@ -12,26 +12,20 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 ## Active Claims
 
-### 2026-04-28 — IN PROGRESS (Claude Code, claude-sonnet-4-6, branch: feat/flattened-5d-baseline)
+### 2026-04-28 05:36 CDT — COMPLETED 2026-04-28 08:05 CDT (Claude Code, claude-sonnet-4-6, branch: feat/flattened-5d-baseline)
 
 - Agent: Claude Code (claude-sonnet-4-6)
 - Session: HNGAC-FPGA_flattened-5d-baseline
-- Scope: canonical flattened 5D benchmark run + doc/notes update
-- Files:
-  - `.gitignore` (done — checkpoint/audit patterns added)
-  - `docs/coordination-board.md`
-  - `docs/local-benchmark-notes.md`
-  - `docs/status-log.md`
-  - `docs/decision-log.md`
-  - `data/benchmarks/` (new benchmark log + meta)
-- Checkpoint plan:
-  1. Commit `.gitignore` change
-  2. Build benchmark binary from current source
-  3. Run canonical 200k-iteration benchmark with flattened 5D path active
-  4. Save log + meta to `data/benchmarks/`
-  5. Update `docs/local-benchmark-notes.md` with flattened 5D comparison numbers
-  6. Commit results
-  7. Release claim
+- Scope: canonical flattened 5D benchmark run + full scaling sweep + doc update
+- Completed:
+  - `.gitignore` — checkpoint/audit doc patterns added (commit 880b8ff)
+  - Canonical 4-rule 8-model benchmark run saved (commit bba8397)
+  - Memory math sweep (all models, 10/50/100/500 rules) documented
+  - Fleet-size scaling analysis documented (bitmask capacity, RBAC comparison)
+  - Latency sweep runs: 10, 50, 100, 500 rules — all logs + meta saved to `data/benchmarks/`
+  - `docs/local-benchmark-notes.md` — full results, cross-scale summary tables
+  - `docs/benchmark-gap-analysis.md` — priority list updated
+  - CLAIM RELEASED
 
 ## Released Claims
 
