@@ -23,3 +23,5 @@ paper/
 data/attack2_*.log
 docs/generate_simple_docx.py
 docs/hngac-fpga-project-overview.docx
+docs/checkpoint-*.md
+docs/paper-audit-*.md

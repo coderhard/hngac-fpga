@@ -12,7 +12,26 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 ## Active Claims
 
-No active agent claims.
+### 2026-04-28 — IN PROGRESS (Claude Code, claude-sonnet-4-6, branch: feat/flattened-5d-baseline)
+
+- Agent: Claude Code (claude-sonnet-4-6)
+- Session: HNGAC-FPGA_flattened-5d-baseline
+- Scope: canonical flattened 5D benchmark run + doc/notes update
+- Files:
+  - `.gitignore` (done — checkpoint/audit patterns added)
+  - `docs/coordination-board.md`
+  - `docs/local-benchmark-notes.md`
+  - `docs/status-log.md`
+  - `docs/decision-log.md`
+  - `data/benchmarks/` (new benchmark log + meta)
+- Checkpoint plan:
+  1. Commit `.gitignore` change
+  2. Build benchmark binary from current source
+  3. Run canonical 200k-iteration benchmark with flattened 5D path active
+  4. Save log + meta to `data/benchmarks/`
+  5. Update `docs/local-benchmark-notes.md` with flattened 5D comparison numbers
+  6. Commit results
+  7. Release claim
 
 ## Released Claims
 
