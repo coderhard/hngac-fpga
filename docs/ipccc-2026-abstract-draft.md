@@ -24,7 +24,7 @@ Hassan Karim, Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
 | Sai Sitharaman | Zetafence, Inc. |
 | Deepti Gupta | Texas A&M University–Central Texas |
 
-> Affiliations confirmed 2026-08-07 from the ac4aiagents Overleaf author bios (Sitharaman: Founder and CTO, Zetafence, Inc., Dublin, CA; Gupta: Assistant Professor, Texas A&M University–Central Texas). Still open: check how Badawy renders his name on recent papers (Abdel-Hameed A. Badawy vs Abdel-Hameed Badawy).
+> Author block final 2026-08-07. Affiliations from the ac4aiagents Overleaf bios (Sitharaman: Founder and CTO, Zetafence, Inc., Dublin, CA; Gupta: Assistant Professor, Texas A&M University–Central Texas). Badawy rendering confirmed from his Google Scholar profile (verified fiu.edu email): "Abdel-Hameed A. Badawy".
 
 # Abstract (229 words)
 
