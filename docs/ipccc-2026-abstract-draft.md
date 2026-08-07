@@ -1,6 +1,6 @@
 ---
-title: "IPCCC 2026 — Abstract, Revision 5"
-subtitle: "5D H-NGAC: provenance-aware authorization on FPGA. Matches the manuscript verbatim after the reviewer-2 fixes."
+title: "IPCCC 2026 — Abstract, Revision 6"
+subtitle: "5D H-NGAC: provenance-aware authorization on FPGA. Rewritten to the withholding register per author direction; matches the manuscript verbatim."
 date: "7 August 2026"
 ---
 
@@ -26,7 +26,15 @@ Hassan Karim, Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
 
 > Author block final 2026-08-07. Affiliations from the ac4aiagents Overleaf bios (Sitharaman: Founder and CTO, Zetafence, Inc., Dublin, CA; Gupta: Assistant Professor, Texas A&M University–Central Texas). Badawy rendering confirmed from his Google Scholar profile (verified fiu.edu email): "Abdel-Hameed A. Badawy".
 
-# Abstract (238 words — Revision 5, matches `paper/main.tex` verbatim)
+# Abstract (198 words — Revision 6, matches `paper/main.tex` verbatim)
+
+Real-time robotic systems often leave authorization out of the control path because no software policy engine guarantees a decision within a fixed cycle budget. The tail comes from operating system scheduling, not policy evaluation, so a faster engine does not tighten it. The gap leaves attack classes open that identity-based authorization cannot see, among them unsafe-state operation and command injection from compromised but credentialed nodes, both anchored to published CVEs. H-NGAC compiles NGAC policy graphs into fixed-width bitmasks so that an authorization decision reduces to a chain of bitwise AND operations. In this paper we extend H-NGAC with two further dimensions, runtime system state and command provenance, and synthesize the four- and five-dimensional kernels to a Zynq-7020 FPGA. We evaluate the synthesized kernels against six software baselines and in an adversarial ROS 2 scenario against a credentialed compromised node. The added security dimension is free in time: both kernels resolve in an identical number of clock cycles at every policy size tested, with a closed-form worst case and zero jitter by construction. Thus the authorization worst case becomes a synthesis parameter rather than a measurement, and we quantify what that determinism costs in area and in average-case speed.
+
+**Revision 6 note (author direction, 2026-08-07 evening).** Revisions 1 through 5 enumerated the results: the closed form, the LUT delta, the block counts, the software slope. The author's corpus of pre-2023 exemplars (Hinton's "surprising results on MNIST," the TPU paper's selective headline plus determinism emphasis, the FPGA bitstream survey) withholds detail and frames the contribution. Revision 6 keeps exactly one revealed finding, zero-cycle dimensionality with a closed-form jitter-free worst case, and defers every other number to the paper. The final clause deliberately trails the honest concessions (area, average-case speed) as a reason to read Section VI rather than a spoiler of it. The reviewer-2 conflation fix survives by omission: the ROS 2 scenario is named without attributing block counts to any component.
+
+## Superseded revision 5 text (kept for the record)
+
+# ~~Abstract (238 words — Revision 5)~~
 
 Real-time robotic systems often leave authorization out of the control path because no software policy engine guarantees a decision within a fixed cycle budget. The tail comes from operating system contention, not policy evaluation, so a faster engine does not tighten it.
 
