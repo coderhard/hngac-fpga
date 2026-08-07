@@ -1,0 +1,19 @@
+# ==============================================================
+# Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2025.2 (64-bit)
+# Tool Version Limit: 2025.11
+# Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+# Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+# 
+# ==============================================================
+OPTION psf_version = 2.1;
+
+BEGIN driver hngac_authorize
+
+ OPTION supported_peripherals = (hngac_authorize_v3_0 );
+ OPTION driver_state = ACTIVE;
+ OPTION copyfiles = all;
+ OPTION name = hngac_authorize;
+ OPTION version = 3.0;
+
+END driver
+

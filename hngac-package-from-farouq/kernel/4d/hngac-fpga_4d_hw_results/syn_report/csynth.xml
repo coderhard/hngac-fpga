@@ -1,0 +1,848 @@
+<profile>
+    <ReportVersion>
+        <Version>2025.2</Version>
+    </ReportVersion>
+    <UserAssignments>
+        <unit>ns</unit>
+        <ProductFamily>virtexuplusHBM</ProductFamily>
+        <Part>xcvu47p-fsvh2892-2L-e</Part>
+        <TopModelName>hngac_authorize</TopModelName>
+        <TargetClockPeriod>5.00</TargetClockPeriod>
+        <ClockUncertainty>1.35</ClockUncertainty>
+        <FlowTarget>vivado</FlowTarget>
+    </UserAssignments>
+    <PerformanceEstimates>
+        <PipelineType>no</PipelineType>
+        <SummaryOfTimingAnalysis>
+            <unit>ns</unit>
+            <EstimatedClockPeriod>3.364</EstimatedClockPeriod>
+        </SummaryOfTimingAnalysis>
+        <SummaryOfOverallLatency>
+            <unit>clock cycles</unit>
+            <Best-caseLatency>1</Best-caseLatency>
+            <Average-caseLatency>260</Average-caseLatency>
+            <Worst-caseLatency>1030</Worst-caseLatency>
+            <Best-caseRealTimeLatency>5.000 ns</Best-caseRealTimeLatency>
+            <Average-caseRealTimeLatency>1.300 us</Average-caseRealTimeLatency>
+            <Worst-caseRealTimeLatency>5.150 us</Worst-caseRealTimeLatency>
+            <Interval-min>2</Interval-min>
+            <Interval-max>1031</Interval-max>
+            <PerformancePragma>-</PerformancePragma>
+        </SummaryOfOverallLatency>
+        <SummaryOfViolations>
+            <IssueType>-</IssueType>
+            <ViolationType>-</ViolationType>
+            <SourceLocation>hngac-fpga/fpga/hls/src/hngac_kernel.cpp:6</SourceLocation>
+        </SummaryOfViolations>
+    </PerformanceEstimates>
+    <AreaEstimates>
+        <Resources>
+            <BRAM_18K>0</BRAM_18K>
+            <FF>948</FF>
+            <LUT>5426</LUT>
+            <URAM>0</URAM>
+            <DSP>0</DSP>
+        </Resources>
+        <AvailableResources>
+            <BRAM_18K>4032</BRAM_18K>
+            <DSP>9024</DSP>
+            <FF>2607360</FF>
+            <LUT>1303680</LUT>
+            <URAM>960</URAM>
+        </AvailableResources>
+    </AreaEstimates>
+    <InterfaceSummary>
+        <RtlPorts>
+            <name>s_axi_control_AWVALID</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>in</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_AWREADY</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>out</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_AWADDR</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>in</Dir>
+            <Bits>7</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_WVALID</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>in</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_WREADY</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>out</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_WDATA</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>in</Dir>
+            <Bits>32</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_WSTRB</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>in</Dir>
+            <Bits>4</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_ARVALID</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>in</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_ARREADY</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>out</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_ARADDR</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>in</Dir>
+            <Bits>7</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_RVALID</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>out</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_RREADY</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>in</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_RDATA</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>out</Dir>
+            <Bits>32</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_RRESP</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>out</Dir>
+            <Bits>2</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_BVALID</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>out</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_BREADY</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>in</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>s_axi_control_BRESP</name>
+            <Object>control</Object>
+            <Type>pointer</Type>
+            <IOProtocol>s_axi</IOProtocol>
+            <Dir>out</Dir>
+            <Bits>2</Bits>
+            <Attribute>unknown</Attribute>
+            <CType>int</CType>
+            <HasCtrl>1</HasCtrl>
+        </RtlPorts>
+        <RtlPorts>
+            <name>ap_clk</name>
+            <Object>hngac_authorize</Object>
+            <Type>return value</Type>
+            <Scope/>
+            <IOProtocol>ap_ctrl_hs</IOProtocol>
+            <IOConfig/>
+            <Dir>in</Dir>
+            <Bits>1</Bits>
+            <Attribute>control</Attribute>
+        </RtlPorts>
+        <RtlPorts>
+            <name>ap_rst_n</name>
+            <Object>hngac_authorize</Object>
+            <Type>return value</Type>
+            <Scope/>
+            <IOProtocol>ap_ctrl_hs</IOProtocol>
+            <IOConfig/>
+            <Dir>in</Dir>
+            <Bits>1</Bits>
+            <Attribute>control</Attribute>
+        </RtlPorts>
+        <RtlPorts>
+            <name>interrupt</name>
+            <Object>hngac_authorize</Object>
+            <Type>return value</Type>
+            <Scope/>
+            <IOProtocol>ap_ctrl_hs</IOProtocol>
+            <IOConfig/>
+            <Dir>out</Dir>
+            <Bits>1</Bits>
+            <Attribute>unknown</Attribute>
+        </RtlPorts>
+        <RtlPorts>
+            <name>policy_Addr_A</name>
+            <Object>policy</Object>
+            <Type>array</Type>
+            <Scope/>
+            <IOProtocol>bram</IOProtocol>
+            <IOConfig/>
+            <Dir>out</Dir>
+            <Bits>32</Bits>
+            <Attribute>address</Attribute>
+            <CType>int</CType>
+        </RtlPorts>
+        <RtlPorts>
+            <name>policy_EN_A</name>
+            <Object>policy</Object>
+            <Type>array</Type>
+            <Scope/>
+            <IOProtocol>bram</IOProtocol>
+            <IOConfig/>
+            <Dir>out</Dir>
+            <Bits>1</Bits>
+            <Attribute>control</Attribute>
+            <CType>int</CType>
+        </RtlPorts>
+        <RtlPorts>
+            <name>policy_WEN_A</name>
+            <Object>policy</Object>
+            <Type>array</Type>
+            <Scope/>
+            <IOProtocol>bram</IOProtocol>
+            <IOConfig/>
+            <Dir>out</Dir>
+            <Bits>128</Bits>
+            <Attribute>control</Attribute>
+            <CType>int</CType>
+        </RtlPorts>
+        <RtlPorts>
+            <name>policy_Din_A</name>
+            <Object>policy</Object>
+            <Type>array</Type>
+            <Scope/>
+            <IOProtocol>bram</IOProtocol>
+            <IOConfig/>
+            <Dir>out</Dir>
+            <Bits>1024</Bits>
+            <Attribute>data</Attribute>
+            <CType>int</CType>
+        </RtlPorts>
+        <RtlPorts>
+            <name>policy_Dout_A</name>
+            <Object>policy</Object>
+            <Type>array</Type>
+            <Scope/>
+            <IOProtocol>bram</IOProtocol>
+            <IOConfig/>
+            <Dir>in</Dir>
+            <Bits>1024</Bits>
+            <Attribute>data</Attribute>
+            <CType>int</CType>
+        </RtlPorts>
+        <RtlPorts>
+            <name>policy_Clk_A</name>
+            <Object>policy</Object>
+            <Type>array</Type>
+            <Scope/>
+            <IOProtocol>bram</IOProtocol>
+            <IOConfig/>
+            <Dir>out</Dir>
+            <Bits>1</Bits>
+            <Attribute>control</Attribute>
+            <CType>int</CType>
+        </RtlPorts>
+        <RtlPorts>
+            <name>policy_Rst_A</name>
+            <Object>policy</Object>
+            <Type>array</Type>
+            <Scope/>
+            <IOProtocol>bram</IOProtocol>
+            <IOConfig/>
+            <Dir>out</Dir>
+            <Bits>1</Bits>
+            <Attribute>control</Attribute>
+            <CType>int</CType>
+        </RtlPorts>
+    </InterfaceSummary>
+    <RTLDesignHierarchy>
+        <TopModule MAX_DEPTH="3">
+            <ModuleName>hngac_authorize</ModuleName>
+            <InstancesList>
+                <Instance>
+                    <InstName>grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137</InstName>
+                    <ModuleName>hngac_authorize_Pipeline_VITIS_LOOP_22_1</ModuleName>
+                    <IsCompInst>true</IsCompInst>
+                    <ID>137</ID>
+                    <BindInstances>icmp_ln22_fu_195_p2 add_ln22_fu_201_p2 lshr_ln59_fu_220_p2 and_ln59_fu_229_p2 icmp_ln59_fu_234_p2 lshr_ln59_1_fu_240_p2 and_ln59_1_fu_249_p2 icmp_ln59_1_fu_254_p2 and_ln64_fu_270_p2 icmp_ln64_fu_275_p2 and_ln64_1_fu_290_p2 icmp_ln64_1_fu_295_p2 and_ln64_2_fu_310_p2 icmp_ln64_2_fu_315_p2 and_ln64_3_fu_330_p2 icmp_ln64_3_fu_335_p2 and_ln76_fu_350_p2 icmp_ln76_fu_355_p2</BindInstances>
+                </Instance>
+            </InstancesList>
+            <BindInstances>icmp_ln15_fu_167_p2 icmp_ln15_1_fu_183_p2 icmp_ln20_fu_189_p2 bounded_rule_count_fu_195_p3 icmp_ln22_fu_227_p2 shl_ln59_fu_304_p2 shl_ln59_1_fu_314_p2 control_s_axi_U</BindInstances>
+        </TopModule>
+    </RTLDesignHierarchy>
+    <ModuleInformation>
+        <Module>
+            <Name>hngac_authorize_Pipeline_VITIS_LOOP_22_1</Name>
+            <Loops>
+                <VITIS_LOOP_22_1/>
+            </Loops>
+            <PerformanceEstimates>
+                <SummaryOfTimingAnalysis>
+                    <TargetClockPeriod>5.00</TargetClockPeriod>
+                    <ClockUncertainty>1.35</ClockUncertainty>
+                    <EstimatedClockPeriod>2.977</EstimatedClockPeriod>
+                </SummaryOfTimingAnalysis>
+                <SummaryOfOverallLatency>
+                    <Best-caseLatency>3</Best-caseLatency>
+                    <Average-caseLatency>515</Average-caseLatency>
+                    <Worst-caseLatency>1027</Worst-caseLatency>
+                    <Best-caseRealTimeLatency>15.000 ns</Best-caseRealTimeLatency>
+                    <Average-caseRealTimeLatency>2.575 us</Average-caseRealTimeLatency>
+                    <Worst-caseRealTimeLatency>5.135 us</Worst-caseRealTimeLatency>
+                    <PipelineInitiationInterval>2 ~ 1026</PipelineInitiationInterval>
+                    <PipelineType>loop pipeline stpstp (delay=0 clock cycles(s))</PipelineType>
+                    <PerformancePragma>-</PerformancePragma>
+                </SummaryOfOverallLatency>
+                <SummaryOfLoopLatency>
+                    <VITIS_LOOP_22_1>
+                        <Name>VITIS_LOOP_22_1</Name>
+                        <Slack>3.65</Slack>
+                        <TripCount>
+                            <range>
+                                <min>0</min>
+                                <max>512</max>
+                            </range>
+                        </TripCount>
+                        <isPerfectNested>0</isPerfectNested>
+                        <Latency>1 ~ 1025</Latency>
+                        <AbsoluteTimeLatency>5.000 ns ~ 5.125 us</AbsoluteTimeLatency>
+                        <PipelineII>2</PipelineII>
+                        <PipelineDepth>2</PipelineDepth>
+                        <PipelineType>yes</PipelineType>
+                        <PerformancePragma>-</PerformancePragma>
+                        <InstanceList/>
+                    </VITIS_LOOP_22_1>
+                </SummaryOfLoopLatency>
+                <SummaryOfViolations>
+                    <IssueType>-</IssueType>
+                    <ViolationType>-</ViolationType>
+                    <SourceLocation>hngac-fpga/fpga/hls/src/hngac_kernel.cpp:22</SourceLocation>
+                    <SummaryOfLoopViolations>
+                        <VITIS_LOOP_22_1>
+                            <Name>VITIS_LOOP_22_1</Name>
+                            <IssueType>-</IssueType>
+                            <ViolationType>-</ViolationType>
+                            <SourceLocation>hngac-fpga/fpga/hls/src/hngac_kernel.cpp:22</SourceLocation>
+                        </VITIS_LOOP_22_1>
+                    </SummaryOfLoopViolations>
+                </SummaryOfViolations>
+            </PerformanceEstimates>
+            <AreaEstimates>
+                <Resources>
+                    <FF>43</FF>
+                    <AVAIL_FF>2607360</AVAIL_FF>
+                    <UTIL_FF>~0</UTIL_FF>
+                    <LUT>4095</LUT>
+                    <AVAIL_LUT>1303680</AVAIL_LUT>
+                    <UTIL_LUT>~0</UTIL_LUT>
+                    <BRAM_18K>0</BRAM_18K>
+                    <AVAIL_BRAM>4032</AVAIL_BRAM>
+                    <UTIL_BRAM>0</UTIL_BRAM>
+                    <DSP>0</DSP>
+                    <AVAIL_DSP>9024</AVAIL_DSP>
+                    <UTIL_DSP>0</UTIL_DSP>
+                    <URAM>0</URAM>
+                    <AVAIL_URAM>960</AVAIL_URAM>
+                    <UTIL_URAM>0</UTIL_URAM>
+                </Resources>
+            </AreaEstimates>
+            <BindNodes>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op setlt" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="setlt" PRAGMA="" RTLNAME="icmp_ln22_fu_195_p2" SOURCE="hngac-fpga/fpga/hls/src/hngac_kernel.cpp:22" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln22" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op add" DSP="0" ID="" IMPL="fabric" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="add" PRAGMA="" RTLNAME="add_ln22_fu_201_p2" SOURCE="hngac-fpga/fpga/hls/src/hngac_kernel.cpp:22" STORAGESUBTYPE="" URAM="0" VARIABLE="add_ln22" VISIBLE="true"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op lshr" DSP="0" ID="" IMPL="auto_pipe" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="lshr" PRAGMA="" RTLNAME="lshr_ln59_fu_220_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:59" STORAGESUBTYPE="" URAM="0" VARIABLE="lshr_ln59" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op and" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="and" PRAGMA="" RTLNAME="and_ln59_fu_229_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:59" STORAGESUBTYPE="" URAM="0" VARIABLE="and_ln59" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln59_fu_234_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:59" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln59" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op lshr" DSP="0" ID="" IMPL="auto_pipe" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="lshr" PRAGMA="" RTLNAME="lshr_ln59_1_fu_240_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:59" STORAGESUBTYPE="" URAM="0" VARIABLE="lshr_ln59_1" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op and" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="and" PRAGMA="" RTLNAME="and_ln59_1_fu_249_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:59" STORAGESUBTYPE="" URAM="0" VARIABLE="and_ln59_1" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln59_1_fu_254_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:59" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln59_1" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op and" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="and" PRAGMA="" RTLNAME="and_ln64_fu_270_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:64" STORAGESUBTYPE="" URAM="0" VARIABLE="and_ln64" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln64_fu_275_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:64" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln64" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op and" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="and" PRAGMA="" RTLNAME="and_ln64_1_fu_290_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:64" STORAGESUBTYPE="" URAM="0" VARIABLE="and_ln64_1" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln64_1_fu_295_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:64" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln64_1" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op and" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="and" PRAGMA="" RTLNAME="and_ln64_2_fu_310_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:64" STORAGESUBTYPE="" URAM="0" VARIABLE="and_ln64_2" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln64_2_fu_315_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:64" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln64_2" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op and" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="and" PRAGMA="" RTLNAME="and_ln64_3_fu_330_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:64" STORAGESUBTYPE="" URAM="0" VARIABLE="and_ln64_3" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln64_3_fu_335_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:64" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln64_3" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op and" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="and" PRAGMA="" RTLNAME="and_ln76_fu_350_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:76" STORAGESUBTYPE="" URAM="0" VARIABLE="and_ln76" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="VITIS_LOOP_22_1" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln76_fu_355_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:76" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln76" VISIBLE="false"/>
+            </BindNodes>
+        </Module>
+        <Module>
+            <Name>hngac_authorize</Name>
+            <PerformanceEstimates>
+                <SummaryOfTimingAnalysis>
+                    <TargetClockPeriod>5.00</TargetClockPeriod>
+                    <ClockUncertainty>1.35</ClockUncertainty>
+                    <EstimatedClockPeriod>3.364</EstimatedClockPeriod>
+                </SummaryOfTimingAnalysis>
+                <SummaryOfOverallLatency>
+                    <Best-caseLatency>1</Best-caseLatency>
+                    <Average-caseLatency>260</Average-caseLatency>
+                    <Worst-caseLatency>1030</Worst-caseLatency>
+                    <Best-caseRealTimeLatency>5.000 ns</Best-caseRealTimeLatency>
+                    <Average-caseRealTimeLatency>1.300 us</Average-caseRealTimeLatency>
+                    <Worst-caseRealTimeLatency>5.150 us</Worst-caseRealTimeLatency>
+                    <PipelineInitiationInterval>2 ~ 1031</PipelineInitiationInterval>
+                    <PipelineType>no</PipelineType>
+                    <PerformancePragma>-</PerformancePragma>
+                </SummaryOfOverallLatency>
+                <SummaryOfViolations>
+                    <IssueType>-</IssueType>
+                    <ViolationType>-</ViolationType>
+                    <SourceLocation>hngac-fpga/fpga/hls/src/hngac_kernel.cpp:6</SourceLocation>
+                </SummaryOfViolations>
+            </PerformanceEstimates>
+            <AreaEstimates>
+                <Resources>
+                    <BRAM_18K>0</BRAM_18K>
+                    <AVAIL_BRAM>4032</AVAIL_BRAM>
+                    <UTIL_BRAM>0</UTIL_BRAM>
+                    <FF>948</FF>
+                    <AVAIL_FF>2607360</AVAIL_FF>
+                    <UTIL_FF>~0</UTIL_FF>
+                    <LUT>5426</LUT>
+                    <AVAIL_LUT>1303680</AVAIL_LUT>
+                    <UTIL_LUT>~0</UTIL_LUT>
+                    <URAM>0</URAM>
+                    <AVAIL_URAM>960</AVAIL_URAM>
+                    <UTIL_URAM>0</UTIL_URAM>
+                    <DSP>0</DSP>
+                    <AVAIL_DSP>9024</AVAIL_DSP>
+                    <UTIL_DSP>0</UTIL_DSP>
+                </Resources>
+            </AreaEstimates>
+            <BindNodes>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln15_fu_167_p2" SOURCE="hngac-fpga/fpga/hls/src/hngac_kernel.cpp:15" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln15" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln15_1_fu_183_p2" SOURCE="hngac-fpga/fpga/hls/src/hngac_kernel.cpp:15" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln15_1" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op setgt" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="" OPTYPE="setgt" PRAGMA="" RTLNAME="icmp_ln20_fu_189_p2" SOURCE="hngac-fpga/fpga/hls/src/hngac_kernel.cpp:20" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln20" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op select" DSP="0" ID="" IMPL="auto_sel" LATENCY="0" LOOP="" OPTYPE="select" PRAGMA="" RTLNAME="bounded_rule_count_fu_195_p3" SOURCE="hngac-fpga/fpga/hls/src/hngac_kernel.cpp:20" STORAGESUBTYPE="" URAM="0" VARIABLE="bounded_rule_count" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op seteq" DSP="0" ID="" IMPL="auto" LATENCY="0" LOOP="" OPTYPE="seteq" PRAGMA="" RTLNAME="icmp_ln22_fu_227_p2" SOURCE="hngac-fpga/fpga/hls/src/hngac_kernel.cpp:22" STORAGESUBTYPE="" URAM="0" VARIABLE="icmp_ln22" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op shl" DSP="0" ID="" IMPL="auto_pipe" LATENCY="0" LOOP="" OPTYPE="shl" PRAGMA="" RTLNAME="shl_ln59_fu_304_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:59" STORAGESUBTYPE="" URAM="0" VARIABLE="shl_ln59" VISIBLE="false"/>
+                <BindNode BINDTYPE="op" BRAM="0" BUNDLEDNAME="" DISPNAME="bind_op shl" DSP="0" ID="" IMPL="auto_pipe" LATENCY="0" LOOP="" OPTYPE="shl" PRAGMA="" RTLNAME="shl_ln59_1_fu_314_p2" SOURCE="hngac-fpga/fpga/hls/include/hngac_types.hpp:59" STORAGESUBTYPE="" URAM="0" VARIABLE="shl_ln59_1" VISIBLE="false"/>
+                <BindNode BINDTYPE="adapter" BRAM="0" BUNDLEDNAME="control" DISPNAME="bind_adapter " DSP="0" ID="" IMPL="" LATENCY="" LOOP="" OPTYPE="" PRAGMA="" RTLNAME="control_s_axi_U" SOURCE="" STORAGESIZE="" STORAGESUBTYPE="s_axilite" STORAGEUSAGE="interface" URAM="0" VARIABLE=""/>
+            </BindNodes>
+        </Module>
+    </ModuleInformation>
+    <FIFOInformation/>
+    <UserConfigCommands/>
+    <Args>
+        <Arg ArgName="policy" index="0" direction="in" srcType="PolicyRule const *" srcSize="832">
+            <hwRefs>
+                <hwRef type="interface" interface="policy_PORTA" name="" usage="data" direction="in"/>
+            </hwRefs>
+        </Arg>
+        <Arg ArgName="rule_count" index="1" direction="in" srcType="unsigned short" srcSize="16">
+            <hwRefs>
+                <hwRef type="register" interface="s_axi_control" name="rule_count" usage="data" direction="in"/>
+            </hwRefs>
+        </Arg>
+        <Arg ArgName="request" index="2" direction="in" srcType="AuthorizationRequest const &amp;" srcSize="384">
+            <hwRefs>
+                <hwRef type="register" interface="s_axi_control" name="request_1" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_2" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_3" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_4" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_5" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_6" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_7" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_8" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_9" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_10" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_11" usage="data" direction="in"/>
+                <hwRef type="register" interface="s_axi_control" name="request_12" usage="data" direction="in"/>
+            </hwRefs>
+        </Arg>
+    </Args>
+    <ReturnValue ReturnValueName="srcType">bool</ReturnValue>
+    <ReturnValue ReturnValueName="srcSize">1</ReturnValue>
+    <ReturnValue ReturnValueName="hwRefs" type="register" interface="s_axi_control" name="ap_return" usage="data" direction="out"/>
+    <Interfaces>
+        <Interface InterfaceName="s_axi_control" type="axi4lite" busTypeName="aximm" mode="slave" dataWidth="32" addrWidth="7" portPrefix="s_axi_control_" paramPrefix="C_S_AXI_CONTROL_">
+            <ports>
+                <port>s_axi_control_ARADDR</port>
+                <port>s_axi_control_ARREADY</port>
+                <port>s_axi_control_ARVALID</port>
+                <port>s_axi_control_AWADDR</port>
+                <port>s_axi_control_AWREADY</port>
+                <port>s_axi_control_AWVALID</port>
+                <port>s_axi_control_BREADY</port>
+                <port>s_axi_control_BRESP</port>
+                <port>s_axi_control_BVALID</port>
+                <port>s_axi_control_RDATA</port>
+                <port>s_axi_control_RREADY</port>
+                <port>s_axi_control_RRESP</port>
+                <port>s_axi_control_RVALID</port>
+                <port>s_axi_control_WDATA</port>
+                <port>s_axi_control_WREADY</port>
+                <port>s_axi_control_WSTRB</port>
+                <port>s_axi_control_WVALID</port>
+            </ports>
+            <registers>
+                <register offset="0x00" name="CTRL" access="RW" description="Control signals" range="32">
+                    <fields>
+                        <field offset="0" width="1" name="AP_START" access="RW" description="Control signal Register for 'ap_start'."/>
+                        <field offset="1" width="1" name="AP_DONE" access="R" description="Control signal Register for 'ap_done'."/>
+                        <field offset="2" width="1" name="AP_IDLE" access="R" description="Control signal Register for 'ap_idle'."/>
+                        <field offset="3" width="1" name="AP_READY" access="R" description="Control signal Register for 'ap_ready'."/>
+                        <field offset="4" width="3" name="RESERVED_1" access="R" description="Reserved.  0s on read."/>
+                        <field offset="7" width="1" name="AUTO_RESTART" access="RW" description="Control signal Register for 'auto_restart'."/>
+                        <field offset="8" width="1" name="RESERVED_2" access="R" description="Reserved.  0s on read."/>
+                        <field offset="9" width="1" name="INTERRUPT" access="R" description="Control signal Register for 'interrupt'."/>
+                        <field offset="10" width="22" name="RESERVED_3" access="R" description="Reserved.  0s on read."/>
+                    </fields>
+                </register>
+                <register offset="0x04" name="GIER" access="RW" description="Global Interrupt Enable Register" range="32">
+                    <fields>
+                        <field offset="0" width="1" name="Enable" access="RW" description="Master enable for the device interrupt output to the system interrupt controller: 0 = Disabled, 1 = Enabled"/>
+                        <field offset="1" width="31" name="RESERVED" access="R" description="Reserved.  0s on read."/>
+                    </fields>
+                </register>
+                <register offset="0x08" name="IP_IER" access="RW" description="IP Interrupt Enable Register" range="32">
+                    <fields>
+                        <field offset="0" width="1" name="CHAN0_INT_EN" access="RW" description="Enable Channel 0 (ap_done) Interrupt.  0 = Disabled, 1 = Enabled."/>
+                        <field offset="1" width="1" name="CHAN1_INT_EN" access="RW" description="Enable Channel 1 (ap_ready) Interrupt.  0 = Disabled, 1 = Enabled."/>
+                        <field offset="2" width="30" name="RESERVED_0" access="R" description="Reserved.  0s on read."/>
+                    </fields>
+                </register>
+                <register offset="0x0c" name="IP_ISR" access="RW" description="IP Interrupt Status Register" range="32">
+                    <fields>
+                        <field offset="0" width="1" name="CHAN0_INT_ST" access="RTOW" description="Channel 0 (ap_done) Interrupt Status. 0 = No Channel 0 interrupt, 1 = Channel 0 interrupt."/>
+                        <field offset="1" width="1" name="CHAN1_INT_ST" access="RTOW" description="Channel 1 (ap_ready) Interrupt Status. 0 = No Channel 1 interrupt, 1 = Channel 1 interrupt."/>
+                        <field offset="2" width="30" name="RESERVED_0" access="R" description="Reserved.  0s on read."/>
+                    </fields>
+                </register>
+                <register offset="0x10" name="ap_return" access="R" description="Data signal of ap_return" range="32">
+                    <fields>
+                        <field offset="0" width="1" name="ap_return" access="R" description="Bit 0 to 0 of ap_return"/>
+                        <field offset="1" width="31" name="RESERVED" access="R" description="Reserved.  0s on read."/>
+                    </fields>
+                </register>
+                <register offset="0x18" name="rule_count" access="W" description="Data signal of rule_count" range="32">
+                    <fields>
+                        <field offset="0" width="16" name="rule_count" access="W" description="Bit 15 to 0 of rule_count"/>
+                        <field offset="16" width="16" name="RESERVED" access="R" description="Reserved.  0s on read."/>
+                    </fields>
+                </register>
+                <register offset="0x40" name="request_1" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 31 to 0 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x44" name="request_2" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 63 to 32 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x48" name="request_3" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 95 to 64 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x4c" name="request_4" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 127 to 96 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x50" name="request_5" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 159 to 128 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x54" name="request_6" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 191 to 160 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x58" name="request_7" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 223 to 192 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x5c" name="request_8" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 255 to 224 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x60" name="request_9" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 287 to 256 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x64" name="request_10" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 319 to 288 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x68" name="request_11" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 351 to 320 of request"/>
+                    </fields>
+                </register>
+                <register offset="0x6c" name="request_12" access="W" description="Data signal of request" range="32">
+                    <fields>
+                        <field offset="0" width="32" name="request" access="W" description="Bit 383 to 352 of request"/>
+                    </fields>
+                </register>
+            </registers>
+            <constraints>
+                <constraint constraint_type="pragma interface" mode="s_axilite" register_option="0" offset="24" argName="rule_count"/>
+                <constraint constraint_type="pragma interface" mode="s_axilite" register_option="0" offset="64" argName="request"/>
+            </constraints>
+        </Interface>
+        <Interface InterfaceName="ap_clk" type="clock" busTypeName="clock" mode="slave">
+            <busParams>
+                <busParam busParamName="ASSOCIATED_BUSIF">s_axi_control</busParam>
+                <busParam busParamName="ASSOCIATED_RESET">ap_rst_n</busParam>
+            </busParams>
+            <portMaps>
+                <portMap portMapName="ap_clk">CLK</portMap>
+            </portMaps>
+            <ports>
+                <port>ap_clk</port>
+            </ports>
+        </Interface>
+        <Interface InterfaceName="ap_rst_n" type="reset" busTypeName="reset" mode="slave">
+            <busParams>
+                <busParam busParamName="POLARITY">ACTIVE_LOW</busParam>
+            </busParams>
+            <portMaps>
+                <portMap portMapName="ap_rst_n">RST</portMap>
+            </portMaps>
+            <ports>
+                <port>ap_rst_n</port>
+            </ports>
+        </Interface>
+        <Interface InterfaceName="interrupt" type="interrupt" busTypeName="interrupt" mode="master" dataWidth="1">
+            <busParams>
+                <busParam busParamName="SENSITIVITY">LEVEL_HIGH</busParam>
+            </busParams>
+            <portMaps>
+                <portMap portMapName="interrupt">INTERRUPT</portMap>
+            </portMaps>
+            <ports>
+                <port>interrupt</port>
+            </ports>
+        </Interface>
+        <Interface InterfaceName="policy_PORTA" type="bram" busTypeName="bram" mode="master" direction="inout" dataWidth="832" addrWidth="32" portPrefix="policy_">
+            <busParams>
+                <busParam busParamName="MASTER_TYPE">BRAM_CTRL</busParam>
+                <busParam busParamName="MEM_SIZE">53248</busParam>
+                <busParam busParamName="MEM_WIDTH">832</busParam>
+                <busParam busParamName="MEM_ADDRESS_MODE">BYTE_ADDRESS</busParam>
+                <busParam busParamName="READ_LATENCY">1</busParam>
+            </busParams>
+            <portMaps>
+                <portMap portMapName="policy_Addr_A">ADDR</portMap>
+                <portMap portMapName="policy_EN_A">EN</portMap>
+                <portMap portMapName="policy_WEN_A">WE</portMap>
+                <portMap portMapName="policy_Din_A">DIN</portMap>
+                <portMap portMapName="policy_Dout_A">DOUT</portMap>
+                <portMap portMapName="policy_Clk_A">CLK</portMap>
+                <portMap portMapName="policy_Rst_A">RST</portMap>
+            </portMaps>
+            <ports>
+                <port>policy_Addr_A</port>
+                <port>policy_Clk_A</port>
+                <port>policy_Din_A</port>
+                <port>policy_Dout_A</port>
+                <port>policy_EN_A</port>
+                <port>policy_Rst_A</port>
+                <port>policy_WEN_A</port>
+            </ports>
+            <constraints>
+                <constraint constraint_type="pragma interface" mode="bram" register_option="0" argName="policy"/>
+            </constraints>
+        </Interface>
+    </Interfaces>
+    <ReportHWInterface>
+        <section name="HW Interfaces" level="0">
+            <item name="S_AXILITE Interfaces">
+                <table>
+                    <keys size="5">Interface, Data Width, Address Width, Offset, Register</keys>
+                    <column name="s_axi_control">32, 7, 24, 0</column>
+                </table>
+            </item>
+            <item name="S_AXILITE Registers">
+                <table>
+                    <keys size="7">Interface, Register, Offset, Width, Access, Description, Bit Fields</keys>
+                    <column name="s_axi_control">CTRL, 0x00, 32, RW, Control signals, 0=AP_START 1=AP_DONE 2=AP_IDLE 3=AP_READY 7=AUTO_RESTART 9=INTERRUPT</column>
+                    <column name="s_axi_control">GIER, 0x04, 32, RW, Global Interrupt Enable Register, 0=Enable</column>
+                    <column name="s_axi_control">IP_IER, 0x08, 32, RW, IP Interrupt Enable Register, 0=CHAN0_INT_EN 1=CHAN1_INT_EN</column>
+                    <column name="s_axi_control">IP_ISR, 0x0c, 32, RW, IP Interrupt Status Register, 0=CHAN0_INT_ST 1=CHAN1_INT_ST</column>
+                    <column name="s_axi_control">ap_return, 0x10, 32, R, Data signal of ap_return, </column>
+                    <column name="s_axi_control">rule_count, 0x18, 32, W, Data signal of rule_count, </column>
+                    <column name="s_axi_control">request_1, 0x40, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_2, 0x44, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_3, 0x48, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_4, 0x4c, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_5, 0x50, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_6, 0x54, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_7, 0x58, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_8, 0x5c, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_9, 0x60, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_10, 0x64, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_11, 0x68, 32, W, Data signal of request, </column>
+                    <column name="s_axi_control">request_12, 0x6c, 32, W, Data signal of request, </column>
+                </table>
+            </item>
+            <item name="BRAM">
+                <table>
+                    <keys size="3">Interface, Data Width, Address Width</keys>
+                    <column name="policy_PORTA">832, 32</column>
+                </table>
+            </item>
+            <item name="TOP LEVEL CONTROL">
+                <table>
+                    <keys size="3">Interface, Type, Ports</keys>
+                    <column name="ap_clk">clock, ap_clk</column>
+                    <column name="ap_rst_n">reset, ap_rst_n</column>
+                    <column name="interrupt">interrupt, interrupt</column>
+                    <column name="ap_ctrl">ap_ctrl_hs, </column>
+                </table>
+            </item>
+        </section>
+    </ReportHWInterface>
+    <ReportSWInterface>
+        <section name="SW I/O Information" level="0">
+            <item name="Top Function Arguments">
+                <table>
+                    <keys size="3">Argument, Direction, Datatype</keys>
+                    <column name="policy">in, PolicyRule const *</column>
+                    <column name="rule_count">in, unsigned short</column>
+                    <column name="request">in, AuthorizationRequest const &amp;</column>
+                    <column name="return">out, bool</column>
+                </table>
+            </item>
+            <item name="SW-to-HW Mapping">
+                <table>
+                    <keys size="4">Argument, HW Interface, HW Type, HW Info</keys>
+                    <column name="policy">policy_PORTA, interface, </column>
+                    <column name="rule_count">s_axi_control, register, name=rule_count offset=0x18 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_1 offset=0x40 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_2 offset=0x44 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_3 offset=0x48 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_4 offset=0x4c range=32</column>
+                    <column name="request">s_axi_control, register, name=request_5 offset=0x50 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_6 offset=0x54 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_7 offset=0x58 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_8 offset=0x5c range=32</column>
+                    <column name="request">s_axi_control, register, name=request_9 offset=0x60 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_10 offset=0x64 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_11 offset=0x68 range=32</column>
+                    <column name="request">s_axi_control, register, name=request_12 offset=0x6c range=32</column>
+                    <column name="return">s_axi_control, register, name=ap_return offset=0x10 range=32</column>
+                </table>
+            </item>
+        </section>
+    </ReportSWInterface>
+    <ResolutionUrl key="ZZZ">docs.amd.com/access/sources/dita/topic?Doc_Version=2025.2%20English&amp;url=ug1448-hls-guidance&amp;resourceid=ZZZ.html</ResolutionUrl>
+    <PragmaReport>
+        <Pragma type="interface" location="/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:10" status="valid" parentFunction="hngac_authorize" variable="return" isDirective="0" options="s_axilite port=return"/>
+        <Pragma type="interface" location="/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:11" status="valid" parentFunction="hngac_authorize" variable="rule_count" isDirective="0" options="s_axilite port=rule_count"/>
+        <Pragma type="interface" location="/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:12" status="valid" parentFunction="hngac_authorize" variable="request" isDirective="0" options="s_axilite port=request"/>
+        <Pragma type="interface" location="/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:13" status="valid" parentFunction="hngac_authorize" variable="policy" isDirective="0" options="bram port=policy"/>
+        <Pragma type="pipeline" location="/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:23" status="valid" parentFunction="hngac_authorize" variable="" isDirective="0" options="ii=1"/>
+    </PragmaReport>
+</profile>

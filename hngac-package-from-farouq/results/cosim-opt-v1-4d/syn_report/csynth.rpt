@@ -1,0 +1,284 @@
+
+
+================================================================
+== Synthesis Summary Report of 'hngac_authorize'
+================================================================
++ General Information: 
+    * Date:           Wed Aug  5 16:14:56 2026
+    * Version:        2025.2 (Build 6295257 on Nov 14 2025)
+    * Project:        hngac_opt_v1_4d_bench
+    * Solution:       solution1 (Vivado IP Flow Target)
+    * Product family: zynq
+    * Target device:  xc7z020-clg400-1
+    
+
+* Performance & Resource Estimates: 
++---------------------------------------------+------+---------------+----------+---------+------+----------+---------+-----------+------+------+----+-----------+-----------+-----+
+|                   Modules                   | Issue|               | Iteration|         | Trip |          |       Latency       |      |      |    |           |           |     |
+|                   & Loops                   | Type | Violation Type|  Latency | Interval| Count| Pipelined| (cycles)|    (ns)   | Slack| BRAM | DSP|     FF    |    LUT    | URAM|
++---------------------------------------------+------+---------------+----------+---------+------+----------+---------+-----------+------+------+----+-----------+-----------+-----+
+|+ hngac_authorize                            |     -|              -|         -|      271|     -|        no|      270|  2.700e+03|  0.33|     -|   -|  2579 (2%)|  4580 (8%)|    -|
+| + hngac_authorize_Pipeline_1                |     -|              -|         -|        -|     -|       yes|        6|     60.000|  2.47|     -|   -|    5 (~0%)|   51 (~0%)|    -|
+|  o Loop 1                                   |     -|              -|         1|        1|     4|       yes|        4|     40.000|  7.30|     -|   -|          -|          -|    -|
+| + hngac_authorize_Pipeline_2                |     -|              -|         -|        -|     -|       yes|        6|     60.000|  2.47|     -|   -|    5 (~0%)|   51 (~0%)|    -|
+|  o Loop 1                                   |     -|              -|         1|        1|     4|       yes|        4|     40.000|  7.30|     -|   -|          -|          -|    -|
+| + hngac_authorize_Pipeline_3                |     -|              -|         -|        -|     -|       yes|        6|     60.000|  2.47|     -|   -|    5 (~0%)|   51 (~0%)|    -|
+|  o Loop 1                                   |     -|              -|         1|        1|     4|       yes|        4|     40.000|  7.30|     -|   -|          -|          -|    -|
+| + hngac_authorize_Pipeline_4                |     -|              -|         -|        -|     -|       yes|        6|     60.000|  2.47|     -|   -|    5 (~0%)|   51 (~0%)|    -|
+|  o Loop 1                                   |     -|              -|         1|        1|     4|       yes|        4|     40.000|  7.30|     -|   -|          -|          -|    -|
+| + hngac_authorize_Pipeline_5                |     -|              -|         -|        -|     -|       yes|        6|     60.000|  2.47|     -|   -|    5 (~0%)|   51 (~0%)|    -|
+|  o Loop 1                                   |     -|              -|         1|        1|     4|       yes|        4|     40.000|  7.30|     -|   -|          -|          -|    -|
+| + hngac_authorize_Pipeline_6                |     -|              -|         -|        -|     -|       yes|        6|     60.000|  2.47|     -|   -|    5 (~0%)|   51 (~0%)|    -|
+|  o Loop 1                                   |     -|              -|         1|        1|     4|       yes|        4|     40.000|  7.30|     -|   -|          -|          -|    -|
+| + hngac_authorize_Pipeline_VITIS_LOOP_54_1  |     -|              -|         -|        -|     -|       yes|      260|  2.600e+03|  1.82|     -|   -|  1625 (1%)|  2926 (5%)|    -|
+|  o VITIS_LOOP_54_1                          |     -|              -|         3|        1|   257|       yes|      258|  2.580e+03|  7.30|     -|   -|          -|          -|    -|
++---------------------------------------------+------+---------------+----------+---------+------+----------+---------+-----------+------+------+----+-----------+-----------+-----+
+    Name Prefix: '+' for module, 'o' for loop, '*' for dataflow
+
+
+================================================================
+== HW Interfaces
+================================================================
+* S_AXILITE Interfaces
++---------------+------------+---------------+--------+----------+
+| Interface     | Data Width | Address Width | Offset | Register |
++---------------+------------+---------------+--------+----------+
+| s_axi_control | 32         | 7             | 24     | 0        |
++---------------+------------+---------------+--------+----------+
+
+* S_AXILITE Registers
++---------------+------------+--------+-------+--------+----------------------------------+----------------------------------------------------------------------+
+| Interface     | Register   | Offset | Width | Access | Description                      | Bit Fields                                                           |
++---------------+------------+--------+-------+--------+----------------------------------+----------------------------------------------------------------------+
+| s_axi_control | CTRL       | 0x00   | 32    | RW     | Control signals                  | 0=AP_START 1=AP_DONE 2=AP_IDLE 3=AP_READY 7=AUTO_RESTART 9=INTERRUPT |
+| s_axi_control | GIER       | 0x04   | 32    | RW     | Global Interrupt Enable Register | 0=Enable                                                             |
+| s_axi_control | IP_IER     | 0x08   | 32    | RW     | IP Interrupt Enable Register     | 0=CHAN0_INT_EN 1=CHAN1_INT_EN                                        |
+| s_axi_control | IP_ISR     | 0x0c   | 32    | RW     | IP Interrupt Status Register     | 0=CHAN0_INT_ST 1=CHAN1_INT_ST                                        |
+| s_axi_control | ap_return  | 0x10   | 32    | R      | Data signal of ap_return         |                                                                      |
+| s_axi_control | rule_count | 0x18   | 32    | W      | Data signal of rule_count        |                                                                      |
+| s_axi_control | request_1  | 0x40   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_2  | 0x44   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_3  | 0x48   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_4  | 0x4c   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_5  | 0x50   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_6  | 0x54   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_7  | 0x58   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_8  | 0x5c   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_9  | 0x60   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_10 | 0x64   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_11 | 0x68   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_12 | 0x6c   | 32    | W      | Data signal of request           |                                                                      |
++---------------+------------+--------+-------+--------+----------------------------------+----------------------------------------------------------------------+
+
+* BRAM
++--------------+------------+---------------+
+| Interface    | Data Width | Address Width |
++--------------+------------+---------------+
+| policy_PORTA | 1024       | 32            |
+| policy_PORTB | 1024       | 32            |
++--------------+------------+---------------+
+
+* TOP LEVEL CONTROL
++-----------+------------+-----------+
+| Interface | Type       | Ports     |
++-----------+------------+-----------+
+| ap_clk    | clock      | ap_clk    |
+| ap_rst_n  | reset      | ap_rst_n  |
+| interrupt | interrupt  | interrupt |
+| ap_ctrl   | ap_ctrl_hs |           |
++-----------+------------+-----------+
+
+
+================================================================
+== SW I/O Information
+================================================================
+* Top Function Arguments
++------------+-----------+------------------------------+
+| Argument   | Direction | Datatype                     |
++------------+-----------+------------------------------+
+| policy     | in        | PolicyRule const *           |
+| rule_count | in        | unsigned short               |
+| request    | in        | AuthorizationRequest const & |
+| return     | out       | bool                         |
++------------+-----------+------------------------------+
+
+* SW-to-HW Mapping
++------------+---------------+-----------+--------------------------------------+
+| Argument   | HW Interface  | HW Type   | HW Info                              |
++------------+---------------+-----------+--------------------------------------+
+| policy     | policy_PORTA  | interface |                                      |
+| policy     | policy_PORTB  | interface |                                      |
+| rule_count | s_axi_control | register  | name=rule_count offset=0x18 range=32 |
+| request    | s_axi_control | register  | name=request_1 offset=0x40 range=32  |
+| request    | s_axi_control | register  | name=request_2 offset=0x44 range=32  |
+| request    | s_axi_control | register  | name=request_3 offset=0x48 range=32  |
+| request    | s_axi_control | register  | name=request_4 offset=0x4c range=32  |
+| request    | s_axi_control | register  | name=request_5 offset=0x50 range=32  |
+| request    | s_axi_control | register  | name=request_6 offset=0x54 range=32  |
+| request    | s_axi_control | register  | name=request_7 offset=0x58 range=32  |
+| request    | s_axi_control | register  | name=request_8 offset=0x5c range=32  |
+| request    | s_axi_control | register  | name=request_9 offset=0x60 range=32  |
+| request    | s_axi_control | register  | name=request_10 offset=0x64 range=32 |
+| request    | s_axi_control | register  | name=request_11 offset=0x68 range=32 |
+| request    | s_axi_control | register  | name=request_12 offset=0x6c range=32 |
+| return     | s_axi_control | register  | name=ap_return offset=0x10 range=32  |
++------------+---------------+-----------+--------------------------------------+
+
+
+================================================================
+== Bind Op Report
+================================================================
++-----------------------------------------------+-----+--------+---------------------------------+-----------+--------------------------+---------+
+| Name                                          | DSP | Pragma | Variable                        | Op        | Impl                     | Latency |
++-----------------------------------------------+-----+--------+---------------------------------+-----------+--------------------------+---------+
+| + hngac_authorize                             | 0   |        |                                 |           |                          |         |
+|   icmp_ln15_fu_352_p2                         |     |        | icmp_ln15                       | seteq     | auto                     | 0       |
+|   icmp_ln15_1_fu_368_p2                       |     |        | icmp_ln15_1                     | seteq     | auto                     | 0       |
+|   subj_mask_fu_475_p2                         |     |        | subj_mask                       | shl       | auto_pipe                | 0       |
+|   obj_mask_fu_484_p2                          |     |        | obj_mask                        | shl       | auto_pipe                | 0       |
+|   icmp_ln20_fu_408_p2                         |     |        | icmp_ln20                       | setgt     | auto                     | 0       |
+|   bounded_rule_count_fu_414_p3                |     |        | bounded_rule_count              | select    | auto_sel                 | 0       |
+|   add_ln48_fu_570_p2                          |     |        | add_ln48                        | add       | fabric                   | 0       |
+|   add_ln54_fu_602_p2                          |     |        | add_ln54                        | add       | fabric                   | 0       |
+|  + hngac_authorize_Pipeline_1                 | 0   |        |                                 |           |                          |         |
+|    exitcond2_i1_fu_94_p2                      |     |        | exitcond2_i1                    | seteq     | auto                     | 0       |
+|    empty_33_fu_100_p2                         |     |        | empty_33                        | add       | fabric                   | 0       |
+|  + hngac_authorize_Pipeline_2                 | 0   |        |                                 |           |                          |         |
+|    exitcond1_i2_fu_94_p2                      |     |        | exitcond1_i2                    | seteq     | auto                     | 0       |
+|    empty_30_fu_100_p2                         |     |        | empty_30                        | add       | fabric                   | 0       |
+|  + hngac_authorize_Pipeline_3                 | 0   |        |                                 |           |                          |         |
+|    exitcond_i3_fu_94_p2                       |     |        | exitcond_i3                     | seteq     | auto                     | 0       |
+|    empty_27_fu_100_p2                         |     |        | empty_27                        | add       | fabric                   | 0       |
+|  + hngac_authorize_Pipeline_4                 | 0   |        |                                 |           |                          |         |
+|    exitcond2_i1954_fu_94_p2                   |     |        | exitcond2_i1954                 | seteq     | auto                     | 0       |
+|    empty_24_fu_100_p2                         |     |        | empty_24                        | add       | fabric                   | 0       |
+|  + hngac_authorize_Pipeline_5                 | 0   |        |                                 |           |                          |         |
+|    exitcond1_i1985_fu_94_p2                   |     |        | exitcond1_i1985                 | seteq     | auto                     | 0       |
+|    empty_21_fu_100_p2                         |     |        | empty_21                        | add       | fabric                   | 0       |
+|  + hngac_authorize_Pipeline_6                 | 0   |        |                                 |           |                          |         |
+|    exitcond_i2016_fu_94_p2                    |     |        | exitcond_i2016                  | seteq     | auto                     | 0       |
+|    empty_18_fu_100_p2                         |     |        | empty_18                        | add       | fabric                   | 0       |
+|  + hngac_authorize_Pipeline_VITIS_LOOP_54_1   | 0   |        |                                 |           |                          |         |
+|    icmp_ln54_fu_751_p2                        |     |        | icmp_ln54                       | seteq     | auto                     | 0       |
+|    add_ln54_1_fu_757_p2                       |     |        | add_ln54_1                      | add       | fabric                   | 0       |
+|    xor_ln59_fu_1918_p2                        |     |        | xor_ln59                        | xor       | auto                     | 0       |
+|    or_ln59_fu_1924_p2                         |     |        | or_ln59                         | or        | auto                     | 0       |
+|    found_1_fu_1984_p2                         |     |        | or_ln59_1                       | or        | auto                     | 0       |
+|    sparsemux_9_2_64_1_1_U25                   |     |        | tmp                             | sparsemux | compactencoding_dontcare | 0       |
+|    sparsemux_9_2_64_1_1_U26                   |     |        | tmp_1                           | sparsemux | compactencoding_dontcare | 0       |
+|    and_ln34_fu_928_p2                         |     |        | and_ln34                        | and       | auto                     | 0       |
+|    icmp_ln34_fu_933_p2                        |     |        | icmp_ln34                       | seteq     | auto                     | 0       |
+|    and_ln35_fu_938_p2                         |     |        | and_ln35                        | and       | auto                     | 0       |
+|    icmp_ln35_fu_943_p2                        |     |        | icmp_ln35                       | seteq     | auto                     | 0       |
+|    and_ln36_fu_948_p2                         |     |        | and_ln36                        | and       | auto                     | 0       |
+|    icmp_ln36_fu_953_p2                        |     |        | icmp_ln36                       | seteq     | auto                     | 0       |
+|    and_ln34_1_fu_958_p2                       |     |        | and_ln34_1                      | and       | auto                     | 0       |
+|    and_ln34_2_fu_964_p2                       |     |        | and_ln34_2                      | and       | auto                     | 0       |
+|    and_ln37_fu_970_p2                         |     |        | and_ln37                        | and       | auto                     | 0       |
+|    icmp_ln37_fu_975_p2                        |     |        | icmp_ln37                       | seteq     | auto                     | 0       |
+|    attr_ok_fu_980_p2                          |     |        | attr_ok                         | and       | auto                     | 0       |
+|    and_ln38_fu_986_p2                         |     |        | and_ln38                        | and       | auto                     | 0       |
+|    state_ok_fu_991_p2                         |     |        | state_ok                        | seteq     | auto                     | 0       |
+|    bitselect_1ns_64ns_6ns_1_1_1_U27           |     |        | notlhs                          | bitselect | auto                     | 0       |
+|    bitselect_1ns_64ns_6ns_1_1_1_U28           |     |        | notrhs                          | bitselect | auto                     | 0       |
+|    and_ln60_1_fu_1011_p2                      |     |        | and_ln60_1                      | and       | auto                     | 0       |
+|    and_ln60_2_fu_1017_p2                      |     |        | and_ln60_2                      | and       | auto                     | 0       |
+|    and_ln60_fu_1023_p2                        |     |        | and_ln60                        | and       | auto                     | 0       |
+|    sparsemux_9_2_64_1_1_U29                   |     |        | tmp_2                           | sparsemux | compactencoding_dontcare | 0       |
+|    and_ln31_fu_1052_p2                        |     |        | and_ln31                        | and       | auto                     | 0       |
+|    subj_ok_fu_1057_p2                         |     |        | subj_ok                         | seteq     | auto                     | 0       |
+|    sparsemux_9_2_64_1_1_U30                   |     |        | tmp_3                           | sparsemux | compactencoding_dontcare | 0       |
+|    and_ln32_fu_1086_p2                        |     |        | and_ln32                        | and       | auto                     | 0       |
+|    obj_ok_fu_1091_p2                          |     |        | obj_ok                          | seteq     | auto                     | 0       |
+|    and_ln34_3_fu_1097_p2                      |     |        | and_ln34_3                      | and       | auto                     | 0       |
+|    icmp_ln34_1_fu_1102_p2                     |     |        | icmp_ln34_1                     | seteq     | auto                     | 0       |
+|    and_ln35_1_fu_1107_p2                      |     |        | and_ln35_1                      | and       | auto                     | 0       |
+|    icmp_ln35_1_fu_1112_p2                     |     |        | icmp_ln35_1                     | seteq     | auto                     | 0       |
+|    and_ln36_1_fu_1117_p2                      |     |        | and_ln36_1                      | and       | auto                     | 0       |
+|    icmp_ln36_1_fu_1122_p2                     |     |        | icmp_ln36_1                     | seteq     | auto                     | 0       |
+|    and_ln34_4_fu_1127_p2                      |     |        | and_ln34_4                      | and       | auto                     | 0       |
+|    and_ln34_5_fu_1133_p2                      |     |        | and_ln34_5                      | and       | auto                     | 0       |
+|    and_ln37_1_fu_1139_p2                      |     |        | and_ln37_1                      | and       | auto                     | 0       |
+|    icmp_ln37_1_fu_1144_p2                     |     |        | icmp_ln37_1                     | seteq     | auto                     | 0       |
+|    attr_ok_1_fu_1149_p2                       |     |        | attr_ok_1                       | and       | auto                     | 0       |
+|    and_ln38_1_fu_1155_p2                      |     |        | and_ln38_1                      | and       | auto                     | 0       |
+|    state_ok_1_fu_1160_p2                      |     |        | state_ok_1                      | seteq     | auto                     | 0       |
+|    or_ln39_fu_1936_p2                         |     |        | or_ln39                         | or        | auto                     | 0       |
+|    and_ln39_fu_1166_p2                        |     |        | and_ln39                        | and       | auto                     | 0       |
+|    xor_ln59_1_fu_1940_p2                      |     |        | xor_ln59_1                      | xor       | auto                     | 0       |
+|    and_ln59_fu_1946_p2                        |     |        | and_ln59                        | and       | auto                     | 0       |
+|    and_ln60_3_fu_1952_p2                      |     |        | and_ln60_3                      | and       | auto                     | 0       |
+|    xor_ln60_fu_1957_p2                        |     |        | xor_ln60                        | xor       | auto                     | 0       |
+|    and_ln39_1_fu_1962_p2                      |     |        | and_ln39_1                      | and       | auto                     | 0       |
+|    and_ln39_2_fu_1968_p2                      |     |        | and_ln39_2                      | and       | auto                     | 0       |
+|    sparsemux_9_3_1_1_1_U44                    |     |        | found_1                         | sparsemux | onehotencoding_realdef   | 0       |
+|    stage1_valid_1_fu_763_p2                   |     |        | stage1_valid_1                  | setlt     | auto                     | 0       |
+|    icmp_ln71_fu_788_p2                        |     |        | icmp_ln71                       | setlt     | auto                     | 0       |
+|    and_ln71_fu_1420_p2                        |     |        | and_ln71                        | and       | auto                     | 0       |
+|    xor_ln68_fu_1424_p2                        |     |        | xor_ln68                        | xor       | auto                     | 0       |
+|    sparsemux_7_2_64_1_1_U31                   |     |        | rule_b_reg_attributes_7         | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U32                   |     |        | rule_b_reg_attributes_4         | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U33                   |     |        | rule_b_reg_attributes_5         | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U34                   |     |        | rule_b_reg_attributes_6         | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U35                   |     |        | rule_b_reg_objects_7            | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U36                   |     |        | rule_b_reg_objects_4            | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U37                   |     |        | rule_b_reg_objects_5            | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U38                   |     |        | rule_b_reg_objects_6            | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U39                   |     |        | rule_b_reg_subjects_7           | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U40                   |     |        | rule_b_reg_subjects_4           | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U41                   |     |        | rule_b_reg_subjects_5           | sparsemux | onehotencoding_realdef   | 0       |
+|    sparsemux_7_2_64_1_1_U42                   |     |        | rule_b_reg_subjects_6           | sparsemux | onehotencoding_realdef   | 0       |
+|    rule_a_reg_attributes_8_fu_1677_p3         |     |        | rule_a_reg_attributes_8         | select    | auto_sel                 | 0       |
+|    rule_a_reg_attributes_9_fu_1684_p3         |     |        | rule_a_reg_attributes_9         | select    | auto_sel                 | 0       |
+|    rule_a_reg_attributes_10_fu_1691_p3        |     |        | rule_a_reg_attributes_10        | select    | auto_sel                 | 0       |
+|    rule_a_reg_attributes_11_fu_1698_p3        |     |        | rule_a_reg_attributes_11        | select    | auto_sel                 | 0       |
+|    rule_a_reg_objects_8_fu_1705_p3            |     |        | rule_a_reg_objects_8            | select    | auto_sel                 | 0       |
+|    rule_a_reg_objects_9_fu_1712_p3            |     |        | rule_a_reg_objects_9            | select    | auto_sel                 | 0       |
+|    rule_a_reg_objects_10_fu_1719_p3           |     |        | rule_a_reg_objects_10           | select    | auto_sel                 | 0       |
+|    rule_a_reg_objects_11_fu_1726_p3           |     |        | rule_a_reg_objects_11           | select    | auto_sel                 | 0       |
+|    rule_a_reg_subjects_8_fu_1733_p3           |     |        | rule_a_reg_subjects_8           | select    | auto_sel                 | 0       |
+|    rule_a_reg_subjects_9_fu_1740_p3           |     |        | rule_a_reg_subjects_9           | select    | auto_sel                 | 0       |
+|    rule_a_reg_subjects_10_fu_1747_p3          |     |        | rule_a_reg_subjects_10          | select    | auto_sel                 | 0       |
+|    rule_a_reg_subjects_11_fu_1754_p3          |     |        | rule_a_reg_subjects_11          | select    | auto_sel                 | 0       |
+|    sparsemux_7_2_32_1_1_U43                   |     |        | rule_b_reg_required_states_val7 | sparsemux | onehotencoding_realdef   | 0       |
+|    rule_a_reg_required_states_val5_fu_1781_p3 |     |        | rule_a_reg_required_states_val5 | select    | auto_sel                 | 0       |
++-----------------------------------------------+-----+--------+---------------------------------+-----------+--------------------------+---------+
+
+
+================================================================
+== Storage Report
+================================================================
++-------------------+-----------+-----------+------+------+--------+----------+------+---------+------------------+
+| Name              | Usage     | Type      | BRAM | URAM | Pragma | Variable | Impl | Latency | Bitwidth, Depth, |
+|                   |           |           |      |      |        |          |      |         | Banks            |
++-------------------+-----------+-----------+------+------+--------+----------+------+---------+------------------+
+| + hngac_authorize |           |           | 0    | 0    |        |          |      |         |                  |
+|   control_s_axi_U | interface | s_axilite |      |      |        |          |      |         |                  |
++-------------------+-----------+-----------+------+------+--------+----------+------+---------+------------------+
+
+
+================================================================
+== Pragma Report
+================================================================
+* Inferred Pragmas
++-----------------+--------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------+
+| Type            | Options                                          | Location                                                                                                                                                         | Inferred From                            |
++-----------------+--------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------+
+| INLINE          |                                                  | function in hngac_authorize(hngac::fpga::policyrule const*, unsigned short, hngac::fpga::authorizationrequest const&)::$_0::operator() (src/hngac_kernel.cpp:29) | pipeline src/hngac_kernel.cpp:55         |
+| ARRAY_PARTITION | dim=1 type=complete variable=rule_a_reg.subjects | variable rule_a_reg.subjects in hngac_authorize (src/hngac_kernel.cpp:50)                                                                                        | syn.array_partition.complete_threshold=4 |
++-----------------+--------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------+
+
+* Valid Pragma Syntax
++----------------+---------------------------+----------------------------------------------+
+| Type           | Options                   | Location                                     |
++----------------+---------------------------+----------------------------------------------+
+| INTERFACE      | s_axilite port=return     | in hngac_authorize (src/hngac_kernel.cpp:10) |
+| INTERFACE      | s_axilite port=rule_count | in hngac_authorize (src/hngac_kernel.cpp:11) |
+| INTERFACE      | s_axilite port=request    | in hngac_authorize (src/hngac_kernel.cpp:12) |
+| INTERFACE      | bram port=policy          | in hngac_authorize (src/hngac_kernel.cpp:13) |
+| INLINE         |                           | in hngac_authorize (src/hngac_kernel.cpp:30) |
+| PIPELINE       | ii=1                      | in hngac_authorize (src/hngac_kernel.cpp:55) |
+| LOOP_TRIPCOUNT | min=0 max=257 avg=129     | in hngac_authorize (src/hngac_kernel.cpp:56) |
++----------------+---------------------------+----------------------------------------------+
+
+

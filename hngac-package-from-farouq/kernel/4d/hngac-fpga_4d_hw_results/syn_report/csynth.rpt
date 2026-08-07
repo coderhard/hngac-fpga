@@ -1,0 +1,177 @@
+
+
+================================================================
+== Synthesis Summary Report of 'hngac_authorize'
+================================================================
++ General Information: 
+    * Date:           Sun Apr 19 00:17:02 2026
+    * Version:        2025.2 (Build 6295257 on Nov 14 2025)
+    * Project:        proj
+    * Solution:       sol1 (Vivado IP Flow Target)
+    * Product family: virtexuplusHBM
+    * Target device:  xcvu47p-fsvh2892-2L-e
+    
+
+* Performance & Resource Estimates: 
++---------------------------------------------+------+---------------------+----------+---------+------+----------+---------+-----------+------+------+----+-----------+------------+-----+
+|                   Modules                   | Issue|                     | Iteration|         | Trip |          |       Latency       |      |      |    |           |            |     |
+|                   & Loops                   | Type |    Violation Type   |  Latency | Interval| Count| Pipelined| (cycles)|    (ns)   | Slack| BRAM | DSP|     FF    |     LUT    | URAM|
++---------------------------------------------+------+---------------------+----------+---------+------+----------+---------+-----------+------+------+----+-----------+------------+-----+
+|+ hngac_authorize                            |     -|                    -|         -|     1031|     -|        no|     1030|  5.150e+03|  0.29|     -|   -|  948 (~0%)|  5426 (~0%)|    -|
+| + hngac_authorize_Pipeline_VITIS_LOOP_22_1  |     -|                    -|         -|        -|     -|       yes|     1027|  5.135e+03|  0.67|     -|   -|   43 (~0%)|  4095 (~0%)|    -|
+|  o VITIS_LOOP_22_1                          |    II|  Resource Limitation|         2|        2|   512|       yes|     1025|  5.125e+03|  3.65|     -|   -|          -|           -|    -|
++---------------------------------------------+------+---------------------+----------+---------+------+----------+---------+-----------+------+------+----+-----------+------------+-----+
+    II Violation Information: docs.amd.com/access/sources/dita/topic?Doc_Version=2025.2%20English&url=ug1448-hls-guidance&resourceid=200-880.html
+    Name Prefix: '+' for module, 'o' for loop, '*' for dataflow
+
+
+================================================================
+== HW Interfaces
+================================================================
+* S_AXILITE Interfaces
++---------------+------------+---------------+--------+----------+
+| Interface     | Data Width | Address Width | Offset | Register |
++---------------+------------+---------------+--------+----------+
+| s_axi_control | 32         | 7             | 24     | 0        |
++---------------+------------+---------------+--------+----------+
+
+* S_AXILITE Registers
++---------------+------------+--------+-------+--------+----------------------------------+----------------------------------------------------------------------+
+| Interface     | Register   | Offset | Width | Access | Description                      | Bit Fields                                                           |
++---------------+------------+--------+-------+--------+----------------------------------+----------------------------------------------------------------------+
+| s_axi_control | CTRL       | 0x00   | 32    | RW     | Control signals                  | 0=AP_START 1=AP_DONE 2=AP_IDLE 3=AP_READY 7=AUTO_RESTART 9=INTERRUPT |
+| s_axi_control | GIER       | 0x04   | 32    | RW     | Global Interrupt Enable Register | 0=Enable                                                             |
+| s_axi_control | IP_IER     | 0x08   | 32    | RW     | IP Interrupt Enable Register     | 0=CHAN0_INT_EN 1=CHAN1_INT_EN                                        |
+| s_axi_control | IP_ISR     | 0x0c   | 32    | RW     | IP Interrupt Status Register     | 0=CHAN0_INT_ST 1=CHAN1_INT_ST                                        |
+| s_axi_control | ap_return  | 0x10   | 32    | R      | Data signal of ap_return         |                                                                      |
+| s_axi_control | rule_count | 0x18   | 32    | W      | Data signal of rule_count        |                                                                      |
+| s_axi_control | request_1  | 0x40   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_2  | 0x44   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_3  | 0x48   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_4  | 0x4c   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_5  | 0x50   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_6  | 0x54   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_7  | 0x58   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_8  | 0x5c   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_9  | 0x60   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_10 | 0x64   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_11 | 0x68   | 32    | W      | Data signal of request           |                                                                      |
+| s_axi_control | request_12 | 0x6c   | 32    | W      | Data signal of request           |                                                                      |
++---------------+------------+--------+-------+--------+----------------------------------+----------------------------------------------------------------------+
+
+* BRAM
++--------------+------------+---------------+
+| Interface    | Data Width | Address Width |
++--------------+------------+---------------+
+| policy_PORTA | 832        | 32            |
++--------------+------------+---------------+
+
+* TOP LEVEL CONTROL
++-----------+------------+-----------+
+| Interface | Type       | Ports     |
++-----------+------------+-----------+
+| ap_clk    | clock      | ap_clk    |
+| ap_rst_n  | reset      | ap_rst_n  |
+| interrupt | interrupt  | interrupt |
+| ap_ctrl   | ap_ctrl_hs |           |
++-----------+------------+-----------+
+
+
+================================================================
+== SW I/O Information
+================================================================
+* Top Function Arguments
++------------+-----------+------------------------------+
+| Argument   | Direction | Datatype                     |
++------------+-----------+------------------------------+
+| policy     | in        | PolicyRule const *           |
+| rule_count | in        | unsigned short               |
+| request    | in        | AuthorizationRequest const & |
+| return     | out       | bool                         |
++------------+-----------+------------------------------+
+
+* SW-to-HW Mapping
++------------+---------------+-----------+--------------------------------------+
+| Argument   | HW Interface  | HW Type   | HW Info                              |
++------------+---------------+-----------+--------------------------------------+
+| policy     | policy_PORTA  | interface |                                      |
+| rule_count | s_axi_control | register  | name=rule_count offset=0x18 range=32 |
+| request    | s_axi_control | register  | name=request_1 offset=0x40 range=32  |
+| request    | s_axi_control | register  | name=request_2 offset=0x44 range=32  |
+| request    | s_axi_control | register  | name=request_3 offset=0x48 range=32  |
+| request    | s_axi_control | register  | name=request_4 offset=0x4c range=32  |
+| request    | s_axi_control | register  | name=request_5 offset=0x50 range=32  |
+| request    | s_axi_control | register  | name=request_6 offset=0x54 range=32  |
+| request    | s_axi_control | register  | name=request_7 offset=0x58 range=32  |
+| request    | s_axi_control | register  | name=request_8 offset=0x5c range=32  |
+| request    | s_axi_control | register  | name=request_9 offset=0x60 range=32  |
+| request    | s_axi_control | register  | name=request_10 offset=0x64 range=32 |
+| request    | s_axi_control | register  | name=request_11 offset=0x68 range=32 |
+| request    | s_axi_control | register  | name=request_12 offset=0x6c range=32 |
+| return     | s_axi_control | register  | name=ap_return offset=0x10 range=32  |
++------------+---------------+-----------+--------------------------------------+
+
+
+================================================================
+== Bind Op Report
+================================================================
++---------------------------------------------+-----+--------+--------------------+--------+-----------+---------+
+| Name                                        | DSP | Pragma | Variable           | Op     | Impl      | Latency |
++---------------------------------------------+-----+--------+--------------------+--------+-----------+---------+
+| + hngac_authorize                           | 0   |        |                    |        |           |         |
+|   icmp_ln15_fu_167_p2                       |     |        | icmp_ln15          | seteq  | auto      | 0       |
+|   icmp_ln15_1_fu_183_p2                     |     |        | icmp_ln15_1        | seteq  | auto      | 0       |
+|   icmp_ln20_fu_189_p2                       |     |        | icmp_ln20          | setgt  | auto      | 0       |
+|   bounded_rule_count_fu_195_p3              |     |        | bounded_rule_count | select | auto_sel  | 0       |
+|   icmp_ln22_fu_227_p2                       |     |        | icmp_ln22          | seteq  | auto      | 0       |
+|   shl_ln59_fu_304_p2                        |     |        | shl_ln59           | shl    | auto_pipe | 0       |
+|   shl_ln59_1_fu_314_p2                      |     |        | shl_ln59_1         | shl    | auto_pipe | 0       |
+|  + hngac_authorize_Pipeline_VITIS_LOOP_22_1 | 0   |        |                    |        |           |         |
+|    icmp_ln22_fu_195_p2                      |     |        | icmp_ln22          | setlt  | auto      | 0       |
+|    add_ln22_fu_201_p2                       |     |        | add_ln22           | add    | fabric    | 0       |
+|    lshr_ln59_fu_220_p2                      |     |        | lshr_ln59          | lshr   | auto_pipe | 0       |
+|    and_ln59_fu_229_p2                       |     |        | and_ln59           | and    | auto      | 0       |
+|    icmp_ln59_fu_234_p2                      |     |        | icmp_ln59          | seteq  | auto      | 0       |
+|    lshr_ln59_1_fu_240_p2                    |     |        | lshr_ln59_1        | lshr   | auto_pipe | 0       |
+|    and_ln59_1_fu_249_p2                     |     |        | and_ln59_1         | and    | auto      | 0       |
+|    icmp_ln59_1_fu_254_p2                    |     |        | icmp_ln59_1        | seteq  | auto      | 0       |
+|    and_ln64_fu_270_p2                       |     |        | and_ln64           | and    | auto      | 0       |
+|    icmp_ln64_fu_275_p2                      |     |        | icmp_ln64          | seteq  | auto      | 0       |
+|    and_ln64_1_fu_290_p2                     |     |        | and_ln64_1         | and    | auto      | 0       |
+|    icmp_ln64_1_fu_295_p2                    |     |        | icmp_ln64_1        | seteq  | auto      | 0       |
+|    and_ln64_2_fu_310_p2                     |     |        | and_ln64_2         | and    | auto      | 0       |
+|    icmp_ln64_2_fu_315_p2                    |     |        | icmp_ln64_2        | seteq  | auto      | 0       |
+|    and_ln64_3_fu_330_p2                     |     |        | and_ln64_3         | and    | auto      | 0       |
+|    icmp_ln64_3_fu_335_p2                    |     |        | icmp_ln64_3        | seteq  | auto      | 0       |
+|    and_ln76_fu_350_p2                       |     |        | and_ln76           | and    | auto      | 0       |
+|    icmp_ln76_fu_355_p2                      |     |        | icmp_ln76          | seteq  | auto      | 0       |
++---------------------------------------------+-----+--------+--------------------+--------+-----------+---------+
+
+
+================================================================
+== Storage Report
+================================================================
++-------------------+-----------+-----------+------+------+--------+----------+------+---------+------------------+
+| Name              | Usage     | Type      | BRAM | URAM | Pragma | Variable | Impl | Latency | Bitwidth, Depth, |
+|                   |           |           |      |      |        |          |      |         | Banks            |
++-------------------+-----------+-----------+------+------+--------+----------+------+---------+------------------+
+| + hngac_authorize |           |           | 0    | 0    |        |          |      |         |                  |
+|   control_s_axi_U | interface | s_axilite |      |      |        |          |      |         |                  |
++-------------------+-----------+-----------+------+------+--------+----------+------+---------+------------------+
+
+
+================================================================
+== Pragma Report
+================================================================
+* Valid Pragma Syntax
++-----------+---------------------------+-------------------------------------------------------------------------------+
+| Type      | Options                   | Location                                                                      |
++-----------+---------------------------+-------------------------------------------------------------------------------+
+| INTERFACE | s_axilite port=return     | in hngac_authorize (/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:10) |
+| INTERFACE | s_axilite port=rule_count | in hngac_authorize (/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:11) |
+| INTERFACE | s_axilite port=request    | in hngac_authorize (/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:12) |
+| INTERFACE | bram port=policy          | in hngac_authorize (/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:13) |
+| PIPELINE  | ii=1                      | in hngac_authorize (/home/ubuntu/hngac-fpga/fpga/hls/src/hngac_kernel.cpp:23) |
++-----------+---------------------------+-------------------------------------------------------------------------------+
+
+

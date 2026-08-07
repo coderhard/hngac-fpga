@@ -1,0 +1,177 @@
+
+
+================================================================
+== Vitis HLS Report for 'hngac_authorize_Pipeline_VITIS_LOOP_22_1'
+================================================================
+* Date:           Sun Apr 19 00:17:02 2026
+
+* Version:        2025.2 (Build 6295257 on Nov 14 2025)
+* Project:        proj
+* Solution:       sol1 (Vivado IP Flow Target)
+* Product family: virtexuplusHBM
+* Target device:  xcvu47p-fsvh2892-2L-e
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+---------+----------+------------+
+    |  Clock |  Target | Estimated| Uncertainty|
+    +--------+---------+----------+------------+
+    |ap_clk  |  5.00 ns|  2.977 ns|     1.35 ns|
+    +--------+---------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+-----------+----------+-----+-----+-------------------+
+    |  Latency (cycles) |  Latency (absolute)  |  Interval |      Pipeline     |
+    |   min   |   max   |    min    |    max   | min | max |        Type       |
+    +---------+---------+-----------+----------+-----+-----+-------------------+
+    |        3|     1027|  15.000 ns|  5.135 us|    0|    0|  loop pipeline stp|
+    +---------+---------+-----------+----------+-----+-----+-------------------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +-------------------+---------+---------+----------+-----------+-----------+---------+----------+
+        |                   |  Latency (cycles) | Iteration|  Initiation Interval  |   Trip  |          |
+        |     Loop Name     |   min   |   max   |  Latency |  achieved |   target  |  Count  | Pipelined|
+        +-------------------+---------+---------+----------+-----------+-----------+---------+----------+
+        |- VITIS_LOOP_22_1  |        1|     1025|         2|          2|          1|  0 ~ 512|       yes|
+        +-------------------+---------+---------+----------+-----------+-----------+---------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++---------------------+---------+------+---------+---------+-----+
+|         Name        | BRAM_18K|  DSP |    FF   |   LUT   | URAM|
++---------------------+---------+------+---------+---------+-----+
+|DSP                  |        -|     -|        -|        -|    -|
+|Expression           |        -|     -|        0|     4036|    -|
+|FIFO                 |        -|     -|        -|        -|    -|
+|Instance             |        -|     -|        -|        -|    -|
+|Memory               |        -|     -|        -|        -|    -|
+|Multiplexer          |        -|     -|        0|       59|    -|
+|Register             |        -|     -|       43|        -|    -|
++---------------------+---------+------+---------+---------+-----+
+|Total                |        0|     0|       43|     4095|    0|
++---------------------+---------+------+---------+---------+-----+
+|Available SLR        |     1344|  3008|   869120|   434560|  320|
++---------------------+---------+------+---------+---------+-----+
+|Utilization SLR (%)  |        0|     0|       ~0|       ~0|    0|
++---------------------+---------+------+---------+---------+-----+
+|Available            |     4032|  9024|  2607360|  1303680|  960|
++---------------------+---------+------+---------+---------+-----+
+|Utilization (%)      |        0|     0|       ~0|       ~0|    0|
++---------------------+---------+------+---------+---------+-----+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +-----------------------+----------+----+---+------+------------+------------+
+    |     Variable Name     | Operation| DSP| FF|  LUT | Bitwidth P0| Bitwidth P1|
+    +-----------------------+----------+----+---+------+------------+------------+
+    |add_ln22_fu_201_p2     |         +|   0|  0|    17|          10|           1|
+    |and_ln59_1_fu_249_p2   |       and|   0|  0|    64|          64|          64|
+    |and_ln59_fu_229_p2     |       and|   0|  0|    64|          64|          64|
+    |and_ln64_1_fu_290_p2   |       and|   0|  0|    64|          64|          64|
+    |and_ln64_2_fu_310_p2   |       and|   0|  0|    64|          64|          64|
+    |and_ln64_3_fu_330_p2   |       and|   0|  0|    64|          64|          64|
+    |and_ln64_fu_270_p2     |       and|   0|  0|    64|          64|          64|
+    |and_ln76_fu_350_p2     |       and|   0|  0|    32|          32|          32|
+    |icmp_ln22_fu_195_p2    |      icmp|   0|  0|    17|          10|          10|
+    |icmp_ln59_1_fu_254_p2  |      icmp|   0|  0|    71|          64|           1|
+    |icmp_ln59_fu_234_p2    |      icmp|   0|  0|    71|          64|           1|
+    |icmp_ln64_1_fu_295_p2  |      icmp|   0|  0|    71|          64|          64|
+    |icmp_ln64_2_fu_315_p2  |      icmp|   0|  0|    71|          64|          64|
+    |icmp_ln64_3_fu_335_p2  |      icmp|   0|  0|    71|          64|          64|
+    |icmp_ln64_fu_275_p2    |      icmp|   0|  0|    71|          64|          64|
+    |icmp_ln76_fu_355_p2    |      icmp|   0|  0|    39|          32|          32|
+    |lshr_ln59_1_fu_240_p2  |      lshr|   0|  0|  2171|         512|         512|
+    |lshr_ln59_fu_220_p2    |      lshr|   0|  0|   950|         256|         256|
+    +-----------------------+----------+----+---+------+------------+------------+
+    |Total                  |          |   0|  0|  4036|        1620|        1485|
+    +-----------------------+----------+----+---+------+------------+------------+
+
+    * Multiplexer: 
+    +--------------------------------+----+-----------+-----+-----------+
+    |              Name              | LUT| Input Size| Bits| Total Bits|
+    +--------------------------------+----+-----------+-----+-----------+
+    |ap_NS_fsm                       |  14|          3|    1|          3|
+    |ap_done_int                     |   9|          2|    1|          2|
+    |ap_phi_mux_merge_phi_fu_171_p4  |   9|          2|    1|          2|
+    |ap_return                       |   9|          2|    1|          2|
+    |ap_sig_allocacmp_i_1            |   9|          2|   10|         20|
+    |i_fu_90                         |   9|          2|   10|         20|
+    +--------------------------------+----+-----------+-----+-----------+
+    |Total                           |  59|         13|   24|         49|
+    +--------------------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +------------------------+----+----+-----+-----------+
+    |          Name          | FF | LUT| Bits| Const Bits|
+    +------------------------+----+----+-----+-----------+
+    |add_ln22_reg_425        |  10|   0|   10|          0|
+    |ap_CS_fsm               |   2|   0|    2|          0|
+    |ap_done_reg             |   1|   0|    1|          0|
+    |ap_return_preg          |   1|   0|    1|          0|
+    |i_fu_90                 |  10|   0|   10|          0|
+    |icmp_ln22_reg_421       |   1|   0|    1|          0|
+    |merge_reg_167           |   1|   0|    1|          0|
+    |zext_ln22_cast_reg_411  |   9|   0|  512|        503|
+    |zext_ln56_cast_reg_416  |   8|   0|  256|        248|
+    +------------------------+----+----+-----+-----------+
+    |Total                   |  43|   0|  794|        751|
+    +------------------------+----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++--------------------+-----+------+------------+------------------------------------------+--------------+
+|      RTL Ports     | Dir | Bits |  Protocol  |               Source Object              |    C Type    |
++--------------------+-----+------+------------+------------------------------------------+--------------+
+|ap_clk              |   in|     1|  ap_ctrl_hs|  hngac_authorize_Pipeline_VITIS_LOOP_22_1|  return value|
+|ap_rst              |   in|     1|  ap_ctrl_hs|  hngac_authorize_Pipeline_VITIS_LOOP_22_1|  return value|
+|ap_start            |   in|     1|  ap_ctrl_hs|  hngac_authorize_Pipeline_VITIS_LOOP_22_1|  return value|
+|ap_done             |  out|     1|  ap_ctrl_hs|  hngac_authorize_Pipeline_VITIS_LOOP_22_1|  return value|
+|ap_idle             |  out|     1|  ap_ctrl_hs|  hngac_authorize_Pipeline_VITIS_LOOP_22_1|  return value|
+|ap_ready            |  out|     1|  ap_ctrl_hs|  hngac_authorize_Pipeline_VITIS_LOOP_22_1|  return value|
+|ap_return           |  out|     1|  ap_ctrl_hs|  hngac_authorize_Pipeline_VITIS_LOOP_22_1|  return value|
+|bounded_rule_count  |   in|    10|     ap_none|                        bounded_rule_count|        scalar|
+|policy_Addr_A       |  out|    32|        bram|                                    policy|         array|
+|policy_EN_A         |  out|     1|        bram|                                    policy|         array|
+|policy_WEN_A        |  out|   128|        bram|                                    policy|         array|
+|policy_Din_A        |  out|  1024|        bram|                                    policy|         array|
+|policy_Dout_A       |   in|  1024|        bram|                                    policy|         array|
+|zext_ln56           |   in|     8|     ap_none|                                 zext_ln56|        scalar|
+|shl_ln59            |   in|    64|     ap_none|                                  shl_ln59|        scalar|
+|zext_ln22           |   in|     9|     ap_none|                                 zext_ln22|        scalar|
+|shl_ln59_1          |   in|    64|     ap_none|                                shl_ln59_1|        scalar|
+|trunc_ln            |   in|    64|     ap_none|                                  trunc_ln|        scalar|
+|trunc_ln64_1        |   in|    64|     ap_none|                              trunc_ln64_1|        scalar|
+|trunc_ln64_2        |   in|    64|     ap_none|                              trunc_ln64_2|        scalar|
+|trunc_ln64_3        |   in|    64|     ap_none|                              trunc_ln64_3|        scalar|
+|available_assign    |   in|    32|     ap_none|                          available_assign|        scalar|
++--------------------+-----+------+------------+------------------------------------------+--------------+
+

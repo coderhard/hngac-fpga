@@ -23,3 +23,22 @@ paper/
 data/attack2_*.log
 docs/generate_simple_docx.py
 docs/hngac-fpga-project-overview.docx
+
+# Windows "mark of the web" metadata that rides along with files copied from OneDrive
+*:Zone.Identifier
+
+# As-delivered archive of the HW evidence package. The extracted tree is committed
+# under hngac-package-from-farouq/, so the zip would be a byte-for-byte duplicate.
+fpga/hngac-package-from-farouq.zip
+
+# Repo mirrors inside the HW evidence package. These duplicate this working tree and
+# invite editing the wrong copy. The reproducibility-critical parts are committed:
+# kernel/5d/hngac-fpga/fpga/hls/ (exact source measured) and
+# kernel/4d/hngac-fpga_4d_hw_results/ (earlier 4D Vivado place-and-route reports).
+hngac-package-from-farouq/kernel/4d/*
+!hngac-package-from-farouq/kernel/4d/hngac-fpga_4d_hw_results/
+hngac-package-from-farouq/kernel/5d/hngac-fpga/*
+!hngac-package-from-farouq/kernel/5d/hngac-fpga/fpga/
+hngac-package-from-farouq/kernel/5d/hngac-fpga/fpga/*
+!hngac-package-from-farouq/kernel/5d/hngac-fpga/fpga/hls/
+hngac-package-from-farouq/**/*.backup

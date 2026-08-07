@@ -1,0 +1,1668 @@
+====== H-NGAC 3D ======
+=== 4 rules ===
+Iterations: 200000
+Rule count: 4
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 4 allow and 7 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 11 corpus requests
+H-NGAC 5D policy array build: mean=676.67 ns reload_mean=656.33 ns memory=416.00 B entries=4
+BUILD|H-NGAC 5D policy array|676.67|707|656.33|690|416|4|0
+Flattened 5D direct lookup build: mean=3175.42 ns reload_mean=3387.42 ns memory=8192.00 B entries=160 max_probe=2
+BUILD|Flattened 5D direct lookup|3175.42|5906|3387.42|5449|8192|160|2
+H-NGAC 3D: mean=14.21 ns p95=15.00 ns p99=17.00 ns max=24996.00 ns stddev=57.31 ns allowed=200000/200000
+SUMMARY|H-NGAC 3D|14.21|15.00|17.00|24996|57.31|200000|200000
+CYCLES|H-NGAC 3D|82.29|85.00|97.00|70948|186.82|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -100.00%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 19.69x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 5.16x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-100.00
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|19.69
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|5.16
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 4 H-NGAC 3D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+        88,540,700      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       128,888,621      cpu_core/instructions/           #    1.46  insn per cycle            
+
+       0.016233767 seconds time elapsed
+
+       0.014653000 seconds user
+       0.004884000 seconds sys
+
+
+
+=== 10 rules ===
+Iterations: 200000
+Rule count: 10
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 10 allow and 17 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 27 corpus requests
+H-NGAC 5D policy array build: mean=689.75 ns reload_mean=661.58 ns memory=1040.00 B entries=10
+BUILD|H-NGAC 5D policy array|689.75|701|661.58|684|1040|10|0
+Flattened 5D direct lookup build: mean=8790.92 ns reload_mean=8464.83 ns memory=32768.00 B entries=384 max_probe=2
+BUILD|Flattened 5D direct lookup|8790.92|17491|8464.83|16532|32768|384|2
+H-NGAC 3D: mean=15.20 ns p95=17.00 ns p99=19.00 ns max=15374.00 ns stddev=36.56 ns allowed=200000/200000
+SUMMARY|H-NGAC 3D|15.20|17.00|19.00|15374|36.56|200000|200000
+CYCLES|H-NGAC 3D|88.10|91.00|103.00|430067|967.67|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -100.00%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 31.51x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 12.79x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-100.00
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|31.51
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|12.79
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 10 H-NGAC 3D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       101,972,132      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       135,659,363      cpu_core/instructions/           #    1.33  insn per cycle            
+
+       0.020118156 seconds time elapsed
+
+       0.017306000 seconds user
+       0.005768000 seconds sys
+
+
+
+=== 50 rules ===
+Iterations: 200000
+Rule count: 50
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 50 allow and 84 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 134 corpus requests
+H-NGAC 5D policy array build: mean=1350.83 ns reload_mean=741.92 ns memory=5200.00 B entries=50
+BUILD|H-NGAC 5D policy array|1350.83|7369|741.92|785|5200|50|0
+Flattened 5D direct lookup build: mean=58305.83 ns reload_mean=55592.25 ns memory=131072.00 B entries=1840 max_probe=3
+BUILD|Flattened 5D direct lookup|58305.83|90185|55592.25|81604|131072|1840|3
+H-NGAC 3D: mean=23.12 ns p95=32.00 ns p99=40.00 ns max=94923.00 ns stddev=212.47 ns allowed=200000/200000
+SUMMARY|H-NGAC 3D|23.12|32.00|40.00|94923|212.47|200000|200000
+CYCLES|H-NGAC 3D|110.36|138.00|167.00|266483|784.95|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -100.00%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 74.93x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-100.00
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|74.93
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 50 H-NGAC 3D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       104,554,067      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       171,568,175      cpu_core/instructions/           #    1.64  insn per cycle            
+
+       0.021089264 seconds time elapsed
+
+       0.019843000 seconds user
+       0.004960000 seconds sys
+
+
+
+=== 100 rules ===
+Iterations: 200000
+Rule count: 100
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 100 allow and 167 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 267 corpus requests
+H-NGAC 5D policy array build: mean=842.25 ns reload_mean=700.08 ns memory=10400.00 B entries=100
+BUILD|H-NGAC 5D policy array|842.25|1892|700.08|753|10400|100|0
+Flattened 5D direct lookup build: mean=117254.08 ns reload_mean=107642.67 ns memory=262144.00 B entries=3744 max_probe=4
+BUILD|Flattened 5D direct lookup|117254.08|180948|107642.67|151420|262144|3744|4
+H-NGAC 3D: mean=30.39 ns p95=42.00 ns p99=49.00 ns max=145071.00 ns stddev=328.84 ns allowed=200000/200000
+SUMMARY|H-NGAC 3D|30.39|42.00|49.00|145071|328.84|200000|200000
+CYCLES|H-NGAC 3D|128.28|160.00|189.00|406717|922.93|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -100.00%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 153.76x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-100.00
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|153.76
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 100 H-NGAC 3D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       132,401,112      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       218,591,570      cpu_core/instructions/           #    1.65  insn per cycle            
+
+       0.025454788 seconds time elapsed
+
+       0.024104000 seconds user
+       0.005021000 seconds sys
+
+
+
+=== 200 rules ===
+Iterations: 200000
+Rule count: 200
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 200 allow and 334 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 534 corpus requests
+H-NGAC 5D policy array build: mean=1079.92 ns reload_mean=843.67 ns memory=20800.00 B entries=200
+BUILD|H-NGAC 5D policy array|1079.92|3262|843.67|875|20800|200|0
+Flattened 5D direct lookup build: mean=244650.50 ns reload_mean=235327.75 ns memory=524288.00 B entries=7440 max_probe=4
+BUILD|Flattened 5D direct lookup|244650.50|418769|235327.75|365753|524288|7440|4
+H-NGAC 3D: mean=42.66 ns p95=63.00 ns p99=68.00 ns max=65149.00 ns stddev=160.64 ns allowed=200000/200000
+SUMMARY|H-NGAC 3D|42.66|63.00|68.00|65149|160.64|200000|200000
+CYCLES|H-NGAC 3D|167.96|221.00|241.00|1004999|2292.33|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -100.00%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 278.93x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-100.00
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|278.93
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 200 H-NGAC 3D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       140,713,484      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       310,002,710      cpu_core/instructions/           #    2.20  insn per cycle            
+
+       0.030676292 seconds time elapsed
+
+       0.029463000 seconds user
+       0.001964000 seconds sys
+
+
+
+=== 500 rules ===
+Iterations: 200000
+Rule count: 500
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 500 allow and 834 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 1334 corpus requests
+H-NGAC 5D policy array build: mean=1881.50 ns reload_mean=1532.50 ns memory=52000.00 B entries=500
+BUILD|H-NGAC 5D policy array|1881.50|5453|1532.50|1574|52000|500|0
+Flattened 5D direct lookup build: mean=599467.42 ns reload_mean=1100659.67 ns memory=1048576.00 B entries=18640 max_probe=5
+BUILD|Flattened 5D direct lookup|599467.42|870671|1100659.67|1493269|1048576|18640|5
+H-NGAC 3D: mean=78.63 ns p95=131.00 ns p99=139.00 ns max=31506.00 ns stddev=101.14 ns allowed=200000/200000
+SUMMARY|H-NGAC 3D|78.63|131.00|139.00|31506|101.14|200000|200000
+CYCLES|H-NGAC 3D|262.59|410.00|434.00|88361|285.30|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -100.00%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 20.16x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 718.21x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-100.00
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|20.16
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|718.21
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 500 H-NGAC 3D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       247,343,966      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       592,513,323      cpu_core/instructions/           #    2.40  insn per cycle            
+
+       0.051726148 seconds time elapsed
+
+       0.047804000 seconds user
+       0.005975000 seconds sys
+
+
+
+
+====== H-NGAC 4D ======
+=== 4 rules ===
+Iterations: 200000
+Rule count: 4
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 4 allow and 7 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 11 corpus requests
+H-NGAC 5D policy array build: mean=709.58 ns reload_mean=679.33 ns memory=416.00 B entries=4
+BUILD|H-NGAC 5D policy array|709.58|734|679.33|716|416|4|0
+Flattened 5D direct lookup build: mean=3443.42 ns reload_mean=2932.00 ns memory=8192.00 B entries=160 max_probe=2
+BUILD|Flattened 5D direct lookup|3443.42|5771|2932.00|4870|8192|160|2
+H-NGAC 4D: mean=14.93 ns p95=16.00 ns p99=17.00 ns max=2686.00 ns stddev=9.20 ns allowed=145455/200000
+SUMMARY|H-NGAC 4D|14.93|16.00|17.00|2686|9.20|145455|200000
+CYCLES|H-NGAC 4D|93.69|91.00|97.00|1139688|2554.19|145455|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: inf%
+5D vs 4D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 19.69x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 4.32x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|inf
+COMPARE|5D_vs_4D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|19.69
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|4.32
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 4 H-NGAC 4D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       100,629,146      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       132,339,225      cpu_core/instructions/           #    1.32  insn per cycle            
+
+       0.020395757 seconds time elapsed
+
+       0.018604000 seconds user
+       0.003916000 seconds sys
+
+
+
+=== 10 rules ===
+Iterations: 200000
+Rule count: 10
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 10 allow and 17 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 27 corpus requests
+H-NGAC 5D policy array build: mean=934.75 ns reload_mean=696.08 ns memory=1040.00 B entries=10
+BUILD|H-NGAC 5D policy array|934.75|3330|696.08|725|1040|10|0
+Flattened 5D direct lookup build: mean=10305.75 ns reload_mean=16515.67 ns memory=32768.00 B entries=384 max_probe=2
+BUILD|Flattened 5D direct lookup|10305.75|33435|16515.67|107973|32768|384|2
+H-NGAC 4D: mean=15.79 ns p95=17.00 ns p99=20.00 ns max=48867.00 ns stddev=109.89 ns allowed=140741/200000
+SUMMARY|H-NGAC 4D|15.79|17.00|20.00|48867|109.89|140741|200000
+CYCLES|H-NGAC 4D|89.57|91.00|107.00|390206|939.20|140741|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: inf%
+5D vs 4D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 31.51x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 23.73x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|inf
+COMPARE|5D_vs_4D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|31.51
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|23.73
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 10 H-NGAC 4D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+        85,590,266      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       140,563,845      cpu_core/instructions/           #    1.64  insn per cycle            
+
+       0.016332445 seconds time elapsed
+
+       0.014370000 seconds user
+       0.004790000 seconds sys
+
+
+
+=== 50 rules ===
+Iterations: 200000
+Rule count: 50
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 50 allow and 84 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 134 corpus requests
+H-NGAC 5D policy array build: mean=836.08 ns reload_mean=662.42 ns memory=5200.00 B entries=50
+BUILD|H-NGAC 5D policy array|836.08|1903|662.42|712|5200|50|0
+Flattened 5D direct lookup build: mean=56088.67 ns reload_mean=50894.25 ns memory=131072.00 B entries=1840 max_probe=3
+BUILD|Flattened 5D direct lookup|56088.67|89078|50894.25|78697|131072|1840|3
+H-NGAC 4D: mean=24.20 ns p95=38.00 ns p99=46.00 ns max=16819.00 ns stddev=38.95 ns allowed=137314/200000
+SUMMARY|H-NGAC 4D|24.20|38.00|46.00|16819|38.95|137314|200000
+CYCLES|H-NGAC 4D|111.07|150.00|173.00|47192|115.82|137314|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: inf%
+5D vs 4D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 76.83x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|inf
+COMPARE|5D_vs_4D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|76.83
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 50 H-NGAC 4D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       107,951,126      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       189,292,111      cpu_core/instructions/           #    1.75  insn per cycle            
+
+       0.020972136 seconds time elapsed
+
+       0.023303000 seconds user
+       0.001013000 seconds sys
+
+
+
+=== 100 rules ===
+Iterations: 200000
+Rule count: 100
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 100 allow and 167 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 267 corpus requests
+H-NGAC 5D policy array build: mean=887.17 ns reload_mean=731.17 ns memory=10400.00 B entries=100
+BUILD|H-NGAC 5D policy array|887.17|2137|731.17|790|10400|100|0
+Flattened 5D direct lookup build: mean=118931.33 ns reload_mean=118930.92 ns memory=262144.00 B entries=3744 max_probe=4
+BUILD|Flattened 5D direct lookup|118931.33|177277|118930.92|192902|262144|3744|4
+H-NGAC 4D: mean=39.14 ns p95=62.00 ns p99=71.00 ns max=27312.00 ns stddev=65.79 ns allowed=137828/200000
+SUMMARY|H-NGAC 4D|39.14|62.00|71.00|27312|65.79|137828|200000
+CYCLES|H-NGAC 4D|153.34|217.00|244.00|76614|189.35|137828|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: inf%
+5D vs 4D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 162.66x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|inf
+COMPARE|5D_vs_4D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|162.66
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 100 H-NGAC 4D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       141,028,823      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       253,093,043      cpu_core/instructions/           #    1.79  insn per cycle            
+
+       0.027733482 seconds time elapsed
+
+       0.030091000 seconds user
+       0.001003000 seconds sys
+
+
+
+=== 200 rules ===
+Iterations: 200000
+Rule count: 200
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 200 allow and 334 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 534 corpus requests
+H-NGAC 5D policy array build: mean=1085.75 ns reload_mean=806.33 ns memory=20800.00 B entries=200
+BUILD|H-NGAC 5D policy array|1085.75|3695|806.33|843|20800|200|0
+Flattened 5D direct lookup build: mean=246255.75 ns reload_mean=229101.42 ns memory=524288.00 B entries=7440 max_probe=4
+BUILD|Flattened 5D direct lookup|246255.75|361070|229101.42|356108|524288|7440|4
+H-NGAC 4D: mean=59.01 ns p95=97.00 ns p99=114.00 ns max=72343.00 ns stddev=174.79 ns allowed=137454/200000
+SUMMARY|H-NGAC 4D|59.01|97.00|114.00|72343|174.79|137454|200000
+CYCLES|H-NGAC 4D|208.84|316.00|363.00|202843|493.36|137454|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: inf%
+5D vs 4D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 284.13x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|inf
+COMPARE|5D_vs_4D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|284.13
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 200 H-NGAC 4D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       165,269,460      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       376,559,183      cpu_core/instructions/           #    2.28  insn per cycle            
+
+       0.033244955 seconds time elapsed
+
+       0.034083000 seconds user
+       0.001947000 seconds sys
+
+
+
+=== 500 rules ===
+Iterations: 200000
+Rule count: 500
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 500 allow and 834 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 1334 corpus requests
+H-NGAC 5D policy array build: mean=1930.17 ns reload_mean=1519.83 ns memory=52000.00 B entries=500
+BUILD|H-NGAC 5D policy array|1930.17|6326|1519.83|1555|52000|500|0
+Flattened 5D direct lookup build: mean=606445.67 ns reload_mean=1025409.33 ns memory=1048576.00 B entries=18640 max_probe=5
+BUILD|Flattened 5D direct lookup|606445.67|817948|1025409.33|1689717|1048576|18640|5
+H-NGAC 4D: mean=117.44 ns p95=212.00 ns p99=248.00 ns max=14048.00 ns stddev=78.35 ns allowed=137481/200000
+SUMMARY|H-NGAC 4D|117.44|212.00|248.00|14048|78.35|137481|200000
+CYCLES|H-NGAC 4D|372.72|639.00|740.00|39428|224.66|137481|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: inf%
+5D vs 4D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 20.16x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 674.69x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|inf
+COMPARE|5D_vs_4D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|20.16
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|674.69
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 500 H-NGAC 4D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       285,629,713      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       756,847,169      cpu_core/instructions/           #    2.65  insn per cycle            
+
+       0.059632908 seconds time elapsed
+
+       0.061560000 seconds user
+       0.000992000 seconds sys
+
+
+
+
+====== H-NGAC 5D ======
+=== 4 rules ===
+Iterations: 200000
+Rule count: 4
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 4 allow and 7 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 11 corpus requests
+H-NGAC 5D policy array build: mean=642.50 ns reload_mean=657.00 ns memory=416.00 B entries=4
+BUILD|H-NGAC 5D policy array|642.50|677|657.00|676|416|4|0
+Flattened 5D direct lookup build: mean=3683.50 ns reload_mean=2987.33 ns memory=8192.00 B entries=160 max_probe=2
+BUILD|Flattened 5D direct lookup|3683.50|6242|2987.33|4935|8192|160|2
+H-NGAC 5D: mean=16.13 ns p95=16.00 ns p99=17.00 ns max=298814.00 ns stddev=668.20 ns allowed=72728/200000
+SUMMARY|H-NGAC 5D|16.13|16.00|17.00|298814|668.20|72728|200000
+CYCLES|H-NGAC 5D|89.75|89.00|92.00|837701|1883.19|72728|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: inf%
+H-NGAC 5D vs flattened 5D mean overhead: inf%
+H-NGAC 5D vs flattened 5D p99 ratio: infx
+Flattened 5D memory vs H-NGAC 5D memory: 19.69x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 4.55x
+NGAC-DAG vs H-NGAC 5D mean slowdown: 0.00x
+RBAC+lookup vs H-NGAC 5D mean slowdown: 0.00x
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|inf
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|19.69
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|4.55
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|0.00
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|0.00
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 4 H-NGAC 5D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       101,434,852      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       133,659,642      cpu_core/instructions/           #    1.32  insn per cycle            
+
+       0.020454416 seconds time elapsed
+
+       0.017371000 seconds user
+       0.004825000 seconds sys
+
+
+
+=== 10 rules ===
+Iterations: 200000
+Rule count: 10
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 10 allow and 17 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 27 corpus requests
+H-NGAC 5D policy array build: mean=790.33 ns reload_mean=733.67 ns memory=1040.00 B entries=10
+BUILD|H-NGAC 5D policy array|790.33|1336|733.67|951|1040|10|0
+Flattened 5D direct lookup build: mean=9837.75 ns reload_mean=11406.83 ns memory=32768.00 B entries=384 max_probe=2
+BUILD|Flattened 5D direct lookup|9837.75|30382|11406.83|41329|32768|384|2
+H-NGAC 5D: mean=16.62 ns p95=19.00 ns p99=23.00 ns max=1913.00 ns stddev=7.90 ns allowed=74074/200000
+SUMMARY|H-NGAC 5D|16.62|19.00|23.00|1913|7.90|74074|200000
+CYCLES|H-NGAC 5D|93.52|100.00|120.00|223977|612.72|74074|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: inf%
+H-NGAC 5D vs flattened 5D mean overhead: inf%
+H-NGAC 5D vs flattened 5D p99 ratio: infx
+Flattened 5D memory vs H-NGAC 5D memory: 31.51x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 15.55x
+NGAC-DAG vs H-NGAC 5D mean slowdown: 0.00x
+RBAC+lookup vs H-NGAC 5D mean slowdown: 0.00x
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|inf
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|31.51
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|15.55
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|0.00
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|0.00
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 10 H-NGAC 5D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+        88,295,631      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       143,197,569      cpu_core/instructions/           #    1.62  insn per cycle            
+
+       0.016875379 seconds time elapsed
+
+       0.016283000 seconds user
+       0.004070000 seconds sys
+
+
+
+=== 50 rules ===
+Iterations: 200000
+Rule count: 50
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 50 allow and 84 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 134 corpus requests
+H-NGAC 5D policy array build: mean=769.42 ns reload_mean=659.25 ns memory=5200.00 B entries=50
+BUILD|H-NGAC 5D policy array|769.42|1346|659.25|684|5200|50|0
+Flattened 5D direct lookup build: mean=58149.92 ns reload_mean=51490.83 ns memory=131072.00 B entries=1840 max_probe=3
+BUILD|Flattened 5D direct lookup|58149.92|85785|51490.83|81785|131072|1840|3
+H-NGAC 5D: mean=26.30 ns p95=35.00 ns p99=45.00 ns max=117854.00 ns stddev=324.90 ns allowed=74627/200000
+SUMMARY|H-NGAC 5D|26.30|35.00|45.00|117854|324.90|74627|200000
+CYCLES|H-NGAC 5D|118.37|144.00|172.00|330424|911.07|74627|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: inf%
+H-NGAC 5D vs flattened 5D mean overhead: inf%
+H-NGAC 5D vs flattened 5D p99 ratio: infx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 78.11x
+NGAC-DAG vs H-NGAC 5D mean slowdown: 0.00x
+RBAC+lookup vs H-NGAC 5D mean slowdown: 0.00x
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|inf
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|78.11
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|0.00
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|0.00
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 50 H-NGAC 5D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       111,470,592      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       200,607,496      cpu_core/instructions/           #    1.80  insn per cycle            
+
+       0.021544535 seconds time elapsed
+
+       0.024639000 seconds user
+       0.000000000 seconds sys
+
+
+
+=== 100 rules ===
+Iterations: 200000
+Rule count: 100
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 100 allow and 167 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 267 corpus requests
+H-NGAC 5D policy array build: mean=824.50 ns reload_mean=696.92 ns memory=10400.00 B entries=100
+BUILD|H-NGAC 5D policy array|824.50|1725|696.92|723|10400|100|0
+Flattened 5D direct lookup build: mean=118472.00 ns reload_mean=112266.58 ns memory=262144.00 B entries=3744 max_probe=4
+BUILD|Flattened 5D direct lookup|118472.00|194806|112266.58|176289|262144|3744|4
+H-NGAC 5D: mean=44.58 ns p95=63.00 ns p99=71.00 ns max=27275.00 ns stddev=63.68 ns allowed=74907/200000
+SUMMARY|H-NGAC 5D|44.58|63.00|71.00|27275|63.68|74907|200000
+CYCLES|H-NGAC 5D|170.36|223.00|246.00|105021|299.64|74907|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: inf%
+H-NGAC 5D vs flattened 5D mean overhead: inf%
+H-NGAC 5D vs flattened 5D p99 ratio: infx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 161.09x
+NGAC-DAG vs H-NGAC 5D mean slowdown: 0.00x
+RBAC+lookup vs H-NGAC 5D mean slowdown: 0.00x
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|inf
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|161.09
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|0.00
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|0.00
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 100 H-NGAC 5D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       150,069,674      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       274,793,943      cpu_core/instructions/           #    1.83  insn per cycle            
+
+       0.031451187 seconds time elapsed
+
+       0.027753000 seconds user
+       0.004956000 seconds sys
+
+
+
+=== 200 rules ===
+Iterations: 200000
+Rule count: 200
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 200 allow and 334 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 534 corpus requests
+H-NGAC 5D policy array build: mean=1985.58 ns reload_mean=903.92 ns memory=20800.00 B entries=200
+BUILD|H-NGAC 5D policy array|1985.58|13491|903.92|956|20800|200|0
+Flattened 5D direct lookup build: mean=242855.25 ns reload_mean=264196.25 ns memory=524288.00 B entries=7440 max_probe=4
+BUILD|Flattened 5D direct lookup|242855.25|399057|264196.25|463390|524288|7440|4
+H-NGAC 5D: mean=72.69 ns p95=106.00 ns p99=118.00 ns max=355410.00 ns stddev=804.74 ns allowed=74907/200000
+SUMMARY|H-NGAC 5D|72.69|106.00|118.00|355410|804.74|74907|200000
+CYCLES|H-NGAC 5D|249.49|343.00|379.00|996361|2256.27|74907|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: inf%
+H-NGAC 5D vs flattened 5D mean overhead: inf%
+H-NGAC 5D vs flattened 5D p99 ratio: infx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 292.28x
+NGAC-DAG vs H-NGAC 5D mean slowdown: 0.00x
+RBAC+lookup vs H-NGAC 5D mean slowdown: 0.00x
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|inf
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|292.28
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|0.00
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|0.00
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 200 H-NGAC 5D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       177,167,701      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       421,297,926      cpu_core/instructions/           #    2.38  insn per cycle            
+
+       0.036410208 seconds time elapsed
+
+       0.034252000 seconds user
+       0.004893000 seconds sys
+
+
+
+=== 500 rules ===
+Iterations: 200000
+Rule count: 500
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 500 allow and 834 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 1334 corpus requests
+H-NGAC 5D policy array build: mean=1846.67 ns reload_mean=1524.33 ns memory=52000.00 B entries=500
+BUILD|H-NGAC 5D policy array|1846.67|5322|1524.33|1596|52000|500|0
+Flattened 5D direct lookup build: mean=596522.92 ns reload_mean=1055010.58 ns memory=1048576.00 B entries=18640 max_probe=5
+BUILD|Flattened 5D direct lookup|596522.92|798067|1055010.58|1582910|1048576|18640|5
+H-NGAC 5D: mean=138.19 ns p95=217.00 ns p99=250.00 ns max=17230.00 ns stddev=74.76 ns allowed=74963/200000
+SUMMARY|H-NGAC 5D|138.19|217.00|250.00|17230|74.76|74963|200000
+CYCLES|H-NGAC 5D|432.47|655.00|745.00|48346|211.55|74963|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: inf%
+H-NGAC 5D vs flattened 5D mean overhead: inf%
+H-NGAC 5D vs flattened 5D p99 ratio: infx
+Flattened 5D memory vs H-NGAC 5D memory: 20.16x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 692.11x
+NGAC-DAG vs H-NGAC 5D mean slowdown: 0.00x
+RBAC+lookup vs H-NGAC 5D mean slowdown: 0.00x
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|inf
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|inf
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|20.16
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|692.11
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|0.00
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|0.00
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 500 H-NGAC 5D':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       308,039,548      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       866,607,452      cpu_core/instructions/           #    2.81  insn per cycle            
+
+       0.064632568 seconds time elapsed
+
+       0.063552000 seconds user
+       0.003972000 seconds sys
+
+
+
+
+====== RBAC hash map ======
+=== 4 rules ===
+Iterations: 200000
+Rule count: 4
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 4 allow and 7 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 11 corpus requests
+H-NGAC 5D policy array build: mean=638.00 ns reload_mean=649.92 ns memory=416.00 B entries=4
+BUILD|H-NGAC 5D policy array|638.00|673|649.92|678|416|4|0
+Flattened 5D direct lookup build: mean=3324.42 ns reload_mean=2836.33 ns memory=8192.00 B entries=160 max_probe=2
+BUILD|Flattened 5D direct lookup|3324.42|5882|2836.33|4524|8192|160|2
+RBAC hash map: mean=19.62 ns p95=19.00 ns p99=20.00 ns max=369276.00 ns stddev=840.06 ns allowed=200000/200000
+SUMMARY|RBAC hash map|19.62|19.00|20.00|369276|840.06|200000|200000
+CYCLES|RBAC hash map|96.75|94.00|98.00|1035357|2355.52|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 19.69x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 4.36x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|19.69
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|4.36
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 4 RBAC hash map':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       101,415,681      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       123,882,194      cpu_core/instructions/           #    1.22  insn per cycle            
+
+       0.020414214 seconds time elapsed
+
+       0.019322000 seconds user
+       0.002898000 seconds sys
+
+
+
+=== 10 rules ===
+Iterations: 200000
+Rule count: 10
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 10 allow and 17 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 27 corpus requests
+H-NGAC 5D policy array build: mean=989.83 ns reload_mean=691.17 ns memory=1040.00 B entries=10
+BUILD|H-NGAC 5D policy array|989.83|4012|691.17|720|1040|10|0
+Flattened 5D direct lookup build: mean=9981.42 ns reload_mean=10913.83 ns memory=32768.00 B entries=384 max_probe=2
+BUILD|Flattened 5D direct lookup|9981.42|32247|10913.83|40315|32768|384|2
+RBAC hash map: mean=17.51 ns p95=19.00 ns p99=22.00 ns max=3911.00 ns stddev=9.07 ns allowed=200000/200000
+SUMMARY|RBAC hash map|17.51|19.00|22.00|3911|9.07|200000|200000
+CYCLES|RBAC hash map|92.25|95.00|113.00|217204|488.23|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 31.51x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 15.79x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|31.51
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|15.79
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 10 RBAC hash map':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+        84,047,572      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       125,550,167      cpu_core/instructions/           #    1.49  insn per cycle            
+
+       0.015589938 seconds time elapsed
+
+       0.014887000 seconds user
+       0.003970000 seconds sys
+
+
+
+=== 50 rules ===
+Iterations: 200000
+Rule count: 50
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 50 allow and 84 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 134 corpus requests
+H-NGAC 5D policy array build: mean=904.00 ns reload_mean=660.58 ns memory=5200.00 B entries=50
+BUILD|H-NGAC 5D policy array|904.00|2951|660.58|683|5200|50|0
+Flattened 5D direct lookup build: mean=61621.08 ns reload_mean=56569.25 ns memory=131072.00 B entries=1840 max_probe=3
+BUILD|Flattened 5D direct lookup|61621.08|170139|56569.25|153428|131072|1840|3
+RBAC hash map: mean=18.75 ns p95=19.00 ns p99=22.00 ns max=228329.00 ns stddev=510.56 ns allowed=200000/200000
+SUMMARY|RBAC hash map|18.75|19.00|22.00|228329|510.56|200000|200000
+CYCLES|RBAC hash map|94.81|97.00|111.00|640111|1435.01|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 85.64x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|85.64
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 50 RBAC hash map':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+        90,417,993      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       138,256,675      cpu_core/instructions/           #    1.53  insn per cycle            
+
+       0.018500074 seconds time elapsed
+
+       0.017545000 seconds user
+       0.002924000 seconds sys
+
+
+
+=== 100 rules ===
+Iterations: 200000
+Rule count: 100
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 100 allow and 167 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 267 corpus requests
+H-NGAC 5D policy array build: mean=913.75 ns reload_mean=707.83 ns memory=10400.00 B entries=100
+BUILD|H-NGAC 5D policy array|913.75|2737|707.83|757|10400|100|0
+Flattened 5D direct lookup build: mean=121512.25 ns reload_mean=114071.50 ns memory=262144.00 B entries=3744 max_probe=4
+BUILD|Flattened 5D direct lookup|121512.25|183835|114071.50|170364|262144|3744|4
+RBAC hash map: mean=18.43 ns p95=21.00 ns p99=22.00 ns max=125438.00 ns stddev=280.50 ns allowed=200000/200000
+SUMMARY|RBAC hash map|18.43|21.00|22.00|125438|280.50|200000|200000
+CYCLES|RBAC hash map|94.75|101.00|114.00|351682|863.51|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 161.16x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|161.16
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 100 RBAC hash map':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+        94,389,946      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       154,968,938      cpu_core/instructions/           #    1.64  insn per cycle            
+
+       0.017711862 seconds time elapsed
+
+       0.018264000 seconds user
+       0.003044000 seconds sys
+
+
+
+=== 200 rules ===
+Iterations: 200000
+Rule count: 200
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 200 allow and 334 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 534 corpus requests
+H-NGAC 5D policy array build: mean=991.00 ns reload_mean=799.92 ns memory=20800.00 B entries=200
+BUILD|H-NGAC 5D policy array|991.00|2652|799.92|812|20800|200|0
+Flattened 5D direct lookup build: mean=240855.92 ns reload_mean=211583.00 ns memory=524288.00 B entries=7440 max_probe=4
+BUILD|Flattened 5D direct lookup|240855.92|382348|211583.00|312237|524288|7440|4
+RBAC hash map: mean=17.96 ns p95=19.00 ns p99=21.00 ns max=57040.00 ns stddev=138.48 ns allowed=200000/200000
+SUMMARY|RBAC hash map|17.96|19.00|21.00|57040|138.48|200000|200000
+CYCLES|RBAC hash map|91.36|95.00|102.00|160020|388.55|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 264.51x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|264.51
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 200 RBAC hash map':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       128,688,185      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       188,279,028      cpu_core/instructions/           #    1.46  insn per cycle            
+
+       0.024543927 seconds time elapsed
+
+       0.023082000 seconds user
+       0.005018000 seconds sys
+
+
+
+=== 500 rules ===
+Iterations: 200000
+Rule count: 500
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 500 allow and 834 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 1334 corpus requests
+H-NGAC 5D policy array build: mean=2640.75 ns reload_mean=1531.50 ns memory=52000.00 B entries=500
+BUILD|H-NGAC 5D policy array|2640.75|14718|1531.50|1635|52000|500|0
+Flattened 5D direct lookup build: mean=611197.17 ns reload_mean=998228.00 ns memory=1048576.00 B entries=18640 max_probe=5
+BUILD|Flattened 5D direct lookup|611197.17|848928|998228.00|1782848|1048576|18640|5
+RBAC hash map: mean=20.18 ns p95=24.00 ns p99=28.00 ns max=23014.00 ns stddev=72.55 ns allowed=200000/200000
+SUMMARY|RBAC hash map|20.18|24.00|28.00|23014|72.55|200000|200000
+CYCLES|RBAC hash map|98.91|111.00|128.00|64556|205.08|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 20.16x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 651.80x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|20.16
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|651.80
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 500 RBAC hash map':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       175,492,742      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       289,786,483      cpu_core/instructions/           #    1.65  insn per cycle            
+
+       0.035798760 seconds time elapsed
+
+       0.037834000 seconds user
+       0.000995000 seconds sys
+
+
+
+
+====== NGAC-DAG ======
+=== 4 rules ===
+Iterations: 200000
+Rule count: 4
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 4 allow and 7 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 11 corpus requests
+H-NGAC 5D policy array build: mean=640.83 ns reload_mean=646.00 ns memory=416.00 B entries=4
+BUILD|H-NGAC 5D policy array|640.83|672|646.00|671|416|4|0
+Flattened 5D direct lookup build: mean=3440.25 ns reload_mean=3011.42 ns memory=8192.00 B entries=160 max_probe=2
+BUILD|Flattened 5D direct lookup|3440.25|6273|3011.42|5436|8192|160|2
+NGAC-DAG traversal: mean=122.68 ns p95=140.00 ns p99=158.00 ns max=86802.00 ns stddev=266.21 ns allowed=200000/200000
+SUMMARY|NGAC-DAG traversal|122.68|140.00|158.00|86802|266.21|200000|200000
+CYCLES|NGAC-DAG traversal|385.90|434.00|489.00|243371|746.60|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 19.69x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 4.66x
+NGAC-DAG vs H-NGAC 5D mean slowdown: infx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|19.69
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|4.66
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|inf
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 4 NGAC-DAG':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       207,070,843      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       579,088,116      cpu_core/instructions/           #    2.80  insn per cycle            
+
+       0.041285780 seconds time elapsed
+
+       0.040886000 seconds user
+       0.003988000 seconds sys
+
+
+
+=== 10 rules ===
+Iterations: 200000
+Rule count: 10
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 10 allow and 17 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 27 corpus requests
+H-NGAC 5D policy array build: mean=748.75 ns reload_mean=659.58 ns memory=1040.00 B entries=10
+BUILD|H-NGAC 5D policy array|748.75|1393|659.58|683|1040|10|0
+Flattened 5D direct lookup build: mean=9202.17 ns reload_mean=25551.17 ns memory=32768.00 B entries=384 max_probe=2
+BUILD|Flattened 5D direct lookup|9202.17|19139|25551.17|215844|32768|384|2
+NGAC-DAG traversal: mean=128.63 ns p95=147.00 ns p99=168.00 ns max=168559.00 ns stddev=425.29 ns allowed=200000/200000
+SUMMARY|NGAC-DAG traversal|128.63|147.00|168.00|168559|425.29|200000|200000
+CYCLES|NGAC-DAG traversal|405.54|457.00|521.00|472559|1240.95|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 31.51x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 38.74x
+NGAC-DAG vs H-NGAC 5D mean slowdown: infx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|31.51
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|38.74
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|inf
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 10 NGAC-DAG':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       191,117,738      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       578,892,402      cpu_core/instructions/           #    3.03  insn per cycle            
+
+       0.041835131 seconds time elapsed
+
+       0.039783000 seconds user
+       0.002983000 seconds sys
+
+
+
+=== 50 rules ===
+Iterations: 200000
+Rule count: 50
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 50 allow and 84 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 134 corpus requests
+H-NGAC 5D policy array build: mean=754.42 ns reload_mean=662.75 ns memory=5200.00 B entries=50
+BUILD|H-NGAC 5D policy array|754.42|1313|662.75|732|5200|50|0
+Flattened 5D direct lookup build: mean=54334.83 ns reload_mean=48122.83 ns memory=131072.00 B entries=1840 max_probe=3
+BUILD|Flattened 5D direct lookup|54334.83|83307|48122.83|75702|131072|1840|3
+NGAC-DAG traversal: mean=128.36 ns p95=149.00 ns p99=201.00 ns max=118875.00 ns stddev=362.47 ns allowed=200000/200000
+SUMMARY|NGAC-DAG traversal|128.36|149.00|201.00|118875|362.47|200000|200000
+CYCLES|NGAC-DAG traversal|402.73|462.00|615.00|333281|1016.81|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 72.61x
+NGAC-DAG vs H-NGAC 5D mean slowdown: infx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|72.61
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|inf
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 50 NGAC-DAG':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       210,876,844      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       591,786,236      cpu_core/instructions/           #    2.81  insn per cycle            
+
+       0.043011803 seconds time elapsed
+
+       0.043281000 seconds user
+       0.003019000 seconds sys
+
+
+
+=== 100 rules ===
+Iterations: 200000
+Rule count: 100
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 100 allow and 167 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 267 corpus requests
+H-NGAC 5D policy array build: mean=5402.50 ns reload_mean=734.25 ns memory=10400.00 B entries=100
+BUILD|H-NGAC 5D policy array|5402.50|56315|734.25|800|10400|100|0
+Flattened 5D direct lookup build: mean=114579.67 ns reload_mean=116338.17 ns memory=262144.00 B entries=3744 max_probe=4
+BUILD|Flattened 5D direct lookup|114579.67|174639|116338.17|177441|262144|3744|4
+NGAC-DAG traversal: mean=126.87 ns p95=146.00 ns p99=170.00 ns max=257420.00 ns stddev=607.46 ns allowed=200000/200000
+SUMMARY|NGAC-DAG traversal|126.87|146.00|170.00|257420|607.46|200000|200000
+CYCLES|NGAC-DAG traversal|398.52|454.00|527.00|721662|1703.03|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 158.44x
+NGAC-DAG vs H-NGAC 5D mean slowdown: infx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|158.44
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|inf
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 100 NGAC-DAG':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       220,620,735      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       608,959,010      cpu_core/instructions/           #    2.76  insn per cycle            
+
+       0.045491878 seconds time elapsed
+
+       0.046553000 seconds user
+       0.001981000 seconds sys
+
+
+
+=== 200 rules ===
+Iterations: 200000
+Rule count: 200
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 200 allow and 334 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 534 corpus requests
+H-NGAC 5D policy array build: mean=1080.25 ns reload_mean=800.67 ns memory=20800.00 B entries=200
+BUILD|H-NGAC 5D policy array|1080.25|3734|800.67|838|20800|200|0
+Flattened 5D direct lookup build: mean=237242.67 ns reload_mean=243344.08 ns memory=524288.00 B entries=7440 max_probe=4
+BUILD|Flattened 5D direct lookup|237242.67|380317|243344.08|334385|524288|7440|4
+NGAC-DAG traversal: mean=128.36 ns p95=148.00 ns p99=169.00 ns max=379864.00 ns stddev=850.22 ns allowed=200000/200000
+SUMMARY|NGAC-DAG traversal|128.36|148.00|169.00|379864|850.22|200000|200000
+CYCLES|NGAC-DAG traversal|401.26|456.00|519.00|1065058|2384.02|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 303.93x
+NGAC-DAG vs H-NGAC 5D mean slowdown: infx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|303.93
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|inf
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 200 NGAC-DAG':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       223,566,439      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       641,267,460      cpu_core/instructions/           #    2.87  insn per cycle            
+
+       0.045513711 seconds time elapsed
+
+       0.045476000 seconds user
+       0.002965000 seconds sys
+
+
+
+=== 500 rules ===
+Iterations: 200000
+Rule count: 500
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 500 allow and 834 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 1334 corpus requests
+H-NGAC 5D policy array build: mean=1963.67 ns reload_mean=1539.42 ns memory=52000.00 B entries=500
+BUILD|H-NGAC 5D policy array|1963.67|6448|1539.42|1585|52000|500|0
+Flattened 5D direct lookup build: mean=671606.75 ns reload_mean=1092519.25 ns memory=1048576.00 B entries=18640 max_probe=5
+BUILD|Flattened 5D direct lookup|671606.75|983469|1092519.25|2887059|1048576|18640|5
+NGAC-DAG traversal: mean=208.26 ns p95=259.00 ns p99=308.00 ns max=42493.00 ns stddev=137.62 ns allowed=200000/200000
+SUMMARY|NGAC-DAG traversal|208.26|259.00|308.00|42493|137.62|200000|200000
+CYCLES|NGAC-DAG traversal|627.02|768.00|913.00|119162|412.69|200000|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D p99 ratio: -nanx
+Flattened 5D memory vs H-NGAC 5D memory: 20.16x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 709.70x
+NGAC-DAG vs H-NGAC 5D mean slowdown: infx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|-nan
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|20.16
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|709.70
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|inf
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 500 NGAC-DAG':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       373,816,606      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+     1,008,143,109      cpu_core/instructions/           #    2.70  insn per cycle            
+
+       0.080130722 seconds time elapsed
+
+       0.080751000 seconds user
+       0.001993000 seconds sys
+
+
+
+
+====== Flattened ======
+=== 4 rules ===
+Iterations: 200000
+Rule count: 4
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 4 allow and 7 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 11 corpus requests
+H-NGAC 5D policy array build: mean=678.92 ns reload_mean=653.33 ns memory=416.00 B entries=4
+BUILD|H-NGAC 5D policy array|678.92|706|653.33|690|416|4|0
+Flattened 5D direct lookup build: mean=3408.83 ns reload_mean=2983.58 ns memory=8192.00 B entries=160 max_probe=2
+BUILD|Flattened 5D direct lookup|3408.83|5781|2983.58|4750|8192|160|2
+Flattened 5D direct lookup: mean=199.70 ns p95=213.00 ns p99=236.00 ns max=367701.00 ns stddev=865.16 ns allowed=72728/200000
+SUMMARY|Flattened 5D direct lookup|199.70|213.00|236.00|367701|865.16|72728|200000
+CYCLES|Flattened 5D direct lookup|604.98|647.00|722.00|1030813|2425.96|72728|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D p99 ratio: 0.00x
+Flattened 5D memory vs H-NGAC 5D memory: 19.69x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 4.57x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|0.00
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|19.69
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|4.57
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 4 Flattened':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       254,757,549      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       691,656,370      cpu_core/instructions/           #    2.71  insn per cycle            
+
+       0.053359370 seconds time elapsed
+
+       0.054519000 seconds user
+       0.001982000 seconds sys
+
+
+
+=== 10 rules ===
+Iterations: 200000
+Rule count: 10
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 10 allow and 17 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 27 corpus requests
+H-NGAC 5D policy array build: mean=688.67 ns reload_mean=658.67 ns memory=1040.00 B entries=10
+BUILD|H-NGAC 5D policy array|688.67|706|658.67|691|1040|10|0
+Flattened 5D direct lookup build: mean=8544.92 ns reload_mean=8112.75 ns memory=32768.00 B entries=384 max_probe=2
+BUILD|Flattened 5D direct lookup|8544.92|16742|8112.75|16152|32768|384|2
+Flattened 5D direct lookup: mean=205.01 ns p95=219.00 ns p99=261.00 ns max=329328.00 ns stddev=759.88 ns allowed=74074/200000
+SUMMARY|Flattened 5D direct lookup|205.01|219.00|261.00|329328|759.88|74074|200000
+CYCLES|Flattened 5D direct lookup|621.29|663.00|791.00|923317|2153.15|74074|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D p99 ratio: 0.00x
+Flattened 5D memory vs H-NGAC 5D memory: 31.51x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 12.32x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|0.00
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|31.51
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|12.32
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 10 Flattened':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       259,519,465      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       693,484,892      cpu_core/instructions/           #    2.67  insn per cycle            
+
+       0.054905259 seconds time elapsed
+
+       0.056075000 seconds user
+       0.002002000 seconds sys
+
+
+
+=== 50 rules ===
+Iterations: 200000
+Rule count: 50
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 50 allow and 84 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 134 corpus requests
+H-NGAC 5D policy array build: mean=788.08 ns reload_mean=662.33 ns memory=5200.00 B entries=50
+BUILD|H-NGAC 5D policy array|788.08|1619|662.33|684|5200|50|0
+Flattened 5D direct lookup build: mean=49820.33 ns reload_mean=51982.33 ns memory=131072.00 B entries=1840 max_probe=3
+BUILD|Flattened 5D direct lookup|49820.33|92202|51982.33|77549|131072|1840|3
+Flattened 5D direct lookup: mean=195.77 ns p95=211.00 ns p99=241.00 ns max=71921.00 ns stddev=174.05 ns allowed=74627/200000
+SUMMARY|Flattened 5D direct lookup|195.77|211.00|241.00|71921|174.05|74627|200000
+CYCLES|Flattened 5D direct lookup|593.11|638.00|730.00|201662|490.52|74627|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D p99 ratio: 0.00x
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 78.48x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|0.00
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|78.48
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 50 Flattened':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       261,410,586      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       707,237,382      cpu_core/instructions/           #    2.71  insn per cycle            
+
+       0.053372779 seconds time elapsed
+
+       0.051946000 seconds user
+       0.004994000 seconds sys
+
+
+
+=== 100 rules ===
+Iterations: 200000
+Rule count: 100
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 100 allow and 167 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 267 corpus requests
+H-NGAC 5D policy array build: mean=903.50 ns reload_mean=734.83 ns memory=10400.00 B entries=100
+BUILD|H-NGAC 5D policy array|903.50|2305|734.83|780|10400|100|0
+Flattened 5D direct lookup build: mean=113713.67 ns reload_mean=111425.50 ns memory=262144.00 B entries=3744 max_probe=4
+BUILD|Flattened 5D direct lookup|113713.67|182416|111425.50|169090|262144|3744|4
+Flattened 5D direct lookup: mean=202.35 ns p95=213.00 ns p99=241.00 ns max=415059.00 ns stddev=970.41 ns allowed=74907/200000
+SUMMARY|Flattened 5D direct lookup|202.35|213.00|241.00|415059|970.41|74907|200000
+CYCLES|Flattened 5D direct lookup|611.73|643.00|730.00|1163742|2721.31|74907|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D p99 ratio: 0.00x
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 151.63x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|0.00
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|151.63
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 100 Flattened':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       274,737,598      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       723,385,184      cpu_core/instructions/           #    2.63  insn per cycle            
+
+       0.057296394 seconds time elapsed
+
+       0.058170000 seconds user
+       0.001971000 seconds sys
+
+
+
+=== 200 rules ===
+Iterations: 200000
+Rule count: 200
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 200 allow and 334 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 534 corpus requests
+H-NGAC 5D policy array build: mean=1038.08 ns reload_mean=804.42 ns memory=20800.00 B entries=200
+BUILD|H-NGAC 5D policy array|1038.08|3150|804.42|857|20800|200|0
+Flattened 5D direct lookup build: mean=241650.42 ns reload_mean=219717.25 ns memory=524288.00 B entries=7440 max_probe=4
+BUILD|Flattened 5D direct lookup|241650.42|350839|219717.25|324714|524288|7440|4
+Flattened 5D direct lookup: mean=202.32 ns p95=211.00 ns p99=235.00 ns max=327677.00 ns stddev=798.49 ns allowed=74907/200000
+SUMMARY|Flattened 5D direct lookup|202.32|211.00|235.00|327677|798.49|74907|200000
+CYCLES|Flattened 5D direct lookup|611.63|636.00|712.00|918612|2241.71|74907|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D p99 ratio: 0.00x
+Flattened 5D memory vs H-NGAC 5D memory: 25.21x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 273.14x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|0.00
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|25.21
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|273.14
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 200 Flattened':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       286,953,589      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       755,908,159      cpu_core/instructions/           #    2.63  insn per cycle            
+
+       0.059699395 seconds time elapsed
+
+       0.061802000 seconds user
+       0.000996000 seconds sys
+
+
+
+=== 500 rules ===
+Iterations: 200000
+Rule count: 500
+RBAC modeled external state lookup delay: 0 ns
+Warmup per model: 1000 iterations
+Scenario mix: shared 5D-aware corpus with atomic-action requests, 500 allow and 834 deny per cycle
+Flattened 5D direct lookup: validated against H-NGAC 5D on 1334 corpus requests
+H-NGAC 5D policy array build: mean=1873.75 ns reload_mean=1480.33 ns memory=52000.00 B entries=500
+BUILD|H-NGAC 5D policy array|1873.75|6199|1480.33|1593|52000|500|0
+Flattened 5D direct lookup build: mean=608952.42 ns reload_mean=1072272.33 ns memory=1048576.00 B entries=18640 max_probe=5
+BUILD|Flattened 5D direct lookup|608952.42|843497|1072272.33|1489563|1048576|18640|5
+Flattened 5D direct lookup: mean=198.59 ns p95=207.00 ns p99=242.00 ns max=45691.00 ns stddev=151.17 ns allowed=74963/200000
+SUMMARY|Flattened 5D direct lookup|198.59|207.00|242.00|45691|151.17|74963|200000
+CYCLES|Flattened 5D direct lookup|600.04|625.00|732.00|128130|425.02|74963|200000
+RBAC + SQLite state lookup: unavailable
+4D vs 3D mean overhead: -nan%
+5D vs 4D mean overhead: -nan%
+H-NGAC 5D vs flattened 5D mean overhead: -100.00%
+H-NGAC 5D vs flattened 5D p99 ratio: 0.00x
+Flattened 5D memory vs H-NGAC 5D memory: 20.16x
+Flattened 5D reload cost vs H-NGAC 5D reload cost: 724.35x
+NGAC-DAG vs H-NGAC 5D mean slowdown: -nanx
+RBAC+lookup vs H-NGAC 5D mean slowdown: -nanx
+COMPARE|4D_vs_3D_mean_overhead_pct|-nan
+COMPARE|5D_vs_4D_mean_overhead_pct|-nan
+COMPARE|HNGAC5D_vs_flattened5D_mean_overhead_pct|-100.00
+COMPARE|HNGAC5D_vs_flattened5D_p99_ratio_x|0.00
+COMPARE|flattened5D_memory_vs_HNGAC5D_x|20.16
+COMPARE|flattened5D_reload_vs_HNGAC5D_x|724.35
+COMPARE|NGACDAG_vs_HNGAC5D_mean_slowdown_x|-nan
+COMPARE|RBAClookup_vs_HNGAC5D_mean_slowdown_x|-nan
+
+ Performance counter stats for '/tmp/hngac-build/hngac_compare_benchmark 200000 0 500 Flattened':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+       358,367,864      cpu_core/cycles/                                                      
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+       858,113,656      cpu_core/instructions/           #    2.39  insn per cycle            
+
+       0.074628973 seconds time elapsed
+
+       0.075386000 seconds user
+       0.002010000 seconds sys
+
+
+
+

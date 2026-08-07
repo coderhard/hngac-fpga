@@ -1,0 +1,16 @@
+[sudo] password for xilinx: ==========================================================================
+HNGAC 5D opt-v1 -- functional verification on PYNQ-Z1 silicon
+==========================================================================
+
+Corpus -- same rules/requests as SW benchmark and cosim
+
+ rules |  reqs | allow |  deny | result
+-------+-------+-------+-------+-------
+     4 |    11 |     4 |     7 |   PASS
+    10 |    27 |    10 |    17 |   PASS
+    50 |   134 |    50 |    84 |   PASS
+   100 |   267 |   100 |   167 |   PASS
+   200 |   534 |   200 |   334 |   PASS
+   500 |  1334 |   500 |   834 |   PASS
+
+All corpus decisions match csim/cosim.

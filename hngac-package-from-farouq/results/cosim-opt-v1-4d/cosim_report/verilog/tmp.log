@@ -1,0 +1,14 @@
+=== 4 rules ===
+  rule_count=4  requests=11  allowed=8  denied=3
+=== 10 rules ===
+  rule_count=10  requests=27  allowed=19  denied=8
+=== 50 rules ===
+  rule_count=50  requests=134  allowed=92  denied=42
+=== 100 rules ===
+  rule_count=100  requests=267  allowed=184  denied=83
+=== 200 rules ===
+  rule_count=200  requests=534  allowed=367  denied=167
+=== 500 rules ===
+  rule_count=500  requests=1334  allowed=917  denied=417
+
+Benchmark corpus complete.

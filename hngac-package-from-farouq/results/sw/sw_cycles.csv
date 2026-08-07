@@ -1,0 +1,7 @@
+model,cycles_4,cycles_10,cycles_50,cycles_100,cycles_200,cycles_500
+Flattened 5D direct lookup,990,1016,970,1003,1003,984
+H-NGAC 3D,70,75,115,151,211,390
+H-NGAC 4D,74,78,120,194,292,582
+H-NGAC 5D,80,82,130,221,360,685
+NGAC-DAG traversal,608,638,636,629,636,1032
+RBAC hash map,97,87,93,91,89,100

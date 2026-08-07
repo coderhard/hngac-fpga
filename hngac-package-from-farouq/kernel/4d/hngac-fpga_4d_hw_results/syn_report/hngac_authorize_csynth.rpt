@@ -1,0 +1,188 @@
+
+
+================================================================
+== Vitis HLS Report for 'hngac_authorize'
+================================================================
+* Date:           Sun Apr 19 00:17:02 2026
+
+* Version:        2025.2 (Build 6295257 on Nov 14 2025)
+* Project:        proj
+* Solution:       sol1 (Vivado IP Flow Target)
+* Product family: virtexuplusHBM
+* Target device:  xcvu47p-fsvh2892-2L-e
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+---------+----------+------------+
+    |  Clock |  Target | Estimated| Uncertainty|
+    +--------+---------+----------+------------+
+    |ap_clk  |  5.00 ns|  3.364 ns|     1.35 ns|
+    +--------+---------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+----------+----------+-----+------+---------+
+    |  Latency (cycles) |  Latency (absolute) |  Interval  | Pipeline|
+    |   min   |   max   |    min   |    max   | min |  max |   Type  |
+    +---------+---------+----------+----------+-----+------+---------+
+    |        1|     1030|  5.000 ns|  5.150 us|    2|  1031|       no|
+    +---------+---------+----------+----------+-----+------+---------+
+
+    + Detail: 
+        * Instance: 
+        +-----------------------------------------------------+------------------------------------------+---------+---------+-----------+----------+-----+-----+-------------------+
+        |                                                     |                                          |  Latency (cycles) |  Latency (absolute)  |  Interval |      Pipeline     |
+        |                       Instance                      |                  Module                  |   min   |   max   |    min    |    max   | min | max |        Type       |
+        +-----------------------------------------------------+------------------------------------------+---------+---------+-----------+----------+-----+-----+-------------------+
+        |grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137  |hngac_authorize_Pipeline_VITIS_LOOP_22_1  |        3|     1027|  15.000 ns|  5.135 us|    0|    0|  loop pipeline stp|
+        +-----------------------------------------------------+------------------------------------------+---------+---------+-----------+----------+-----+-----+-------------------+
+
+        * Loop: 
+        N/A
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++---------------------+---------+------+---------+---------+-----+
+|         Name        | BRAM_18K|  DSP |    FF   |   LUT   | URAM|
++---------------------+---------+------+---------+---------+-----+
+|DSP                  |        -|     -|        -|        -|    -|
+|Expression           |        -|     -|        0|      449|    -|
+|FIFO                 |        -|     -|        -|        -|    -|
+|Instance             |        0|     -|      492|     4937|    0|
+|Memory               |        -|     -|        -|        -|    -|
+|Multiplexer          |        -|     -|        0|       40|    -|
+|Register             |        -|     -|      456|        -|    -|
++---------------------+---------+------+---------+---------+-----+
+|Total                |        0|     0|      948|     5426|    0|
++---------------------+---------+------+---------+---------+-----+
+|Available SLR        |     1344|  3008|   869120|   434560|  320|
++---------------------+---------+------+---------+---------+-----+
+|Utilization SLR (%)  |        0|     0|       ~0|        1|    0|
++---------------------+---------+------+---------+---------+-----+
+|Available            |     4032|  9024|  2607360|  1303680|  960|
++---------------------+---------+------+---------+---------+-----+
+|Utilization (%)      |        0|     0|       ~0|       ~0|    0|
++---------------------+---------+------+---------+---------+-----+
+
++ Detail: 
+    * Instance: 
+    +-----------------------------------------------------+------------------------------------------+---------+----+-----+------+-----+
+    |                       Instance                      |                  Module                  | BRAM_18K| DSP|  FF |  LUT | URAM|
+    +-----------------------------------------------------+------------------------------------------+---------+----+-----+------+-----+
+    |control_s_axi_U                                      |control_s_axi                             |        0|   0|  449|   842|    0|
+    |grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137  |hngac_authorize_Pipeline_VITIS_LOOP_22_1  |        0|   0|   43|  4095|    0|
+    +-----------------------------------------------------+------------------------------------------+---------+----+-----+------+-----+
+    |Total                                                |                                          |        0|   0|  492|  4937|    0|
+    +-----------------------------------------------------+------------------------------------------+---------+----+-----+------+-----+
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +------------------------------+----------+----+---+-----+------------+------------+
+    |         Variable Name        | Operation| DSP| FF| LUT | Bitwidth P0| Bitwidth P1|
+    +------------------------------+----------+----+---+-----+------------+------------+
+    |ap_condition_170              |       and|   0|  0|    2|           1|           1|
+    |icmp_ln15_1_fu_183_p2         |      icmp|   0|  0|   15|           8|           1|
+    |icmp_ln15_fu_167_p2           |      icmp|   0|  0|   15|           8|           1|
+    |icmp_ln20_fu_189_p2           |      icmp|   0|  0|   23|          16|          10|
+    |icmp_ln22_fu_227_p2           |      icmp|   0|  0|   17|          10|           1|
+    |ap_condition_164              |        or|   0|  0|    2|           1|           1|
+    |bounded_rule_count_fu_195_p3  |    select|   0|  0|   11|           1|          11|
+    |shl_ln59_1_fu_314_p2          |       shl|   0|  0|  182|           1|          64|
+    |shl_ln59_fu_304_p2            |       shl|   0|  0|  182|           1|          64|
+    +------------------------------+----------+----+---+-----+------------+------------+
+    |Total                         |          |   0|  0|  449|          47|         154|
+    +------------------------------+----------+----+---+-----+------------+------------+
+
+    * Multiplexer: 
+    +-----------------------------------+----+-----------+-----+-----------+
+    |                Name               | LUT| Input Size| Bits| Total Bits|
+    +-----------------------------------+----+-----------+-----+-----------+
+    |ap_NS_fsm                          |  26|          5|    1|          5|
+    |ap_phi_mux_retval_4_phi_fu_126_p6  |  14|          3|    1|          3|
+    +-----------------------------------+----+-----------+-----+-----------+
+    |Total                              |  40|          8|    2|          8|
+    +-----------------------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +------------------------------------------------------------------+----+----+-----+-----------+
+    |                               Name                               | FF | LUT| Bits| Const Bits|
+    +------------------------------------------------------------------+----+----+-----+-----------+
+    |and_ln_reg_393                                                    |   2|   0|    8|          6|
+    |ap_CS_fsm                                                         |   4|   0|    4|          0|
+    |available_assign_reg_354                                          |  32|   0|   32|          0|
+    |bit_1_reg_349                                                     |   6|   0|    6|          0|
+    |bounded_rule_count_reg_339                                        |  10|   0|   10|          0|
+    |grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137_ap_start_reg  |   1|   0|    1|          0|
+    |icmp_ln15_1_reg_335                                               |   1|   0|    1|          0|
+    |icmp_ln15_reg_331                                                 |   1|   0|    1|          0|
+    |icmp_ln22_reg_359                                                 |   1|   0|    1|          0|
+    |retval_4_reg_122                                                  |   1|   0|    1|          0|
+    |shl_ln59_1_reg_403                                                |  64|   0|   64|          0|
+    |shl_ln59_reg_398                                                  |  64|   0|   64|          0|
+    |targetBlock_reg_413                                               |   1|   0|    1|          0|
+    |tmp_1_reg_368                                                     |   2|   0|    2|          0|
+    |tmp_reg_363                                                       |   2|   0|    2|          0|
+    |trunc_ln29_reg_344                                                |   6|   0|    6|          0|
+    |trunc_ln64_1_reg_378                                              |  64|   0|   64|          0|
+    |trunc_ln64_2_reg_383                                              |  64|   0|   64|          0|
+    |trunc_ln64_3_reg_388                                              |  64|   0|   64|          0|
+    |trunc_ln_reg_373                                                  |  64|   0|   64|          0|
+    |zext_ln_reg_408                                                   |   2|   0|    9|          7|
+    +------------------------------------------------------------------+----+----+-----+-----------+
+    |Total                                                             | 456|   0|  469|         13|
+    +------------------------------------------------------------------+----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++-----------------------+-----+------+------------+-----------------+--------------+
+|       RTL Ports       | Dir | Bits |  Protocol  |  Source Object  |    C Type    |
++-----------------------+-----+------+------------+-----------------+--------------+
+|s_axi_control_AWVALID  |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_AWREADY  |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_AWADDR   |   in|     7|       s_axi|          control|       pointer|
+|s_axi_control_WVALID   |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_WREADY   |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_WDATA    |   in|    32|       s_axi|          control|       pointer|
+|s_axi_control_WSTRB    |   in|     4|       s_axi|          control|       pointer|
+|s_axi_control_ARVALID  |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_ARREADY  |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_ARADDR   |   in|     7|       s_axi|          control|       pointer|
+|s_axi_control_RVALID   |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_RREADY   |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_RDATA    |  out|    32|       s_axi|          control|       pointer|
+|s_axi_control_RRESP    |  out|     2|       s_axi|          control|       pointer|
+|s_axi_control_BVALID   |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_BREADY   |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_BRESP    |  out|     2|       s_axi|          control|       pointer|
+|ap_clk                 |   in|     1|  ap_ctrl_hs|  hngac_authorize|  return value|
+|ap_rst_n               |   in|     1|  ap_ctrl_hs|  hngac_authorize|  return value|
+|interrupt              |  out|     1|  ap_ctrl_hs|  hngac_authorize|  return value|
+|policy_Addr_A          |  out|    32|        bram|           policy|         array|
+|policy_EN_A            |  out|     1|        bram|           policy|         array|
+|policy_WEN_A           |  out|   128|        bram|           policy|         array|
+|policy_Din_A           |  out|  1024|        bram|           policy|         array|
+|policy_Dout_A          |   in|  1024|        bram|           policy|         array|
+|policy_Clk_A           |  out|     1|        bram|           policy|         array|
+|policy_Rst_A           |  out|     1|        bram|           policy|         array|
++-----------------------+-----+------+------------+-----------------+--------------+
+

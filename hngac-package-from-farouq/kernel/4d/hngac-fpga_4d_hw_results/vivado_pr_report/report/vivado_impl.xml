@@ -1,0 +1,130 @@
+<profile>
+<RunData>
+  <RUN_TYPE>impl</RUN_TYPE>
+  <VIVADO_VERSION>v.2025.2</VIVADO_VERSION>
+  <ROOT_MODULE_CELL>bd_0_i/hls_inst</ROOT_MODULE_CELL>
+</RunData>
+<TimingReport>
+  <TargetClockPeriod>5.000</TargetClockPeriod>
+  <AchievedClockPeriod>2.830</AchievedClockPeriod>
+  <CLOCK_NAME>ap_clk</CLOCK_NAME>
+  <CP_FINAL>2.830</CP_FINAL>
+  <CP_ROUTE>2.830</CP_ROUTE>
+  <CP_SYNTH>2.007</CP_SYNTH>
+  <CP_TARGET>5.000</CP_TARGET>
+  <SLACK_FINAL>2.170</SLACK_FINAL>
+  <SLACK_ROUTE>2.170</SLACK_ROUTE>
+  <SLACK_SYNTH>2.993</SLACK_SYNTH>
+  <TIMING_MET>TRUE</TIMING_MET>
+  <TNS_FINAL>0.000</TNS_FINAL>
+  <TNS_ROUTE>0.000</TNS_ROUTE>
+  <TNS_SYNTH>0.000</TNS_SYNTH>
+  <WNS_FINAL>2.170</WNS_FINAL>
+  <WNS_ROUTE>2.170</WNS_ROUTE>
+  <WNS_SYNTH>2.993</WNS_SYNTH>
+</TimingReport>
+<AreaReport>
+  <Resources>
+    <BRAM>0</BRAM>
+    <CLB>177</CLB>
+    <DSP>0</DSP>
+    <FF>942</FF>
+    <LATCH>0</LATCH>
+    <LUT>796</LUT>
+    <SRL>0</SRL>
+    <URAM>0</URAM>
+  </Resources>
+  <AvailableResources>
+    <BRAM>4032</BRAM>
+    <CLB>162960</CLB>
+    <DSP>9024</DSP>
+    <FF>2607360</FF>
+    <LUT>1303680</LUT>
+    <URAM>960</URAM>
+  </AvailableResources>
+</AreaReport>
+<RtlModules>
+  <RtlModule CELL="inst" DEPTH="0" FILE_NAME="bd_0_hls_inst_0.v" ORIG_REF_NAME="hngac_authorize" TOP_CELL="bd_0_i/hls_inst/inst">
+    <SubModules count="2">control_s_axi_U grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137</SubModules>
+    <Resources FF="942" LUT="796" LogicLUT="796"/>
+    <LocalResources FF="456" LUT="32" LogicLUT="32"/>
+  </RtlModule>
+  <RtlModule CELL="inst/control_s_axi_U" DEPTH="1" FILE_NAME="hngac_authorize.v" ORIG_REF_NAME="hngac_authorize_control_s_axi">
+    <Resources FF="455" LUT="432" LogicLUT="432"/>
+  </RtlModule>
+  <RtlModule CELL="inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137" DEPTH="1" FILE_NAME="hngac_authorize.v" ORIG_REF_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1">
+    <SubModules count="1">flow_control_loop_pipe_sequential_init_U</SubModules>
+    <Resources FF="31" LUT="332" LogicLUT="332"/>
+  </RtlModule>
+  <RtlModule CELL="inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U" DEPTH="2" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" ORIG_REF_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init">
+    <Resources FF="2" LUT="323" LogicLUT="323"/>
+  </RtlModule>
+</RtlModules>
+<TimingPaths>
+  <TPATH DATAPATH_DELAY="2.724" DATAPATH_LOGIC_DELAY="0.752" DATAPATH_NET_DELAY="1.972" ENDPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[1]/CE" LOGIC_LEVELS="7" MAX_FANOUT="64" SLACK="2.170" STARTPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]/C">
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="205"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_120" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_52" PRIMITIVE_TYPE="CLB.LUT.LUT4" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_14" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_5" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_3" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT2" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[1]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="187"/>
+  </TPATH>
+  <TPATH DATAPATH_DELAY="2.724" DATAPATH_LOGIC_DELAY="0.752" DATAPATH_NET_DELAY="1.972" ENDPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[3]/CE" LOGIC_LEVELS="7" MAX_FANOUT="64" SLACK="2.170" STARTPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]/C">
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="205"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_120" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_52" PRIMITIVE_TYPE="CLB.LUT.LUT4" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_14" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_5" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_3" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT2" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[3]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="187"/>
+  </TPATH>
+  <TPATH DATAPATH_DELAY="2.722" DATAPATH_LOGIC_DELAY="0.752" DATAPATH_NET_DELAY="1.970" ENDPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[0]/CE" LOGIC_LEVELS="7" MAX_FANOUT="64" SLACK="2.172" STARTPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]/C">
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="205"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_120" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_52" PRIMITIVE_TYPE="CLB.LUT.LUT4" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_14" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_5" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_3" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT2" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[0]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="187"/>
+  </TPATH>
+  <TPATH DATAPATH_DELAY="2.722" DATAPATH_LOGIC_DELAY="0.752" DATAPATH_NET_DELAY="1.970" ENDPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[2]/CE" LOGIC_LEVELS="7" MAX_FANOUT="64" SLACK="2.172" STARTPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]/C">
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="205"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_120" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_52" PRIMITIVE_TYPE="CLB.LUT.LUT4" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_14" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_5" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_3" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT2" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[2]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="187"/>
+  </TPATH>
+  <TPATH DATAPATH_DELAY="2.722" DATAPATH_LOGIC_DELAY="0.752" DATAPATH_NET_DELAY="1.970" ENDPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[4]/CE" LOGIC_LEVELS="7" MAX_FANOUT="64" SLACK="2.172" STARTPOINT_PIN="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]/C">
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/zext_ln22_cast_reg_411_reg[7]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="205"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_120" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_52" PRIMITIVE_TYPE="CLB.LUT.LUT4" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_14" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_5" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/flow_control_loop_pipe_sequential_init_U/ap_return_preg[0]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_3" PRIMITIVE_TYPE="CLB.LUT.LUT6" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90[9]_i_2" PRIMITIVE_TYPE="CLB.LUT.LUT2" FILE_NAME="hngac_authorize_flow_control_loop_pipe_sequential_init.v" LINE_NUMBER="70"/>
+    <CELL NAME="bd_0_i/hls_inst/inst/grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137/i_fu_90_reg[4]" PRIMITIVE_TYPE="REGISTER.SDR.FDRE" FILE_NAME="hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1.v" LINE_NUMBER="187"/>
+  </TPATH>
+</TimingPaths>
+<VivadoReportFiles>
+  <ReportFile TYPE="design_analysis" PATH="verilog/report/hngac_authorize_design_analysis_routed.rpt"/>
+  <ReportFile TYPE="failfast" PATH="verilog/report/hngac_authorize_failfast_routed.rpt"/>
+  <ReportFile TYPE="power" PATH="verilog/report/hngac_authorize_power_routed.rpt"/>
+  <ReportFile TYPE="status" PATH="verilog/report/hngac_authorize_status_routed.rpt"/>
+  <ReportFile TYPE="timing" PATH="verilog/report/hngac_authorize_timing_routed.rpt"/>
+  <ReportFile TYPE="timing_paths" PATH="verilog/report/hngac_authorize_timing_paths_routed.rpt"/>
+  <ReportFile TYPE="utilization" PATH="verilog/report/hngac_authorize_utilization_routed.rpt"/>
+  <ReportFile TYPE="utilization_hierarchical" PATH="verilog/report/hngac_authorize_utilization_hierarchical_routed.rpt"/>
+</VivadoReportFiles>
+</profile>

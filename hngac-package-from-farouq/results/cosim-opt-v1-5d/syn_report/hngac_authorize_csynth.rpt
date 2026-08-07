@@ -1,0 +1,209 @@
+
+
+================================================================
+== Vitis HLS Report for 'hngac_authorize'
+================================================================
+* Date:           Wed Aug  5 16:26:21 2026
+
+* Version:        2025.2 (Build 6295257 on Nov 14 2025)
+* Project:        hngac_opt_v1_5d_bench
+* Solution:       solution1 (Vivado IP Flow Target)
+* Product family: zynq
+* Target device:  xc7z020-clg400-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+----------+----------+------------+
+    |  Clock |  Target  | Estimated| Uncertainty|
+    +--------+----------+----------+------------+
+    |ap_clk  |  10.00 ns|  6.965 ns|     2.70 ns|
+    +--------+----------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+-----------+----------+-----+-----+---------+
+    |  Latency (cycles) |  Latency (absolute)  |  Interval | Pipeline|
+    |   min   |   max   |    min    |    max   | min | max |   Type  |
+    +---------+---------+-----------+----------+-----+-----+---------+
+    |        1|      270|  10.000 ns|  2.700 us|    2|  271|       no|
+    +---------+---------+-----------+----------+-----+-----+---------+
+
+    + Detail: 
+        * Instance: 
+        +-----------------------------------------------------+------------------------------------------+---------+---------+-----------+-----------+-----+-----+-------------------+
+        |                                                     |                                          |  Latency (cycles) |   Latency (absolute)  |  Interval |      Pipeline     |
+        |                       Instance                      |                  Module                  |   min   |   max   |    min    |    max    | min | max |        Type       |
+        +-----------------------------------------------------+------------------------------------------+---------+---------+-----------+-----------+-----+-----+-------------------+
+        |grp_hngac_authorize_Pipeline_1_fu_249                |hngac_authorize_Pipeline_1                |        6|        6|  60.000 ns|  60.000 ns|    0|    0|  loop pipeline stp|
+        |grp_hngac_authorize_Pipeline_2_fu_257                |hngac_authorize_Pipeline_2                |        6|        6|  60.000 ns|  60.000 ns|    0|    0|  loop pipeline stp|
+        |grp_hngac_authorize_Pipeline_3_fu_265                |hngac_authorize_Pipeline_3                |        6|        6|  60.000 ns|  60.000 ns|    0|    0|  loop pipeline stp|
+        |grp_hngac_authorize_Pipeline_4_fu_273                |hngac_authorize_Pipeline_4                |        6|        6|  60.000 ns|  60.000 ns|    0|    0|  loop pipeline stp|
+        |grp_hngac_authorize_Pipeline_5_fu_281                |hngac_authorize_Pipeline_5                |        6|        6|  60.000 ns|  60.000 ns|    0|    0|  loop pipeline stp|
+        |grp_hngac_authorize_Pipeline_6_fu_289                |hngac_authorize_Pipeline_6                |        6|        6|  60.000 ns|  60.000 ns|    0|    0|  loop pipeline stp|
+        |grp_hngac_authorize_Pipeline_VITIS_LOOP_46_1_fu_297  |hngac_authorize_Pipeline_VITIS_LOOP_46_1  |        4|      260|  40.000 ns|   2.600 us|    0|    0|  loop pipeline stp|
+        +-----------------------------------------------------+------------------------------------------+---------+---------+-----------+-----------+-----+-----+-------------------+
+
+        * Loop: 
+        N/A
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-----+--------+-------+-----+
+|       Name      | BRAM_18K| DSP |   FF   |  LUT  | URAM|
++-----------------+---------+-----+--------+-------+-----+
+|DSP              |        -|    -|       -|      -|    -|
+|Expression       |        -|    -|       0|    457|    -|
+|FIFO             |        -|    -|       -|      -|    -|
+|Instance         |        0|    -|    2172|   4598|    -|
+|Memory           |        -|    -|       -|      -|    -|
+|Multiplexer      |        -|    -|       0|     49|    -|
+|Register         |        -|    -|     507|      -|    -|
++-----------------+---------+-----+--------+-------+-----+
+|Total            |        0|    0|    2679|   5104|    0|
++-----------------+---------+-----+--------+-------+-----+
+|Available        |      280|  220|  106400|  53200|    0|
++-----------------+---------+-----+--------+-------+-----+
+|Utilization (%)  |        0|    0|       2|      9|    0|
++-----------------+---------+-----+--------+-------+-----+
+
++ Detail: 
+    * Instance: 
+    +-----------------------------------------------------+------------------------------------------+---------+----+------+------+-----+
+    |                       Instance                      |                  Module                  | BRAM_18K| DSP|  FF  |  LUT | URAM|
+    +-----------------------------------------------------+------------------------------------------+---------+----+------+------+-----+
+    |control_s_axi_U                                      |control_s_axi                             |        0|   0|   449|   842|    0|
+    |grp_hngac_authorize_Pipeline_1_fu_249                |hngac_authorize_Pipeline_1                |        0|   0|     5|    51|    0|
+    |grp_hngac_authorize_Pipeline_2_fu_257                |hngac_authorize_Pipeline_2                |        0|   0|     5|    51|    0|
+    |grp_hngac_authorize_Pipeline_3_fu_265                |hngac_authorize_Pipeline_3                |        0|   0|     5|    51|    0|
+    |grp_hngac_authorize_Pipeline_4_fu_273                |hngac_authorize_Pipeline_4                |        0|   0|     5|    51|    0|
+    |grp_hngac_authorize_Pipeline_5_fu_281                |hngac_authorize_Pipeline_5                |        0|   0|     5|    51|    0|
+    |grp_hngac_authorize_Pipeline_6_fu_289                |hngac_authorize_Pipeline_6                |        0|   0|     5|    51|    0|
+    |grp_hngac_authorize_Pipeline_VITIS_LOOP_46_1_fu_297  |hngac_authorize_Pipeline_VITIS_LOOP_46_1  |        0|   0|  1693|  3450|    0|
+    +-----------------------------------------------------+------------------------------------------+---------+----+------+------+-----+
+    |Total                                                |                                          |        0|   0|  2172|  4598|    0|
+    +-----------------------------------------------------+------------------------------------------+---------+----+------+------+-----+
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +---------------------------------+----------+----+---+-----+------------+------------+
+    |          Variable Name          | Operation| DSP| FF| LUT | Bitwidth P0| Bitwidth P1|
+    +---------------------------------+----------+----+---+-----+------------+------------+
+    |add_ln40_fu_583_p2               |         +|   0|  0|   13|          10|           1|
+    |add_ln46_fu_615_p2               |         +|   0|  0|   14|           9|           1|
+    |icmp_ln14_1_fu_371_p2            |      icmp|   0|  0|   15|           8|           1|
+    |icmp_ln14_fu_355_p2              |      icmp|   0|  0|   15|           8|           1|
+    |icmp_ln19_fu_411_p2              |      icmp|   0|  0|   23|          16|          10|
+    |ap_block_state2_on_subcall_done  |        or|   0|  0|    2|           1|           1|
+    |bounded_rule_count_fu_417_p3     |    select|   0|  0|   11|           1|          11|
+    |obj_mask_fu_497_p2               |       shl|   0|  0|  182|           1|          64|
+    |subj_mask_fu_488_p2              |       shl|   0|  0|  182|           1|          64|
+    +---------------------------------+----------+----+---+-----+------------+------------+
+    |Total                            |          |   0|  0|  457|          55|         154|
+    +---------------------------------+----------+----+---+-----+------------+------------+
+
+    * Multiplexer: 
+    +-----------------------------------+----+-----------+-----+-----------+
+    |                Name               | LUT| Input Size| Bits| Total Bits|
+    +-----------------------------------+----+-----------+-----+-----------+
+    |ap_NS_fsm                          |  31|          6|    1|          6|
+    |ap_phi_mux_retval_0_phi_fu_242_p4  |   9|          2|    1|          2|
+    |retval_0_reg_238                   |   9|          2|    1|          2|
+    +-----------------------------------+----+-----------+-----+-----------+
+    |Total                              |  49|         10|    3|         10|
+    +-----------------------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +------------------------------------------------------------------+----+----+-----+-----------+
+    |                               Name                               | FF | LUT| Bits| Const Bits|
+    +------------------------------------------------------------------+----+----+-----+-----------+
+    |add_ln46_reg_927                                                  |   9|   0|    9|          0|
+    |ap_CS_fsm                                                         |   5|   0|    5|          0|
+    |bounded_rule_count_reg_804                                        |  10|   0|   10|          0|
+    |grp_hngac_authorize_Pipeline_1_fu_249_ap_start_reg                |   1|   0|    1|          0|
+    |grp_hngac_authorize_Pipeline_2_fu_257_ap_start_reg                |   1|   0|    1|          0|
+    |grp_hngac_authorize_Pipeline_3_fu_265_ap_start_reg                |   1|   0|    1|          0|
+    |grp_hngac_authorize_Pipeline_4_fu_273_ap_start_reg                |   1|   0|    1|          0|
+    |grp_hngac_authorize_Pipeline_5_fu_281_ap_start_reg                |   1|   0|    1|          0|
+    |grp_hngac_authorize_Pipeline_6_fu_289_ap_start_reg                |   1|   0|    1|          0|
+    |grp_hngac_authorize_Pipeline_VITIS_LOOP_46_1_fu_297_ap_start_reg  |   1|   0|    1|          0|
+    |icmp_ln14_1_reg_780                                               |   1|   0|    1|          0|
+    |icmp_ln14_reg_776                                                 |   1|   0|    1|          0|
+    |obj_mask_reg_845                                                  |  64|   0|   64|          0|
+    |retval_0_reg_238                                                  |   1|   0|    1|          0|
+    |source_assign_reg_825                                             |  32|   0|   32|          0|
+    |subj_mask_reg_840                                                 |  64|   0|   64|          0|
+    |trunc_ln1_reg_789                                                 |   6|   0|    6|          0|
+    |trunc_ln21_reg_784                                                |   6|   0|    6|          0|
+    |trunc_ln2_reg_794                                                 |   2|   0|    2|          0|
+    |trunc_ln3_reg_799                                                 |   2|   0|    2|          0|
+    |trunc_ln4_reg_922                                                 |   9|   0|    9|          0|
+    |trunc_ln5_reg_810                                                 |  64|   0|   64|          0|
+    |trunc_ln6_reg_815                                                 |  64|   0|   64|          0|
+    |trunc_ln7_reg_820                                                 |  32|   0|   32|          0|
+    |trunc_ln8_reg_830                                                 |  64|   0|   64|          0|
+    |trunc_ln9_reg_835                                                 |  64|   0|   64|          0|
+    +------------------------------------------------------------------+----+----+-----+-----------+
+    |Total                                                             | 507|   0|  507|          0|
+    +------------------------------------------------------------------+----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++-----------------------+-----+------+------------+-----------------+--------------+
+|       RTL Ports       | Dir | Bits |  Protocol  |  Source Object  |    C Type    |
++-----------------------+-----+------+------------+-----------------+--------------+
+|s_axi_control_AWVALID  |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_AWREADY  |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_AWADDR   |   in|     7|       s_axi|          control|       pointer|
+|s_axi_control_WVALID   |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_WREADY   |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_WDATA    |   in|    32|       s_axi|          control|       pointer|
+|s_axi_control_WSTRB    |   in|     4|       s_axi|          control|       pointer|
+|s_axi_control_ARVALID  |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_ARREADY  |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_ARADDR   |   in|     7|       s_axi|          control|       pointer|
+|s_axi_control_RVALID   |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_RREADY   |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_RDATA    |  out|    32|       s_axi|          control|       pointer|
+|s_axi_control_RRESP    |  out|     2|       s_axi|          control|       pointer|
+|s_axi_control_BVALID   |  out|     1|       s_axi|          control|       pointer|
+|s_axi_control_BREADY   |   in|     1|       s_axi|          control|       pointer|
+|s_axi_control_BRESP    |  out|     2|       s_axi|          control|       pointer|
+|ap_clk                 |   in|     1|  ap_ctrl_hs|  hngac_authorize|  return value|
+|ap_rst_n               |   in|     1|  ap_ctrl_hs|  hngac_authorize|  return value|
+|interrupt              |  out|     1|  ap_ctrl_hs|  hngac_authorize|  return value|
+|policy_Addr_A          |  out|    32|        bram|           policy|         array|
+|policy_EN_A            |  out|     1|        bram|           policy|         array|
+|policy_WEN_A           |  out|   128|        bram|           policy|         array|
+|policy_Din_A           |  out|  1024|        bram|           policy|         array|
+|policy_Dout_A          |   in|  1024|        bram|           policy|         array|
+|policy_Clk_A           |  out|     1|        bram|           policy|         array|
+|policy_Rst_A           |  out|     1|        bram|           policy|         array|
+|policy_Addr_B          |  out|    32|        bram|           policy|         array|
+|policy_EN_B            |  out|     1|        bram|           policy|         array|
+|policy_WEN_B           |  out|   128|        bram|           policy|         array|
+|policy_Din_B           |  out|  1024|        bram|           policy|         array|
+|policy_Dout_B          |   in|  1024|        bram|           policy|         array|
+|policy_Clk_B           |  out|     1|        bram|           policy|         array|
+|policy_Rst_B           |  out|     1|        bram|           policy|         array|
++-----------------------+-----+------+------------+-----------------+--------------+
+

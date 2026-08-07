@@ -1,0 +1,36 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
+| Date         : Sun Apr 19 00:29:22 2026
+| Host         : ip-172-31-89-13 running 64-bit Ubuntu 24.04.1 LTS
+| Command      : report_utilization -hierarchical -hierarchical_depth 6 -file ./report/hngac_authorize_utilization_hierarchical_routed.rpt
+| Design       : bd_0_wrapper
+| Device       : xcvu47p-fsvh2892-2L-e
+| Speed File   : -2L
+| Design State : Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++-------------------------------------------------------------+--------------------------------------------------------------------------+------------+------------+---------+------+-----+--------+--------+------+------------+
+|                           Instance                          |                                  Module                                  | Total LUTs | Logic LUTs | LUTRAMs | SRLs | FFs | RAMB36 | RAMB18 | URAM | DSP Blocks |
++-------------------------------------------------------------+--------------------------------------------------------------------------+------------+------------+---------+------+-----+--------+--------+------+------------+
+| bd_0_wrapper                                                |                                                                    (top) |        796 |        796 |       0 |    0 | 942 |      0 |      0 |    0 |          0 |
+|   bd_0_i                                                    |                                                                     bd_0 |        796 |        796 |       0 |    0 | 942 |      0 |      0 |    0 |          0 |
+|     hls_inst                                                |                                                          bd_0_hls_inst_0 |        796 |        796 |       0 |    0 | 942 |      0 |      0 |    0 |          0 |
+|       inst                                                  |                                          bd_0_hls_inst_0_hngac_authorize |        796 |        796 |       0 |    0 | 942 |      0 |      0 |    0 |          0 |
+|         (inst)                                              |                                          bd_0_hls_inst_0_hngac_authorize |         32 |         32 |       0 |    0 | 456 |      0 |      0 |    0 |          0 |
+|         control_s_axi_U                                     |                            bd_0_hls_inst_0_hngac_authorize_control_s_axi |        432 |        432 |       0 |    0 | 455 |      0 |      0 |    0 |          0 |
+|         grp_hngac_authorize_Pipeline_VITIS_LOOP_22_1_fu_137 | bd_0_hls_inst_0_hngac_authorize_hngac_authorize_Pipeline_VITIS_LOOP_22_1 |        332 |        332 |       0 |    0 |  31 |      0 |      0 |    0 |          0 |
+|           flow_control_loop_pipe_sequential_init_U          |   bd_0_hls_inst_0_hngac_authorize_flow_control_loop_pipe_sequential_init |        323 |        323 |       0 |    0 |   2 |      0 |      0 |    0 |          0 |
++-------------------------------------------------------------+--------------------------------------------------------------------------+------------+------------+---------+------+-----+--------+--------+------+------------+
+* Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
+
+

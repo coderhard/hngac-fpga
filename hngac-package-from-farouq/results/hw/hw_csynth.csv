@@ -1,0 +1,3 @@
+source,II,iteration_latency,latency_max,interval_max,FF,FF_pct,LUT,LUT_pct,BRAM,DSP
+/mnt/c/Users/write/test/vivado_test/hngac-package/results/cosim-opt-v1-4d/syn_report/csynth.rpt,1,3,270,271,2579,2%,4580,8%,0,0
+/mnt/c/Users/write/test/vivado_test/hngac-package/results/cosim-opt-v1-5d/syn_report/csynth.rpt,1,3,270,271,2679,2%,5104,9%,0,0
