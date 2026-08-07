@@ -114,5 +114,5 @@ hardware-security abstract skill; body obeys this profile.
 1. **OPA/XACML reuse** — numbers are IN the draft, flagged `% AUTHOR DECISION` in
    the tex. Cut them if the journal split argues otherwise.
 2. **HyperNGAC name** — used once, flagged, pending Sai's sign-off.
-3. Sitharaman/Gupta affiliations; Badawy name rendering.
+3. ~~Sitharaman/Gupta affiliations~~ resolved 2026-08-07 (Zetafence, Inc.; Texas A&M University–Central Texas, from the ac4aiagents Overleaf bios). Badawy name rendering still open.
 4. Cortex-A9 run — draft assumes it does not arrive; §VIII notes it as future work.

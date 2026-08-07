@@ -21,10 +21,10 @@ Hassan Karim, Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
 | Hassan Karim | Stable Cyber LLC |
 | Omar Faruque | Florida International University |
 | Abdel-Hameed A. Badawy | Florida International University |
-| Sai Sitharaman | [confirm] |
-| Deepti Gupta | [confirm] |
+| Sai Sitharaman | Zetafence, Inc. |
+| Deepti Gupta | Texas A&M University–Central Texas |
 
-> Check how Badawy renders his name on recent papers (Abdel-Hameed A. Badawy vs Abdel-Hameed Badawy) and confirm the two remaining affiliations before submitting.
+> Affiliations confirmed 2026-08-07 from the ac4aiagents Overleaf author bios (Sitharaman: Founder and CTO, Zetafence, Inc., Dublin, CA; Gupta: Assistant Professor, Texas A&M University–Central Texas). Still open: check how Badawy renders his name on recent papers (Abdel-Hameed A. Badawy vs Abdel-Hameed Badawy).
 
 # Abstract (229 words)
 
