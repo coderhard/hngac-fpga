@@ -47,7 +47,7 @@ Contribution word: **dimensionality**. Not hardware (DCAS's), not hypergraph
 | 3D synthesis | Permanent (Omar: no 3D kernel code) | Scope everything 4D vs 5D |
 | On-board timing | Will not exist for IPCCC | Co-sim is the timing authority; board = functional only |
 | Cortex-A9 baseline | Possible, not committed | Optional; framing risk noted in canonical-context |
-| Related-work sweep | Not run | Task 2 of `docs/manuscript-agent-prompt.md`; rubric slots marked TODO in draft |
+| Related-work sweep | **Done 2026-08-07** | 4 agents, ~46 verified refs in `docs/related-work-sweep-2026-08-07.md`; 18 merged into the draft; novelty claim rewritten to bounded form |
 | Sitharaman/Gupta affiliations | **Resolved 2026-08-07** | Zetafence, Inc.; Texas A&M University–Central Texas (ac4aiagents Overleaf bios) |
 | HyperNGAC name sign-off | Pending Sai | Needed before print |
 | opt-v1 reconciliation into `fpga/hls/src/` | Open | Not needed for the paper; PROVENANCE.md covers the delta |

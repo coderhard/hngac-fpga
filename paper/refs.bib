@@ -127,7 +127,183 @@
   year         = {2022}
 }
 
-% TODO-SWEEP: FPGA access-control / security-primitive prior art (2-3 entries)
-% TODO-SWEEP: NGAC/ABAC hardware or performance implementations (2-3 entries)
-% TODO-SWEEP: WCET-bounded security enforcement in CPS (2-3 entries)
-% TODO-SWEEP: ROS 2 / DDS attack literature beyond SROS2 (2-3 entries)
+% --- Sweep-verified entries, 2026-08-07 (docs/related-work-sweep-2026-08-07.md) ---
+% All DOIs seen on Crossref/publisher this session except mell2017linear (NIST
+% record confirms venue/volume; pages and DOI unverified, so omitted).
+
+@inproceedings{huffmire2006policy,
+  author    = {Ted Huffmire and Shreyas Prasad and Timothy Sherwood and Ryan Kastner},
+  title     = {Policy-Driven Memory Protection for Reconfigurable Hardware},
+  booktitle = {Computer Security -- ESORICS 2006, LNCS 4189},
+  pages     = {461--478},
+  year      = {2006},
+  doi       = {10.1007/11863908_28}
+}
+
+@article{fiorin2008secure,
+  author  = {Leandro Fiorin and Gianluca Palermo and Slobodan Lukovic and Valerio Catalano and Cristina Silvano},
+  title   = {Secure Memory Accesses on Networks-on-Chip},
+  journal = {IEEE Transactions on Computers},
+  volume  = {57},
+  number  = {9},
+  pages   = {1216--1229},
+  year    = {2008},
+  doi     = {10.1109/TC.2008.69}
+}
+
+@inproceedings{song2005bvtcam,
+  author    = {Haoyu Song and John W. Lockwood},
+  title     = {Efficient Packet Classification for Network Intrusion Detection Using {FPGA}},
+  booktitle = {Proc. ACM/SIGDA 13th Int. Symp. on Field-Programmable Gate Arrays (FPGA '05)},
+  pages     = {238--245},
+  year      = {2005},
+  doi       = {10.1145/1046192.1046223}
+}
+
+@article{ganegedara2014scalable,
+  author  = {Thilan Ganegedara and Weirong Jiang and Viktor K. Prasanna},
+  title   = {A Scalable and Modular Architecture for High-Performance Packet Classification},
+  journal = {IEEE Transactions on Parallel and Distributed Systems},
+  volume  = {25},
+  pages   = {1135--1144},
+  year    = {2014},
+  doi     = {10.1109/TPDS.2013.261}
+}
+
+@inproceedings{restuccia2021aker,
+  author    = {Francesco Restuccia and Andres Meza and Ryan Kastner},
+  title     = {Aker: A Design and Verification Framework for Safe and Secure {SoC} Access Control},
+  booktitle = {Proc. IEEE/ACM Int. Conf. on Computer-Aided Design (ICCAD)},
+  pages     = {1--9},
+  year      = {2021},
+  doi       = {10.1109/ICCAD51958.2021.9643538}
+}
+
+@article{mell2017linear,
+  author  = {Peter Mell and James Shook and Richard Harang and Serban Gavrila},
+  title   = {Linear Time Algorithms to Restrict Insider Access using Multi-Policy Access Control Systems},
+  journal = {Journal of Wireless Mobile Networks, Ubiquitous Computing, and Dependable Applications (JoWUA)},
+  volume  = {8},
+  number  = {1},
+  year    = {2017}
+}
+
+@article{liu2011xengine,
+  author  = {Alex X. Liu and Fei Chen and JeeHyun Hwang and Tao Xie},
+  title   = {Designing Fast and Scalable {XACML} Policy Evaluation Engines},
+  journal = {IEEE Transactions on Computers},
+  volume  = {60},
+  number  = {12},
+  pages   = {1802--1817},
+  year    = {2011},
+  doi     = {10.1109/TC.2010.274}
+}
+
+@inproceedings{ferraiolo2016xacml,
+  author    = {David Ferraiolo and Ramaswamy Chandramouli and Rick Kuhn and Vincent Hu},
+  title     = {Extensible Access Control Markup Language ({XACML}) and Next Generation Access Control ({NGAC})},
+  booktitle = {Proc. 2016 ACM Int. Workshop on Attribute Based Access Control (ABAC '16)},
+  pages     = {13--24},
+  year      = {2016},
+  doi       = {10.1145/2875491.2875496}
+}
+
+@techreport{hu2014sp800162,
+  author      = {Vincent C. Hu and David Ferraiolo and Rick Kuhn and Adam Schnitzer and Kenneth Sandlin and Robert Miller and Karen Scarfone},
+  title       = {Guide to Attribute Based Access Control ({ABAC}) Definition and Considerations},
+  institution = {NIST},
+  number      = {Special Publication 800-162},
+  year        = {2014},
+  doi         = {10.6028/NIST.SP.800-162}
+}
+
+@article{servos2017abac,
+  author  = {Daniel Servos and Sylvia L. Osborn},
+  title   = {Current Research and Open Problems in Attribute-Based Access Control},
+  journal = {ACM Computing Surveys},
+  volume  = {49},
+  number  = {4},
+  pages   = {65:1--65:45},
+  year    = {2017},
+  doi     = {10.1145/3007204}
+}
+
+@article{hasan2024sok,
+  author  = {Monowar Hasan and Ashish Kashinath and Chien-Ying Chen and Sibin Mohan},
+  title   = {{SoK}: Security in Real-Time Systems},
+  journal = {ACM Computing Surveys},
+  volume  = {56},
+  number  = {9},
+  pages   = {218:1--218:31},
+  year    = {2024},
+  doi     = {10.1145/3649499}
+}
+
+@article{lesi2017security,
+  author  = {Vuk Lesi and Ilija Jovanov and Miroslav Pajic},
+  title   = {Security-Aware Scheduling of Embedded Control Tasks},
+  journal = {ACM Transactions on Embedded Computing Systems},
+  volume  = {16},
+  number  = {5s},
+  pages   = {188:1--188:21},
+  year    = {2017},
+  doi     = {10.1145/3126518}
+}
+
+@inproceedings{hasan2017contego,
+  author    = {Monowar Hasan and Sibin Mohan and Rodolfo Pellizzoni and Rakesh B. Bobba},
+  title     = {Contego: An Adaptive Framework for Integrating Security Tasks in Real-Time Systems},
+  booktitle = {Proc. 29th Euromicro Conf. on Real-Time Systems (ECRTS), LIPIcs 76},
+  pages     = {23:1--23:22},
+  year      = {2017},
+  doi       = {10.4230/LIPIcs.ECRTS.2017.23}
+}
+
+@article{pinisetty2017runtime,
+  author  = {Srinivas Pinisetty and Partha S. Roop and Steven Smyth and Nathan Allen and Stavros Tripakis and Reinhard von Hanxleden},
+  title   = {Runtime Enforcement of Cyber-Physical Systems},
+  journal = {ACM Transactions on Embedded Computing Systems},
+  volume  = {16},
+  number  = {5s},
+  pages   = {178:1--178:25},
+  year    = {2017},
+  doi     = {10.1145/3126500}
+}
+
+@inproceedings{deng2022insecurity,
+  author    = {Gelei Deng and Guowen Xu and Yuan Zhou and Tianwei Zhang and Yang Liu},
+  title     = {On the ({In}){Security} of Secure {ROS2}},
+  booktitle = {Proc. ACM SIGSAC Conf. on Computer and Communications Security (CCS)},
+  pages     = {739--753},
+  year      = {2022},
+  doi       = {10.1145/3548606.3560681}
+}
+
+@article{salimi2025abac,
+  author  = {Salma Salimi and Farhad Keramat and Jorge Pe{\~n}a Queralta and Tomi Westerlund},
+  title   = {A customizable conflict resolution and attribute-based access control framework for multi-robot systems},
+  journal = {Journal of Systems Architecture},
+  volume  = {168},
+  pages   = {103528},
+  year    = {2025},
+  doi     = {10.1016/j.sysarc.2025.103528}
+}
+
+@article{dieber2017security,
+  author  = {Bernhard Dieber and Benjamin Breiling and Sebastian Taurer and Severin Kacianka and Stefan Rass and Peter Schartner},
+  title   = {Security for the Robot Operating System},
+  journal = {Robotics and Autonomous Systems},
+  volume  = {98},
+  pages   = {192--203},
+  year    = {2017},
+  doi     = {10.1016/j.robot.2017.09.017}
+}
+
+@inproceedings{rivera2019rosdefender,
+  author    = {Sean Rivera and Sofiane Lagraa and Cristina Nita-Rotaru and Sheila Becker and Radu State},
+  title     = {{ROS-Defender}: {SDN}-Based Security Policy Enforcement for Robotic Applications},
+  booktitle = {Proc. IEEE Security and Privacy Workshops (SPW)},
+  pages     = {114--119},
+  year      = {2019},
+  doi       = {10.1109/SPW.2019.00030}
+}

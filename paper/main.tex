@@ -72,7 +72,7 @@ We consider three named attack classes, each anchored to a published CVE against
 
 \textbf{Unsafe-state operation.} The attacker, or a confused legitimate client, issues an otherwise well-formed command while the platform is in a state that makes the command hazardous: battery low, maintenance mode, calibration required (CVE-2022-33323, Mitsubishi MELFA \cite{cve202233323}). Identity-based authorization admits this class because the request is legitimate on every identity axis.
 
-\textbf{Command provenance abuse.} The attacker holds valid DDS credentials for an authorized subject but is not an entitled source type for the command it issues (CVE-2021-38425, eProsima Fast DDS \cite{cve202138425}). SROS2 and DDS-Security authenticate who a node is at the transport layer \cite{mayoralvilches2022sros2, omgddssec}. They never ask whether that source type may issue that command to that resource. That is an application-layer question, and it is invisible at the transport layer by design.
+\textbf{Command provenance abuse.} The attacker holds valid DDS credentials for an authorized subject but is not an entitled source type for the command it issues (CVE-2021-38425, eProsima Fast DDS \cite{cve202138425}). SROS2 and DDS-Security authenticate who a node is at the transport layer \cite{mayoralvilches2022sros2, omgddssec}. They never ask whether that source type may issue that command to that resource. Further, the transport layer's own access control is fragile: Deng et al.\ demonstrated four ways a credentialed insider bypasses SROS2 permissions and keeps publishing \cite{deng2022insecurity}. That is an application-layer question, and it is invisible at the transport layer by design.
 
 A fourth concern is deliberately not an attack class. The timing window, in which a correct deny arrives after the actuator has already acted, is a delivery property that cuts across all three classes. It is closed by bounding decision latency below message propagation time, not by any policy dimension. We return to it in Section~VI.
 
@@ -231,13 +231,49 @@ For completeness we place general-purpose policy engines on the same axis. In ou
 
 \section{Related Work}
 
-We rate prior work on four axes, each an integer score $x \in \mathbb{Z},\ 0 \le x \le 5$: per-decision latency evidence ($\mathit{pdl}$), where 5 requires cycle-accurate per-decision measurement; worst-case boundedness ($\mathit{wcb}$), where 5 requires a closed-form bound verified at every measured point; enforcement dimensionality beyond the identity triple ($\mathit{dim}$), where 3 denotes one added runtime dimension and 5 denotes both state and provenance; and hardware validation ($\mathit{hwv}$), where 5 requires cycle-accurate co-simulation plus silicon functional verification.
+We rate prior work on four axes, each an integer score $x \in \mathbb{Z},\ 0 \le x \le 5$: per-decision latency evidence ($\mathit{pdl}$), where 5 requires cycle-accurate per-decision measurement; worst-case boundedness ($\mathit{wcb}$), where 5 requires a closed-form bound verified at every measured point; enforcement dimensionality beyond the identity triple ($\mathit{dim}$), where 3 denotes one added runtime dimension and 5 denotes both state and provenance; and hardware validation ($\mathit{hwv}$), where 5 requires cycle-accurate co-simulation plus silicon functional verification. Table~\ref{tab:rubric} scores each line of prior work under these definitions. The paragraphs below justify the scores that matter most, and they concede three genuine ancestors plainly.
 
-The NGAC standard and the Policy Machine define the policy model we compile but report no per-decision latency evidence, earning $\mathit{pdl}=1$, $\mathit{wcb}=0$, $\mathit{dim}=2$ for contextual policy expressible but not runtime-masked, $\mathit{hwv}=0$ \cite{incits565, ferraiolo2011policymachine}. Open Policy Agent evaluates arbitrary conditions, thus $\mathit{dim}=3$, and measured means exist, thus $\mathit{pdl}=3$. However, its 13 deadline misses in a single run earn $\mathit{wcb}=0$ \cite{opa, karim2026tsngac}. XACML deployments we measured at roughly 50~ms earn $\mathit{pdl}=2$, $\mathit{wcb}=0$, $\mathit{dim}=3$, $\mathit{hwv}=0$ \cite{oasisxacml}. SROS2 and DDS-Security authenticate identity at the transport layer and by design evaluate no application dimension, earning $\mathit{dim}=0$ and $\mathit{wcb}=0$ \cite{mayoralvilches2022sros2, omgddssec}. CHERI enforces per-instruction memory capabilities in silicon and earns $\mathit{pdl}=4$, $\mathit{wcb}=4$, $\mathit{hwv}=5$. Its dimensions are memory bounds, not policy state or provenance, thus $\mathit{dim}=0$ in our sense \cite{watson2015cheri}. In our own line, HyperNGAC performs batch privilege analysis over multi-cloud platforms and answers set-level questions in 0.12~s over 4{,}000 nodes, a different problem from per-decision authorization, earning $\mathit{pdl}=0$ by scope \cite{sitharaman2025hypergraph}. The DCAS H-NGAC baseline measured per-decision software latency on two platforms but synthesized no hardware, earning $\mathit{pdl}=4$, $\mathit{wcb}=2$, $\mathit{dim}=0$, $\mathit{hwv}=1$ \cite{karim2026dcas}. Time-scoped NGAC adds a temporal dimension in software with $\mathit{pdl}=4$, $\mathit{wcb}=3$, $\mathit{dim}=3$, $\mathit{hwv}=0$ \cite{karim2026tsngac}.
-% TODO-SWEEP: add rated rows for FPGA access-control prior art, ABAC/NGAC hardware
-% implementations, and WCET-bounded security enforcement once the sweep returns.
+\begin{table}[t]
+\caption{Related work scored on the four rubric axes.}
+\label{tab:rubric}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lcccc}
+\toprule
+Prior work & $\mathit{pdl}$ & $\mathit{wcb}$ & $\mathit{dim}$ & $\mathit{hwv}$ \\
+\midrule
+DAG-NGAC / Policy Machine \cite{incits565, ferraiolo2011policymachine} & 1 & 0 & 2 & 0 \\
+Linear-time NGAC \cite{mell2017linear} & 3 & 1 & 2 & 0 \\
+XEngine \cite{liu2011xengine} & 3 & 0 & 3 & 0 \\
+OPA \cite{opa} & 3 & 0 & 3 & 0 \\
+XACML PDP \cite{oasisxacml} & 2 & 0 & 3 & 0 \\
+SROS2 / DDS-Security \cite{mayoralvilches2022sros2, omgddssec} & 2 & 0 & 0 & 0 \\
+App-layer ROS authorization \cite{dieber2017security} & 2 & 0 & 1 & 0 \\
+ROS-Defender \cite{rivera2019rosdefender} & 2 & 0 & 1 & 0 \\
+ABAC for multi-robot systems \cite{salimi2025abac} & 2 & 0 & 3 & 0 \\
+FPGA reference monitor \cite{huffmire2006policy} & 3 & 3 & 1 & 4 \\
+NoC data protection units \cite{fiorin2008secure} & 3 & 3 & 1 & 3 \\
+Bit-vector classification \cite{song2005bvtcam, ganegedara2014scalable} & 4 & 4 & 0 & 4 \\
+SoC access-control wrappers \cite{restuccia2021aker} & 3 & 3 & 1 & 4 \\
+CHERI \cite{watson2015cheri} & 4 & 4 & 0 & 5 \\
+Security-aware RT scheduling \cite{hasan2017contego, lesi2017security, hasan2024sok} & 3 & 2 & 1 & 0 \\
+CPS runtime enforcement \cite{pinisetty2017runtime} & 2 & 3 & 1 & 0 \\
+HyperNGAC \cite{sitharaman2025hypergraph} & 0 & 0 & 3 & 0 \\
+H-NGAC \cite{karim2026dcas} & 4 & 2 & 0 & 1 \\
+TS-NGAC \cite{karim2026tsngac} & 4 & 3 & 3 & 0 \\
+\textbf{This work} & \textbf{5} & \textbf{5} & \textbf{5} & \textbf{5} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-Since this work measures cycle-accurate per-decision latency ($\mathit{pdl}=5$), verifies a closed-form bound at every measured point ($\mathit{wcb}=5$), enforces both state and provenance ($\mathit{dim}=5$), and validates through co-simulation and silicon functional verification ($\mathit{hwv}=5$), we assign it the maximum on all four axes under the definitions above. To our knowledge, no prior work demonstrates that added authorization dimensions are free in time in synthesized hardware, and we invite correction on that point.
+\textbf{Software policy engines and models.} The NGAC standard and the Policy Machine define the model we compile but report no per-decision latency evidence \cite{incits565, ferraiolo2011policymachine, hu2014sp800162}, and NGAC's decision and review advantages over XACML are established in the standards comparison of Ferraiolo et al.\ \cite{ferraiolo2016xacml}. The strongest software NGAC decision result is the linear-time graph algorithms of Mell et al.\ \cite{mell2017linear}. That is the right software bound, and it is still a per-decision traversal whose constant depends on the host. XEngine compiles XACML into numeric structures offline and speeds decisions by orders of magnitude \cite{liu2011xengine}, the closest software analogue of our compilation step, but its decision latency still varies with policy and request shape. Servos and Osborn's survey lists ABAC decision performance among the field's open problems \cite{servos2017abac}, and our own measurements place OPA and an XACML PDP three to five orders of magnitude above (4) \cite{opa, karim2026tsngac, oasisxacml}.
+
+\textbf{Hardware enforcement.} This literature holds three genuine ancestors, and we cite them as such. Huffmire et al.\ compiled a formally specified memory-isolation policy directly into an FPGA reference monitor in 2006 \cite{huffmire2006policy}, and Fiorin et al.\ placed access-rights checks into NoC interfaces with no added latency on the authorized path \cite{fiorin2008secure}. Both make enforcement latency a property of a synthesized circuit. Neither evaluates a relational policy model, and neither analyzes what an added policy dimension costs. The third concession is packet classification: TCAM and bit-vector engines match wide multi-field keys at deterministic rates \cite{song2005bvtcam}, and the StrideBV line advertises latency independent of ruleset content \cite{ganegedara2014scalable}. However, StrideBV latency grows linearly with match-key width. That is, in the closest deterministic prior art, added dimensions are precisely not free in time, which is the axis this paper claims. Aker wraps SoC controllers in verified access-control hardware at the bus-transaction level \cite{restuccia2021aker}, and CHERI enforces per-instruction memory capabilities in silicon \cite{watson2015cheri}. Both police a lower layer than a policy model.
+
+\textbf{Real-time and robot security.} The real-time security literature schedules software enforcement around deadlines: Contego slots security tasks into scheduling slack \cite{hasan2017contego}, Lesi et al.\ trade control quality against integrity checking \cite{lesi2017security}, and the 2024 SoK catalogs the paradigm \cite{hasan2024sok}. We exit that paradigm rather than optimize within it, since a fabric decision consumes no CPU slack at all. Pinisetty et al.\ synthesize runtime enforcers from timed automata for reactive CPS \cite{pinisetty2017runtime}, the nearest formal-synthesis neighbor, targeting safety properties rather than authorization and offering no hardware latency model. In robotics, Dieber et al.\ argued for application-layer authorization above transport crypto with identity-based decisions \cite{dieber2017security}, ROS-Defender filters node flows at the network layer \cite{rivera2019rosdefender}, and Salimi et al.\ condition per-request ABAC decisions on task and capability attributes through a blockchain bridge \cite{salimi2025abac}. None conditions a command on its source type or the platform's runtime safety state, and none is an inline bounded-latency primitive.
+
+Since this work measures cycle-accurate per-decision latency, verifies a closed-form bound at every measured point, enforces both state and provenance, and validates through co-simulation and silicon functional verification, we assign it the maximum on all four axes under the definitions above. We state the novelty claim in its bounded form. Constant-latency wide-key matching exists in TCAMs, deterministic classification exists in the bit-vector family, and policy-to-circuit compilation dates to 2006. To our knowledge, no prior work compiles a standardized relational authorization model to hardware and demonstrates, on identical toolflow and part, that added policy dimensions cost zero clock cycles, and no prior hardware implementation of NGAC exists at all. We invite correction on both points.
 
 \section{Limitations}
 

@@ -234,3 +234,12 @@ No active agent claims.
 - Note: `paper/` is now TRACKED (April skeleton was lost to the old gitignore rule).
   Standing rule "paper/main.tex one agent at a time" still applies.
 - Checkpoint: this commit — CLAIM RELEASED
+
+### 2026-08-07 17:10 CDT — COMPLETED (Claude Code)
+
+- Agent: Claude Code (orchestrating 4 background sweep agents)
+- Scope: related-work sweep (task 2 of manuscript-agent-prompt) + integration
+- Files: `docs/related-work-sweep-2026-08-07.md` (new), `paper/refs.bib`,
+  `paper/main.tex` (Section VII rewrite + Deng cite in Section II),
+  `docs/manuscript-scaffold-ipccc-2026.md`, `docs/ipccc-2026-manuscript-draft-v1.docx`
+- Checkpoint: this commit — CLAIM RELEASED
