@@ -42,3 +42,6 @@ hngac-package-from-farouq/kernel/5d/hngac-fpga/*
 hngac-package-from-farouq/kernel/5d/hngac-fpga/fpga/*
 !hngac-package-from-farouq/kernel/5d/hngac-fpga/fpga/hls/
 hngac-package-from-farouq/**/*.backup
+
+# Word lock files
+~$*
