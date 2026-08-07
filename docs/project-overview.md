@@ -15,8 +15,13 @@ type: project
 
 ## Core Claim
 
-An FPGA-targeted H-NGAC bitmask authorization primitive delivers deterministic,
+A 5D H-NGAC (Hardware-NGAC) bitmask authorization primitive delivers deterministic,
 hardware-bounded WCET that software cannot guarantee regardless of optimization level.
+
+**Terminology.** The H is **Hardware**. H-NGAC was presented at DCAS 2026; this paper
+**extends** it with the state and provenance dimensions. It is a different system from
+**HyperNGAC**, the hypergraph privilege analysis of BigData 2025. See the TERMINOLOGY
+table at the top of `docs/canonical-context.md` before writing prose.
 
 **MEASURED 2026-08-05 on Zynq-7020 (xc7z020-clg400-1) at 100 MHz.** Adding the
 provenance dimension costs **zero clock cycles** and +11.4% LUT. Latency is
@@ -37,8 +42,8 @@ Full numbers and honesty constraints: `docs/canonical-context.md`.
 | Testbench | **Done** | 45 tests, 0 failed — `fpga/hls/tb/` |
 | Local benchmark harness | **Done** | seven always-on paths plus optional SQLite; flattened 5D baseline added locally |
 | April 18 canonical benchmark run | **Done** | 200k iterations, 1k warmup — see below |
-| Attack Class 2 ROS2 demo | **Done** | 18,878 injections blocked, 100%, 0 FP |
-| Attack Class 1 timing data | **Done** | 0 slips under WSL2 load |
+| Command-provenance-abuse ROS2 demo | **Done** | 18,878 injections blocked, 100%, 0 FP |
+| Timing-window data (not an attack class) | **Done** | 0 slips under WSL2 load — null result |
 | Paper skeleton | **~70% written** | All sections drafted; hardware tables can now be filled from real data |
 | HLS synthesis reports (4D + 5D) | **Done 2026-08-05** | `hngac-package-from-farouq/results/cosim-opt-v1-{4d,5d}/syn_report/` |
 | RTL co-simulation (4D + 5D) | **Done 2026-08-05** | Verilog Pass; per-call cycles in `cosim_report/verilog/result.transaction.rpt` |
@@ -82,9 +87,14 @@ timer overhead (~25 ns/call) exceeded the signal at 20k iterations.
 
 ## Attack Demo Results (April 18, 2026)
 
-### Attack Class 2 — Command Injection via Compromised Authenticated Node (5D defense)
+The canonical attack-class taxonomy is in `docs/canonical-context.md`. Integer
+numbering is retired; the classes are **unauthorized access** (3D), **unsafe-state
+operation** (4D) and **command provenance abuse** (5D).
+
+### Command Provenance Abuse — closed by 5D
 
 30-second ROS2 session, 3 nodes: gatekeeper_5d_node, legit_ros2_node, compromised_ros2_node.
+The attacker holds valid DDS credentials for Subject 1 but is not an entitled source type.
 
 | Metric | Result |
 |---|---|
@@ -93,12 +103,20 @@ timer overhead (~25 ns/call) exceeded the signal at 20k iterations.
 | Legitimate commands passed | 17,059 (0% false positive) |
 | Authorization latency min (callback) | 23 ns |
 
-Log: `data/attack2_gatekeeper_20260418_150727.log`
+Log: `data/attack2_gatekeeper_20260418_150727.log` — the `attack2_` token is the old
+numbering, preserved because it is a committed evidence identifier.
 
-### Attack Class 1 — Timing-Window Bypass (4D defense)
+### The timing window — NOT an attack class, and a null result
 
-0 timing-window slips observed under WSL2 in both baseline and stress-ng --cpu 8 load.  
+0 slips observed under WSL2 in both baseline and `stress-ng --cpu 8` load.
 Authorization callback P99 stayed well below the 50 µs DDS threshold in both conditions.
+
+This was previously labelled "Attack Class 1 (4D defense)", which was wrong twice. It
+is not a peer of the three classes — it is a cross-cutting delivery property that
+applies to all of them, since any correct decision is useless if it arrives after the
+actuator moved. And it is closed by the synthesis-time latency bound, **not by the
+state dimension**. Do not claim a measured slip rate above zero; the argument is
+architectural.
 
 ---
 
@@ -167,10 +185,16 @@ recent papers (Abdel-Hameed A. Badawy vs Abdel-Hameed Badawy).
   is non-deterministic by construction; the OS cannot guarantee even its mean.
 - The RBAC 6,674× figure is modeled (busy-wait). Use 20.6× (RBAC+SQLite vs 4D) for
   empirical RBAC+state comparisons.
-- BigData 2025 (0.12 s) is a batch compliance sweep, not per-decision latency. Keep it
-  out of the latency comparison table; cite as complementary prior work.
-- ICCCN 2026 (TS-NGAC, 0.065 µs) is a different paper — cite as complementary, do not
-  reproduce its contribution as this paper's own.
-- The KEY FINDING must lead Section IV and the conclusion as a hardware claim pending
-  synthesis: zero-cost security dimensionality. Three attack classes for the resource
-  cost of one if 4D/5D reports confirm the same LUT-stage count.
+- BigData 2025 (0.12 s) is **HyperNGAC**, a different system: a batch compliance sweep,
+  not per-decision latency. Keep that number out of the latency comparison table. Cite
+  the paper prominently in the Introduction as the intellectual origin of the line.
+- TS-NGAC (0.065 µs) is **withdrawn and unpublished**, retargeted to a journal. Cite it
+  as "under review." Never as an ICCCN paper. Its OPA and XACML baselines may be reused;
+  its time-scoping contribution may not.
+- The KEY FINDING leads Section IV and the conclusion as a **measured** result
+  (2026-08-05, Zynq-7020): security dimensionality is free in time. Say "free in time,
+  nearly free in area," never "zero hardware cost" — the fifth dimension costs +524 LUT
+  (+11.4%). Scope the claim to **4D versus 5D**; 3D was never synthesized, so "three
+  attack classes for the area of one" is not yet supported by synthesis data.
+- Terminology: H-NGAC is **Hardware-NGAC** and this paper **extends** it rather than
+  presenting it. See TERMINOLOGY in `docs/canonical-context.md`.

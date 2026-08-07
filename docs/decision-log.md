@@ -334,3 +334,76 @@ This keeps the benchmark usable on minimal machines while still allowing a real 
 ### Impact on code/tests/paper
 
 The paper can compare 4D H-NGAC against both a controllable modeled lookup delay and a real local SQLite-backed lookup. Benchmark framing must state clearly which one is being reported in each figure or table.
+
+---
+
+## 2026-08-07 — Terminology split: H-NGAC vs HyperNGAC vs DAG-NGAC
+
+**Decision.** The H in H-NGAC is **Hardware**. H-NGAC is a *different system* from the
+BigData 2025 hypergraph privilege analysis, which is named **HyperNGAC**. The INCITS 565
+reference model is named **DAG-NGAC**. This paper's system is **5D H-NGAC**.
+
+**Why this came up.** "H-NGAC" is used 30+ times across this repo and is **never expanded
+anywhere** — not in `CLAUDE.md`, `README.md`, any doc, or any header. With no recorded
+expansion, each reader supplied their own, and the hypergraph framing from BigData drifted
+into this paper's description. The IPCCC abstract had reached the point of saying H-NGAC
+"compiles NGAC policy hypergraphs," which contradicted `canonical-context.md`'s own
+"NGAC policy graphs" and silently merged two research lines.
+
+**Consequences accepted.**
+
+1. **This paper extends H-NGAC; it does not present it.** DCAS 2026 presented H-NGAC.
+   Any "we present H-NGAC" sentence over-claims against our own published work, which
+   reads as self-plagiarism to a reviewer holding the DCAS paper we cite.
+2. **The contribution word is dimensionality.** Hardware is DCAS's claim and hypergraph is
+   BigData's. Neither is available to this paper. Title option 2 was retired for asserting
+   a three-way claim 3D synthesis does not support and for echoing the DCAS title.
+3. **Never write that H-NGAC compiles hypergraphs.** A `PolicyRule` is structurally an
+   n-ary association, so the framing is not false, but claiming it collides with BigData's
+   contribution. Ceded deliberately.
+4. **HyperNGAC names someone else's system.** Sitharaman is first author on BigData 2025.
+   Confirm with him before the name appears in print.
+
+**Rejected: HW-HyperNGAC.** It fragments a published, award-winning brand; invites "is this
+the same system as DCAS"; and puts both predecessors' contributions in the name while the
+actual new result, that dimensionality is free in time, appears nowhere in it.
+
+**Known open item.** The benchmark emits software rows labeled `H-NGAC 3D/4D/5D`, which
+under H = Hardware read as "Hardware-NGAC measured on a 4.96 GHz i7." Renaming the harness
+would break label continuity with the committed CSVs, `docs/figures/`, and Farouq's package.
+Deferred; prose says "the H-NGAC algorithm evaluated in software" until decided.
+
+---
+
+## 2026-08-07 — Attack class taxonomy: integer numbering retired
+
+**Decision.** The three attack classes are named, not numbered: **unauthorized access**
+(3D), **unsafe-state operation** (4D), **command provenance abuse** (5D). The **timing
+window is not an attack class**.
+
+**Why.** Three files disagreed. `project-overview.md` labelled the timing window
+"Attack Class 1 (4D defense)"; `canonical-context.md` anchored its CVE to the 3D section;
+`evidence-record-2026-04-18.md` measured it against the 5D gatekeeper. Two distinct root
+causes:
+
+1. **CVE-2022-45789 was doing double duty.** It anchored unauthorized access in one file
+   and the timing window in another. It is a Schneider Modicon *session hijack*, so it
+   belongs to unauthorized access only. The timing window has no CVE anchor and needs none.
+2. **The timing window was numbered as a peer class.** It is not one. It is a cross-cutting
+   delivery property — any correct decision is useless if it arrives after the actuator
+   moved — and it applies to all three classes. It is closed by the synthesis-time latency
+   bound, not by the state dimension or any other.
+
+The integers were never assigned in dimension order and only ever named two of the three
+classes, which is how the mis-attribution survived. The names adopted are the ones already
+used at the top of `CLAUDE.md`.
+
+**Preserved on purpose.** `data/attack2_gatekeeper_20260418_150727.log` and the `attack2_*`
+filename tokens in `scripts/ros2_demo/*.sh` keep the old numbering. They are committed
+evidence identifiers; renaming them would break reproduction against committed data.
+`attack2_*` means command provenance abuse.
+
+**Also corrected while in these files:** `README.md` still claimed "zero hardware cost,"
+"UltraScale+," and that 3D/4D/5D were "expected to resolve in the same LUT stage count."
+All three violate the accuracy rules in `canonical-context.md`. `project-overview.md` still
+cited TS-NGAC as an ICCCN paper and described synthesis as pending.

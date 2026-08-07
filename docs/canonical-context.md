@@ -11,6 +11,46 @@ type: project
 
 ---
 
+## TERMINOLOGY — read this before writing any prose
+
+Author decision 2026-08-07. These terms were being used interchangeably and
+are not interchangeable. Fixed as follows.
+
+| Term | Expansion | What it is | Whose contribution |
+|---|---|---|---|
+| **H-NGAC** | **Hardware-NGAC** | This line. NGAC policy graphs compiled to fixed-width bitmasks so a decision is a chain of bitwise ANDs. | DCAS 2026 (published) |
+| **5D H-NGAC** | — | **This paper.** H-NGAC extended with the state and provenance dimensions, synthesized and measured. | IPCCC 2026 (this submission) |
+| **HyperNGAC** | Hypergraph NGAC | A **different system**: the hypergraph privilege analysis of Sitharaman et al., operating on batch compliance sweeps over multi-cloud platforms. | BigData 2025 (published) |
+| **DAG-NGAC** | — | The INCITS 565 reference model, where a decision requires reachability traversal of a policy DAG. Our `NGAC-DAG traversal` benchmark row. | Prior art, not ours |
+
+**Rules.**
+
+1. The H in H-NGAC is **Hardware**, not Hypergraph. Expand it on first use in
+   every document and in the paper.
+2. **Never describe this system as compiling "hypergraphs."** It compiles NGAC
+   policy **graphs**. The hypergraph framing belongs to HyperNGAC and BigData 2025.
+   (A `PolicyRule` is structurally an n-ary association, so the framing is not
+   *false* here, but claiming it collides with BigData's contribution and confuses
+   the two lines. Do not use it.)
+3. **This paper does not "present H-NGAC."** DCAS presented H-NGAC. This paper
+   **extends** it. Any sentence beginning "We present H-NGAC" over-claims against
+   our own published work.
+4. The IPCCC contribution word is **dimensionality**, not hardware and not
+   hypergraph. Hardware is DCAS's claim; hypergraph is BigData's. Ours is that the
+   fourth and fifth dimensions are free in time.
+5. **HyperNGAC is a proposed name for someone else's system.** Sitharaman is first
+   author on BigData 2025. Confirm with him before it appears in print.
+
+**Known label mismatch (not yet fixed).** The benchmark emits software rows labeled
+`H-NGAC 3D`, `H-NGAC 4D`, `H-NGAC 5D`. Under H = Hardware those read as
+"Hardware-NGAC measured on a 4.96 GHz i7." The committed CSVs and the figures in
+`docs/figures/` carry those labels, as does Farouq's package, so renaming the
+harness would break label continuity with committed data. Until that is decided,
+write **"the H-NGAC algorithm evaluated in software"** in prose and label figure
+series explicitly as software.
+
+---
+
 ## The H-NGAC Bitmask System
 
 NGAC policy graphs compiled to deterministic bitmask structures.
@@ -46,6 +86,51 @@ Bit 2=remote_operator, Bits 3+=reserved
 CVE anchor: CVE-2021-38425 (eProsima Fast DDS RTPS injection)
 **Hardware overhead: MEASURED 2026-08-05. Zero cycles, +11.4% LUT.**
 Superseded the prior placeholder. See "Hardware Results" below.
+
+---
+
+## ATTACK CLASS TAXONOMY — canonical, supersedes all integer numbering
+
+Author decision 2026-08-07. **Integer numbering ("Attack Class 1", "Attack Class 2")
+is retired.** It was never assigned in dimension order, only ever named two of the
+classes, and caused `docs/project-overview.md` to attribute the timing window to 4D,
+which is wrong on every reading. Use the names below. They are the same three names
+already used at the top of `CLAUDE.md`.
+
+| Attack class | Closed by | What the attacker does | CVE anchor |
+|---|---|---|---|
+| **Unauthorized access** | 3D (subject, object, attribute) | Acts as an unprivileged agent or a hijacked session | CVE-2022-45789 (Schneider Modicon session hijack) |
+| **Unsafe-state operation** | 4D (+ system state) | Issues a legitimate command while the platform is in `battery_low`, `maintenance_mode` or `calibration_required` | CVE-2022-33323 (Mitsubishi MELFA unauthorized command) |
+| **Command provenance abuse** | 5D (+ command provenance) | Holds valid DDS credentials for an authorized subject but is not an entitled source type | CVE-2021-38425 (eProsima Fast DDS RTPS injection) |
+
+### The timing window is NOT an attack class
+
+It is a cross-cutting delivery property that applies to all three classes above: any
+correct decision is useless if it arrives after the actuator has already moved. It is
+closed by the synthesis-time latency bound, **not by any dimension**. This is the
+single biggest source of the old confusion — the timing window was numbered as if it
+were a peer of the other classes, then attributed to 4D, which has nothing to do with it.
+
+**Do not claim a measured slip rate above zero.** Evidence block 5 measured 0 slips in
+8,733 callbacks, both at baseline and under `stress-ng --cpu 8`. It is a null result.
+The argument for the timing window is architectural: a synthesis-time bound closes the
+window by construction. It has no place in an abstract as an effectiveness number.
+
+### CVE-2022-45789 was doing double duty — resolved
+
+It anchored 3D (unauthorized access) here while `docs/evidence-record-2026-04-18.md`
+used it to anchor "Attack Class 1, Timing-Window Bypass." Those are different failure
+modes. The CVE is a session-hijack, so it belongs to **unauthorized access** only. The
+timing window has no CVE anchor and does not need one.
+
+### Legacy identifiers preserved on purpose
+
+`data/attack2_gatekeeper_20260418_150727.log` and the `attack2_*` filename tokens in
+`scripts/ros2_demo/*.sh` keep the old numbering. They are **committed evidence
+identifiers**; renaming them would break the reproduction path against committed data.
+`attack2_*` means **command provenance abuse**.
+
+---
 
 ### KEY FINDING (must be central to the paper)
 **Security dimensionality scales at zero time cost in hardware. MEASURED, not projected.**
@@ -139,9 +224,10 @@ Introduction, not only in Related Work.
 "Scalable Privilege Analysis for Multi-Cloud Big Data Platforms"
 Sitharaman, Karim, Gupta, Tyagi
 
-- NGAC-Hypergraph detection at n=4000: 0.12 seconds
+- HyperNGAC detection at n=4000: 0.12 seconds
 - **THIS IS BATCH SWEEP, NOT PER-DECISION LATENCY.**
 - Do not mix into comparison table. State distinction explicitly.
+- HyperNGAC is a **different system** from H-NGAC. See TERMINOLOGY at the top.
 
 ---
 
@@ -269,7 +355,7 @@ and cosim exactly. **Functional verification only — no on-board timing was tak
 
 ---
 
-## Attack Class 2 Demo Results (April 18, 2026)
+## Command Provenance Abuse — Demo Results (April 18, 2026)
 
 30-second session, ROS2 Jazzy, WSL2. Log: `data/attack2_gatekeeper_20260418_150727.log`
 
@@ -307,3 +393,56 @@ and cosim exactly. **Functional verification only — no on-board timing was tak
 - Never present the board test as a timing result. It is functional PASS only.
 - Never present the FPGA as faster than the CPU on mean latency. It is not. The
   claim is a bounded, jitter-free, closed-form worst case.
+
+---
+
+## HW-team answers from Omar Faruque, 2026-08-07 10:26–10:33
+
+Source: `hngac-package-from-farouq/response_from_farouq.txt`.
+
+### 3D synthesis will NOT happen — the gap is permanent for IPCCC
+
+> "I don't have the 3D kernel code. But 4D, 5D should be enough to infer the trend."
+
+**Consequences, binding.** Scope every claim to **4D versus 5D**. Do not infer 3D and
+present it as measured. "Three attack classes for the area of one" is unsupported and the
+title using it is retired. The abstract already scopes correctly.
+
+### Board-CPU baseline is possible but the comparison cuts against us
+
+> "We can run on the FPGA boards processor alone but that processor is less capable than
+> the 12th gen i7 cpu. Currently we are comparing with a more capable consumer grade CPU."
+
+Not committed to. Note the framing risk: a Cortex-A9 baseline makes the fabric win on
+wall clock, but a reviewer can read it as choosing a weak CPU. The stronger and more
+honest framing stays **boundedness and zero jitter versus the i7**, with the A9 as a
+secondary embedded-realism data point if it arrives.
+
+### Which software cycle method — RESOLVED, with a caveat we must state correctly
+
+> "I reported the sw cycle counts from PERF tool. Cycle lines are from rdtsc tool which I
+> experimented with when I didn't have access to a linux machine. PERF counts actual core
+> cycles regardless of frequency. So more accurate counts... old test artifacts like rdtsc
+> counts remained."
+
+**Use the perf-based numbers** (`extract_sw_cycles.py` / `sw_cycles.csv`). **Discard the
+benchmark's `CYCLES|` lines** — they are stale rdtsc artifacts, which resolves the
+70-versus-82.29 disagreement.
+
+**Caveat that must not be lost.** The per-decision cycle figures are still **derived**,
+not direct per-decision counter reads. `extract_sw_cycles.py`'s own docstring: it pairs
+SUMMARY per-decision mean nanoseconds with `cpu_core/cycles` and elapsed time "to derive
+the effective clock rate, then converts nanoseconds to cycles." So perf supplies a
+*measured* clock (4.96 GHz, not nominal), and the cycle count is mean_ns × that clock.
+That is better than rdtsc and better than a nominal clock, but the paper must say
+**derived from a perf-measured clock**, never "per-decision hardware counter reads."
+Accuracy rule 9 in `docs/manuscript-agent-prompt.md` stands.
+
+### Co-simulation cycles are sound; no board timing
+
+> "Cosim cycle numbers should be fine, they are cycle accurate, board cycle counts would
+> be nice, but I didn't have enough time to figure out how to measure that."
+
+Co-simulation is the authoritative hardware timing source. The PYNQ-Z1 board run stays
+**functional verification only**. There is no on-board timing and there will not be one
+for IPCCC.

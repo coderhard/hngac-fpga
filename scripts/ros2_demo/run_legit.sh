@@ -7,6 +7,8 @@
 #   ./run_legit.sh [--log] [--duration N] [--rate HZ]
 #
 #   --log          Tee output to data/attack2_legit_<timestamp>.log
+#                  (attack2_ is the retired numbering for the command-provenance-abuse
+#                   class; kept because committed evidence logs use it)
 #   --duration N   Stop after N seconds (default: run until Ctrl-C)
 #   --rate HZ      Publish rate in Hz (default: 2.0)
 
@@ -39,7 +41,7 @@ stamp_lines() {
     awk '{ printf "[%s] %s\n", strftime("%H:%M:%S"), $0; fflush() }'
 }
 
-echo "=== Attack Class 2: Legitimate Node ==="
+echo "=== Command provenance abuse: Legitimate Node ==="
 echo "Subject=1, provenance=authenticated_ros2_node(1), rate=${RATE} Hz"
 echo "Expected: 100% PASS at gatekeeper (false-positive check)"
 if [[ -n "$DURATION" ]]; then echo "Duration: ${DURATION}s"; fi

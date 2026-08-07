@@ -6,7 +6,19 @@ This file provides repository-local guidance for implementation sessions working
 
 **hngac-fpga** implements a 5D provenance-aware H-NGAC authorization primitive targeting FPGA via Vitis HLS. It extends the IEEE DCAS 2026 software baseline by adding **state** and **provenance** dimensions on top of subject, object, and attribute, then prepares the authorization primitive for hardware evaluation.
 
-The active paper contribution is not just “NGAC on FPGA.” The main claim is that security dimensionality scales at **zero time cost** in hardware while blocking unauthorized access, unsafe state bypass, and command provenance abuse.
+**Terminology (author decision 2026-08-07).** The H in H-NGAC is **Hardware**, not Hypergraph. H-NGAC was presented at DCAS 2026; this paper **extends** it, so never write "we present H-NGAC." It is a *different system* from **HyperNGAC**, the hypergraph privilege analysis of BigData 2025. Never describe H-NGAC as compiling "hypergraphs" — it compiles NGAC policy **graphs**. Full table in `docs/canonical-context.md`.
+
+The active paper contribution is not just “NGAC on FPGA,” and it is not hardware (DCAS's claim) or hypergraphs (BigData's claim). The main claim is that **security dimensionality** scales at zero time cost in hardware while blocking the three attack classes below.
+
+**Attack classes (canonical names — integer numbering is retired).**
+
+| Class | Closed by | CVE anchor |
+|---|---|---|
+| Unauthorized access | 3D | CVE-2022-45789 (Schneider Modicon session hijack) |
+| Unsafe-state operation | 4D | CVE-2022-33323 (Mitsubishi MELFA unauthorized command) |
+| Command provenance abuse | 5D | CVE-2021-38425 (eProsima Fast DDS RTPS injection) |
+
+The **timing window is not an attack class** — it is a cross-cutting delivery property closed by the synthesis-time latency bound, not by any dimension. Measured slip rate is **zero**; never claim otherwise.
 
 **This claim is now MEASURED (2026-08-05).** On Zynq-7020 at 100 MHz, the 4D and 5D kernels resolve in an identical number of clock cycles at every policy size, with identical II=1 and identical timing slack. The fifth dimension costs +11.4% LUT and zero extra cycles. Evidence lives in `hngac-package-from-farouq/`; authoritative numbers and wording rules are in `docs/canonical-context.md`.
 

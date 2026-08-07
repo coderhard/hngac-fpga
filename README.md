@@ -1,17 +1,24 @@
 # hngac-fpga H-NGAC IPCCC 2026
 
 **PI:** Hassan Karim, Stable Cyber LLC
-**Venue:** IEEE IPCCC 2026 (deadlines TBD — est. abstract June, final July 2026)
+**Venue:** IEEE IPCCC 2026 (abstract 7 Aug 2026, manuscript the following week)
 **Repo:** `https://github.com/coderhard/hngac-fpga`
 
 5D provenance-aware H-NGAC authorization primitive targeting FPGA via Vitis HLS.
 
+**Terminology.** H-NGAC is **Hardware-NGAC**, presented at DCAS 2026 and *extended*
+here. It is a different system from **HyperNGAC**, the hypergraph privilege analysis
+of BigData 2025, and it compiles NGAC policy **graphs**, not hypergraphs. See the
+TERMINOLOGY table in `docs/canonical-context.md`.
+
 This is the IEEE IPCCC 2026 working repo. The core claim is that security
-dimensionality should scale at zero hardware cost: the 3D, 4D, and 5D bitmask
-variants are expected to resolve in the same LUT stage count on UltraScale+,
-blocking three distinct attack classes with a single hardware primitive. The repo
-implements the kernel, measures it locally against software baselines, and
-provides the synthesis flow needed to confirm the hardware claim.
+dimensionality is **free in time and nearly free in area** in hardware. **Measured
+2026-08-05** on Zynq-7020 (`xc7z020-clg400-1`) at 100 MHz: the 4D and 5D kernels
+resolve in an identical number of clock cycles at every policy size tested, with
+identical II=1 and identical timing slack, while the fifth dimension costs +524 LUT
+(+11.4%). The claim is scoped to **4D versus 5D** — 3D was never synthesized. The repo
+implements the kernel, measures it locally against software baselines, and provides
+the synthesis flow; the hardware evidence lives in `hngac-package-from-farouq/`.
 
 ---
 

@@ -205,3 +205,21 @@ No active agent claims.
   - `fpga/hls/src/hngac_kernel.cpp` locked to agents while HW team runs synthesis
   - `paper/main.tex` and `paper/refs.bib` — one agent at a time
   - All agents must use `### YYYY-MM-DD HH:MM CDT — STATUS` timestamp format on this board
+
+### 2026-08-07 11:05 CDT — COMPLETED (Claude Code, claude-opus-5)
+
+- Agent: Claude Code (claude-opus-5)
+- Scope: (1) attack-class taxonomy fix across docs; (2) H-NGAC / HyperNGAC terminology split
+- Files:
+  - `CLAUDE.md`, `AGENTS.md`
+  - `docs/canonical-context.md`
+  - `docs/project-overview.md`
+  - `docs/evidence-record-2026-04-18.md`
+  - `docs/decision-log.md`
+  - `docs/ipccc-2026-abstract-draft.md`
+  - `README.md`
+  - `ros2_ws/src/ngac_auth/src/{gatekeeper_5d_node,compromised_ros2_node}.cpp` (comments/log strings only)
+  - `scripts/ros2_demo/*.sh` (comments/echo strings only)
+- Not touched: `fpga/hls/` kernel or bench source; `hngac-package-from-farouq/` (immutable);
+  `data/attack2_*.log` filenames (committed evidence identifiers)
+- Checkpoint: taxonomy + terminology landed; CLAIM RELEASED

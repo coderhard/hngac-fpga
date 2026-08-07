@@ -13,7 +13,7 @@
 // (remote_operator = 4) does not match the policy's required provenance
 // (authenticated_ros2_node = 1).
 //
-// This is Attack Class 2 in the paper: command injection via a compromised
+// This is the command-provenance-abuse class in the paper: injection via a compromised
 // authenticated node. SROS2 transport-layer identity checks pass (the node
 // is Subject 1). The 5D application-layer check catches the wrong source type.
 //
@@ -56,7 +56,7 @@ private:
         msg.data = "1:4";
         publisher_->publish(msg);
         RCLCPP_WARN(get_logger(),
-            "[INJECT #%zu] Sending subject=1 prov=remote_operator(4) — Attack Class 2",
+            "[INJECT #%zu] Sending subject=1 prov=remote_operator(4) — provenance abuse",
             count_);
     }
 };

@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Terminal 3 — Compromised authenticated node
 # Subject=1 (valid ID, same as legit), provenance=remote_operator(4).
-# Would PASS under 3D/4D. BLOCKED by 5D. This is Attack Class 2.
+# Would PASS under 3D/4D. BLOCKED by 5D. This is command provenance abuse.
 #
 # Usage:
 #   ./run_compromised.sh [--log] [--duration N] [--rate HZ]
 #
 #   --log          Tee output to data/attack2_compromised_<timestamp>.log
+#                  (attack2_ is the retired numbering for the command-provenance-abuse
+#                   class; kept because committed evidence logs use it)
 #   --duration N   Stop after N seconds (default: run until Ctrl-C)
 #   --rate HZ      Inject rate in Hz (default: 10.0)
 
@@ -39,7 +41,7 @@ stamp_lines() {
     awk '{ printf "[%s] %s\n", strftime("%H:%M:%S"), $0; fflush() }'
 }
 
-echo "=== Attack Class 2: Compromised Authenticated Node ==="
+echo "=== Command provenance abuse: Compromised Authenticated Node ==="
 echo "Subject=1 (authorized ID), provenance=remote_operator(4), rate=${RATE} Hz"
 echo "Expected: 100% BLOCK_PROV at gatekeeper under 5D enforcement"
 echo "Note: these would PASS under 3D or 4D — provenance check is 5D-only"

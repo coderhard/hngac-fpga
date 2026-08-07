@@ -1,0 +1,4 @@
+[10:26 AM, 8/7/2026] Omar Faruque: Ask 1. I don't have the 3D kernel code. But 4D, 5D should be enough to infer the trend. 
+Ask 2. We can run on the FPGA boards processor alone but that processor is less capable than the 12th gen i7 cpu. Currenty we are comparing with a more capable consumer grade CPU
+Small 1,2: I reported the sw cycle counts from PERF tool. Cycle lines are from rdtsc tool which I experimented with when I didn't have access to a linux machine. PERF counts actual core cycles regardless of frequency. So more accurate counts. I tested a few things. So old test artifacts like rdtsc counts remained. Didn't get enough time to do clean hence the confusion.
+[10:33 AM, 8/7/2026] Omar Faruque: Small 3. Cosim cycle numbers should be fine, they are cycle accurate, board cycle counts would be nice, but I didn't have enough time to figure out how to measure that.

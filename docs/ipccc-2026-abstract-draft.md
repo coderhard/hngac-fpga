@@ -1,16 +1,16 @@
 ---
-title: "IPCCC 2026 — Abstract, Revision 3"
-subtitle: "H-NGAC: provenance-aware authorization on FPGA. Adds the strongest available security-effectiveness result."
+title: "IPCCC 2026 — Abstract, Revision 4"
+subtitle: "5D H-NGAC: provenance-aware authorization on FPGA. Terminology corrected; H-NGAC and HyperNGAC separated."
 date: "7 August 2026"
 ---
 
 # Title options
 
-Pick one, or mix. Option 1 leads with the finding, which is the strongest move given the result is genuinely surprising.
+**Use option 1.** Since hardware belongs to DCAS and hypergraph belongs to BigData, dimensionality is this paper's only unclaimed contribution word, and option 1 is the only title that leads with it.
 
-1. **Security Dimensionality at Zero Time Cost: A Provenance-Aware NGAC Authorization Primitive on FPGA**
-2. **Three Attack Classes for the Area Cost of One: Hardware-Accelerated 5D NGAC Authorization for Real-Time Robotics**
-3. **Bounded Authorization for Real-Time Robotic Systems: State- and Provenance-Aware NGAC in Reconfigurable Logic**
+1. **Security Dimensionality at Zero Time Cost: A Provenance-Aware NGAC Authorization Primitive on FPGA** ✅
+2. ~~Three Attack Classes for the Area Cost of One: Hardware-Accelerated 5D NGAC Authorization for Real-Time Robotics~~ — **do not use.** Two problems. "Three attack classes for the area of one" asserts a three-way claim that 3D synthesis does not support, since 3D was never synthesized. And "Hardware-Accelerated" is almost verbatim the DCAS title, which invites the reviewer to ask what is new.
+3. **Bounded Authorization for Real-Time Robotic Systems: State- and Provenance-Aware NGAC in Reconfigurable Logic** — safe fallback. Accurate, but leads with boundedness, which DCAS already argued, rather than with the new result.
 
 # Authors
 
@@ -26,17 +26,29 @@ Hassan Karim, Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
 
 > Check how Badawy renders his name on recent papers (Abdel-Hameed A. Badawy vs Abdel-Hameed Badawy) and confirm the two remaining affiliations before submitting.
 
-# Abstract (227 words)
+# Abstract (229 words)
 
 Real-time robotic systems often leave authorization out of the control path because no software policy engine guarantees a decision within a fixed cycle budget. The tail comes from operating system contention, not policy evaluation, so a faster engine does not tighten it.
 
-We present H-NGAC, an authorization primitive that compiles NGAC policy hypergraphs into fixed-width bitmasks, reducing a decision to a chain of bitwise AND operations in reconfigurable logic. Beyond the subject-object-attribute test it enforces system state and command provenance, closing two CVE-anchored attack classes that identity-based authorization admits: safety-interlock bypass, and injection from nodes holding valid DDS credentials but an unauthorized source type.
+H-NGAC compiles NGAC policy graphs into fixed-width bitmasks, so an authorization decision reduces to a chain of bitwise AND operations. We present 5D H-NGAC, which adds two dimensions and synthesizes the result to reconfigurable logic: system state, closing safety-interlock bypass, and command provenance, closing injection from nodes that hold valid DDS credentials but an unauthorized source type. Both are CVE-anchored classes that identity-based authorization admits.
 
-Synthesized with Vitis HLS to a Zynq-7020 at 100 MHz, the four- and five-dimensional kernels resolve in an identical number of cycles at every policy size tested, with minimum, mean and maximum equal at 12 + n/2 cycles for n rules. The fifth dimension costs 524 LUTs and no BRAM or DSP; in software it raises per-rule cost from 0.645 to 1.220 cycles. RBAC and NGAC graph baselines resolve faster only by admitting every state-violating request in our corpus; the kernel blocks 18,878 ROS 2 injection attempts with no false positives and verifies functionally on PYNQ-Z1 silicon.
+Synthesized with Vitis HLS to a Zynq-7020 at 100 MHz, the four- and five-dimensional kernels resolve in an identical number of cycles at every policy size tested, with minimum, mean and maximum equal at 12 + n/2 cycles for n rules. The fifth dimension costs 524 LUTs and no BRAM or DSP; in software it raises per-rule cost from 0.645 to 1.220 cycles. RBAC and DAG-NGAC baselines resolve faster only by admitting every state-violating request in our corpus; the kernel blocks 18,878 ROS 2 injection attempts with no false positives and verifies functionally on PYNQ-Z1 silicon.
 
 A security dimension is therefore free in time and nearly free in area, which makes the authorization worst case a synthesis parameter rather than a measurement.
 
-**If the submission form enforces a hard 220-word cap,** delete "and verifies functionally on PYNQ-Z1 silicon" (6 words) and "tested" (1 word). That lands at exactly 220 and loses no claim, since the co-simulation result already establishes the hardware measurement and min equals mean equals max already establishes determinism.
+**If the submission form enforces a hard 220-word cap,** delete "and verifies functionally on PYNQ-Z1 silicon" (6 words), "tested" (1 word), and "Both are CVE-anchored classes that identity-based authorization admits" (9 words, but it is the only signal that a threat model exists). The first two land at 222; all three land at 213.
+
+## Terminology corrections in this revision
+
+Two errors in revision 3, both introduced by carrying the original draft's wording forward without checking it against `docs/canonical-context.md`.
+
+**"Compiles NGAC policy hypergraphs" was wrong.** `canonical-context.md` says H-NGAC compiles NGAC policy **graphs**. "Hypergraph" is HyperNGAC's framing, from BigData 2025, which is a different system solving a different problem (batch privilege analysis, not per-decision authorization). Using it here merged two research lines that need to stay distinct. Now reads "policy graphs."
+
+**"We present H-NGAC" over-claimed against our own published work.** The H is **Hardware**, and H-NGAC was presented at DCAS 2026. This paper does not present it, it extends it. The abstract now presents **5D H-NGAC**, which names the delta rather than reasserting the base. This matters more than it looks: IPCCC reviewers will have the DCAS paper in front of them because we cite it, and "we present" against a published primitive is the kind of thing that reads as self-plagiarism even when it is only loose wording.
+
+**Consequence for the framing.** Since hardware is DCAS's contribution and hypergraph is BigData's, the contribution word for this paper is **dimensionality**. Title option 1 already leads with it. Options 2 and 3 do not, and option 2 additionally asserts a three-way claim that 3D synthesis does not yet support.
+
+**Also changed:** "NGAC graph baselines" became "DAG-NGAC baselines," giving the INCITS 565 reference model a name so the contrast with H-NGAC is explicit rather than implied.
 
 # Keywords
 
@@ -46,15 +58,17 @@ Access control, NGAC, FPGA, high-level synthesis, real-time systems, robotics, R
 
 This exists and is CVE-anchored. It lives in `docs/canonical-context.md` (attack class definitions) and `docs/evidence-record-2026-04-18.md` (evidence blocks 3 and 5). The abstract compresses it to one clause, per the corpus convention of omitting complete threat-model definitions, but the manuscript should carry the full table.
 
-| Class | Dimension that closes it | What it does | CVE anchor | Measured evidence |
+Integer numbering is retired as of 2026-08-07. Use these names.
+
+| Attack class | Closed by | What the attacker does | CVE anchor | Measured evidence |
 |---|---|---|---|---|
-| Timing-window bypass | Bounded latency, not a dimension | Authorization decision arrives after DDS has already delivered the command to the actuator | CVE-2022-45789 (Schneider Modicon session hijack) | 0 slips observed in 8,733 callbacks, baseline and under `stress-ng --cpu 8`. **Null result** — see caveat below |
-| Safety-interlock bypass | 4D, system state | Command accepted while the platform is in `battery_low`, `maintenance_mode` or `calibration_required` | CVE-2022-33323 (Mitsubishi MELFA unauthorized command) | RBAC, NGAC-DAG and 3D admit 200,000 of 200,000 requests, including all 100,000 state-violating ones |
-| Command injection from a compromised authenticated node | 5D, command provenance | Node holds valid DDS credentials for an authorized subject but is not an entitled source type | CVE-2021-38425 (eProsima Fast DDS RTPS injection) | 18,878 injections blocked, 100%, against 17,059 legitimate commands passed, 0% false positive |
+| **Unauthorized access** | 3D, subject/object/attribute | Acts as an unprivileged agent or a hijacked session | CVE-2022-45789 (Schneider Modicon session hijack) | Covered by the 45-test kernel testbench; no adversarial demo run |
+| **Unsafe-state operation** | 4D, system state | Issues a legitimate command while the platform is in `battery_low`, `maintenance_mode` or `calibration_required` | CVE-2022-33323 (Mitsubishi MELFA unauthorized command) | RBAC, DAG-NGAC and 3D admit 200,000 of 200,000 requests, including all 100,000 state-violating ones |
+| **Command provenance abuse** | 5D, command provenance | Holds valid DDS credentials for an authorized subject but is not an entitled source type | CVE-2021-38425 (eProsima Fast DDS RTPS injection) | 18,878 injections blocked, 100%, against 17,059 legitimate commands passed, 0% false positive |
 
-**Caveat on class 1.** The measured slip rate is zero in both conditions, so this is a null result and cannot be cited as a demonstrated exploit. `docs/evidence-record-2026-04-18.md` is explicit: do not claim a measured slip rate above zero. The argument for class 1 is architectural, that a synthesis-time latency bound closes the window by construction, and it does not belong in the abstract as an effectiveness number.
+**The timing window is not a fourth class.** It is a cross-cutting delivery property: any correct decision is useless if it arrives after the actuator moved, which applies to all three classes above. It is closed by the synthesis-time latency bound, not by a dimension. Measured slip rate is **0 in 8,733 callbacks**, at baseline and under `stress-ng --cpu 8`. That is a null result, so the argument is architectural and it stays out of the abstract as an effectiveness number.
 
-**Docs inconsistency to fix before the manuscript.** `docs/project-overview.md` line 98 labels the timing-window class "Attack Class 1 (4D defense)," but `docs/canonical-context.md` anchors CVE-2022-45789 to the 3D section, and evidence block 5 measures it against the 5D gatekeeper. The defense is really the latency bound rather than any one dimension. Pick one story before a co-author or reviewer reads both files.
+**Docs inconsistency, resolved 2026-08-07.** `project-overview.md` had labelled the timing window "Attack Class 1 (4D defense)," which was wrong twice: it is not a peer class, and the state dimension has nothing to do with it. Separately, CVE-2022-45789 was doing double duty, anchoring unauthorized access in `canonical-context.md` and the timing window in `evidence-record-2026-04-18.md`. It is a session hijack, so it belongs to unauthorized access only; the timing window has no CVE anchor and needs none. All three files now agree.
 
 # What changed in revision 3
 

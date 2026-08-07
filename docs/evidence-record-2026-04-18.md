@@ -96,7 +96,10 @@ Test coverage:
 
 ---
 
-## Evidence Block 3 — Attack Class 2 (CVE-2021-38425 class)
+## Evidence Block 3 — Command Provenance Abuse (CVE-2021-38425 class)
+
+> **Renamed 2026-08-07.** Was "Attack Class 2." Integer numbering is retired; see the
+> ATTACK CLASS TAXONOMY in `docs/canonical-context.md`. This class is closed by 5D.
 
 **Threat model:** Compromised authenticated ROS2 node.
 The attacker holds valid DDS credentials for Subject 1 — the same identity the policy
@@ -160,7 +163,16 @@ Both sets of numbers belong in the paper with their environments labeled.
 
 ---
 
-## Evidence Block 5 — Attack Class 1 (CVE-2022-45789 class, Timing-Window Bypass)
+## Evidence Block 5 — The Timing Window (NOT an attack class)
+
+> **Corrected 2026-08-07.** Was "Attack Class 1 (CVE-2022-45789 class, Timing-Window
+> Bypass)." Two errors. First, CVE-2022-45789 is a Schneider Modicon **session hijack**,
+> which anchors **unauthorized access** (3D) in `docs/canonical-context.md`; it does not
+> anchor the timing window, and using it for both made one CVE mean two different
+> failure modes. The timing window has no CVE anchor and does not need one. Second, the
+> timing window is not a peer of the three attack classes at all — it is a cross-cutting
+> delivery property, since any correct decision is useless if it arrives after the
+> actuator moved. It is closed by the synthesis-time latency bound, not by a dimension.
 
 **Threat model:** Authorization latency exceeds DDS message propagation time. When an
 authorization decision (permit/deny) takes longer than DDS delivers the message to
@@ -175,7 +187,7 @@ Platform: WSL2 x86-64. ROS2 Jazzy. CPU stress via stress-ng --cpu 8 (all cores).
 | No load (baseline) | 5,350 | 20 ns | 1,204 ns | 39,981 ns | 272 ns | **0** |
 | Loaded (stress-ng --cpu 8) | 3,383 | 26 ns | 659 ns | 19,305 ns | 157 ns | **0** |
 
-**Attack Class 2 block rate during these runs: 100% (same result as Evidence Block 3).**
+**Command-provenance-abuse block rate during these runs: 100% (same result as Evidence Block 3).**
 
 **Key finding:** Under WSL2, the software gatekeeper callback stayed below the 50 µs
 DDS threshold in both conditions. No timing-window slip was observed in this environment.
@@ -205,7 +217,7 @@ data showing max < 40 µs over thousands of callbacks.
 
 | Gap | Status | Blocker |
 |---|---|---|
-| Attack Class 1 slip rate (WSL2) | Measured — 0 slips (see above) | N/A; WSL2 cannot reproduce DCAS WCET |
+| Timing-window slip rate (WSL2) | Measured — 0 slips (see above) | N/A; WSL2 cannot reproduce DCAS WCET |
 | HLS synthesis reports (LUT, timing) | Not available | Vitis — Badawy lab or university collab |
 | Hardware latency (FPGA WCET) | Not available | Lab hardware or university collab |
 | 5D zero LUT overhead (synthesis confirmation) | Not confirmed | Same as HLS synthesis above |

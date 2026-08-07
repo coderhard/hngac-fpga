@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Terminal 1 — 5D Gatekeeper
-# Attack Class 2 demo: enforces subject + provenance policy.
+# Command-provenance-abuse demo: enforces subject + provenance policy.
 # Logs [PASS_5D], [BLOCK_PROV], [BLOCK_SUBJ] with per-event authorization latency (ns).
 # On exit the node prints: total / passed / blocked-subject / blocked-provenance + block rate.
 #
@@ -8,6 +8,8 @@
 #   ./run_gatekeeper.sh [--log] [--duration N]
 #
 #   --log          Tee output to data/attack2_gatekeeper_<timestamp>.log
+#                  (attack2_ is the retired numbering for the command-provenance-abuse
+#                   class; kept because committed evidence logs use it)
 #   --duration N   Stop after N seconds (default: run until Ctrl-C)
 
 set -euo pipefail
@@ -37,7 +39,7 @@ stamp_lines() {
     awk '{ printf "[%s] %s\n", strftime("%H:%M:%S"), $0; fflush() }'
 }
 
-echo "=== Attack Class 2: 5D Gatekeeper ==="
+echo "=== Command provenance abuse: 5D Gatekeeper ==="
 echo "Policy: subject=1, object=2, attr=5, provenance=authenticated_ros2_node(1), state=wildcard"
 echo "Blocks: subject=1 + provenance=remote_operator(4) [compromised node]"
 echo "Passes: subject=1 + provenance=authenticated_ros2_node(1) [legit node]"

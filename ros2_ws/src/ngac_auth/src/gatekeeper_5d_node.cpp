@@ -16,7 +16,7 @@
 //   subject=1, object=2, attr=5, required_states=0 (wildcard), required_provenance=1
 //   (only authenticated_ros2_node is permitted for this command)
 //
-// This node demonstrates Attack Class 2: a node with valid Subject 1 credentials
+// This node demonstrates command provenance abuse: a node with valid Subject 1 credentials
 // but wrong provenance type (e.g., remote_operator=4) is blocked by 5D but would
 // pass 3D and 4D.
 
@@ -93,7 +93,7 @@ public:
             const double prov_block_rate =
                 100.0 * static_cast<double>(blocked_provenance_) / static_cast<double>(total_);
             RCLCPP_INFO(get_logger(),
-                "Provenance block rate (Attack Class 2): %.1f%%", prov_block_rate);
+                "Provenance block rate: %.1f%%", prov_block_rate);
         }
     }
 
@@ -142,11 +142,11 @@ private:
         } else {
             // Distinguish subject-fail from provenance-fail for paper statistics.
             // If the subject is the authorized subject (1) but provenance is wrong, that
-            // is Attack Class 2: compromised authenticated node.
+            // is command provenance abuse: compromised authenticated node.
             if (subject_id == kSubject) {
                 ++blocked_provenance_;
                 RCLCPP_WARN(get_logger(),
-                    "[BLOCK_PROV] subject=%u prov=%u | %ld ns | Attack Class 2 blocked",
+                    "[BLOCK_PROV] subject=%u prov=%u | %ld ns | provenance abuse blocked",
                     subject_id, provenance_mask, ns);
             } else {
                 ++blocked_subject_;

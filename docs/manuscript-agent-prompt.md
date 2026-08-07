@@ -36,7 +36,9 @@ output violating one is wrong regardless of how well written it is.
 1. Never write "zero hardware cost." The fifth dimension costs +524 LUT (+11.4%).
    The correct phrasing is **free in time, nearly free in area.**
 2. Never claim 3D, 4D and 5D resolve in the same LUT-stage count. **3D was never
-   synthesized.** Only 4D versus 5D is supported.
+   synthesized, and will not be.** Omar Faruque confirmed 2026-08-07 that he does not
+   have the 3D kernel code. The gap is permanent for IPCCC. Only 4D versus 5D is
+   supported; do not infer 3D and present it as measured.
 3. The target part is **Zynq-7020 (xc7z020-clg400-1)**. Not UltraScale+.
 4. Never state or imply the FPGA is faster than the CPU on mean latency. It is not:
    at 500 rules the CPU wins by roughly 19x on wall clock. The claim is **boundedness
@@ -53,8 +55,12 @@ output violating one is wrong regardless of how well written it is.
    reused in the manuscript, but its time-scoping contribution belongs to the journal
    version. OPA numbers were deliberately kept out of the abstract; adding them to the
    manuscript is an open author decision, not a default.
-9. Software cycle counts are **derived** (mean ns x 4.96 GHz), not per-decision counter
-   reads. Two disagreeing methods exist in the same log. State which one the paper uses.
+9. Software cycle counts are **derived**, not per-decision counter reads. **Resolved
+   2026-08-07 by Omar Faruque:** use the perf-based numbers (`extract_sw_cycles.py` /
+   `sw_cycles.csv`) and **discard the benchmark's `CYCLES|` lines**, which are stale
+   rdtsc artifacts. That settles the 70-versus-82.29 disagreement. But the figures are
+   still mean_ns times a perf-*measured* clock (4.96 GHz), not per-decision counter
+   reads. Write "derived from a perf-measured clock." Never "hardware counter reads."
 10. Cite every source file for every hardware number. If you cannot point to the file
     in `hngac-package-from-farouq/`, do not state the number.
 
