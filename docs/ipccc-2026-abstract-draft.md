@@ -14,9 +14,17 @@ Pick one, or mix. Option 1 leads with the finding, which is the strongest move g
 
 # Authors
 
-Hassan Karim (Stable Cyber LLC), [Farouq — full name and affiliation needed], Sai Sitharaman, Deepti Gupta
+Hassan Karim, Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
 
-> Author order and Farouq's full name and affiliation still need confirming. He produced all synthesis, co-simulation and board data, which is a substantial contribution.
+| Author | Affiliation |
+|---|---|
+| Hassan Karim | Stable Cyber LLC |
+| Omar Faruque | Florida International University |
+| Abdel-Hameed A. Badawy | Florida International University |
+| Sai Sitharaman | [confirm] |
+| Deepti Gupta | [confirm] |
+
+> Check how Badawy renders his name on recent papers (Abdel-Hameed A. Badawy vs Abdel-Hameed Badawy) and confirm the two remaining affiliations before submitting.
 
 # Abstract (254 words)
 

@@ -48,9 +48,11 @@ output violating one is wrong regardless of how well written it is.
 7. BigData 2025's 0.12 s is a **batch compliance sweep over n=4000**, not a
    per-decision latency. Cite the paper prominently, but keep that number out of the
    per-decision latency table.
-8. TS-NGAC is **withdrawn and unpublished**, retargeted to a journal. Never cite it as
-   an ICCCN paper. Its OPA and XACML baselines may be reused; its time-scoping
-   contribution belongs to the journal version.
+8. TS-NGAC is **withdrawn and unpublished**, retargeted to a journal. Cite it as
+   **"under review"** — never as an ICCCN paper. Its OPA and XACML baselines may be
+   reused in the manuscript, but its time-scoping contribution belongs to the journal
+   version. OPA numbers were deliberately kept out of the abstract; adding them to the
+   manuscript is an open author decision, not a default.
 9. Software cycle counts are **derived** (mean ns x 4.96 GHz), not per-decision counter
    reads. Two disagreeing methods exist in the same log. State which one the paper uses.
 10. Cite every source file for every hardware number. If you cannot point to the file
@@ -62,9 +64,10 @@ All four must appear. This is the group's own research line and omitting any of 
 misrepresents the lineage. BigData is the **intellectual origin** and belongs in the
 Introduction, not only Related Work.
 
-1. Karim, H., S. Sitharaman, D. Gupta (accepted 2026). "Hardware-Accelerated NGAC
-   Authorization for Real-Time Multi-Robot Systems." IEEE DASC 2026. Best Poster Award.
-   No DOI yet.
+1. H. Karim, S. Sitharaman, D. Gupta, "Hardware-Accelerated NGAC Authorization for
+   Real-Time Multi-Robot Systems," 2026 IEEE 19th Dallas Circuits and Systems
+   Conference (DCAS), pp. 1-4, 2026. Best Poster Award.
+   https://doi.org/10.1109/dcas69364.2026.11544855
 2. S. Sitharaman, H. Karim, D. Gupta, M. Tyagi, "Scalable Privilege Analysis for
    Multi-Cloud Big Data Platforms: A Hypergraph Approach," IEEE BigData 2025,
    pp. 6626-6633. https://doi.org/10.1109/bigdata66926.2025.11401728

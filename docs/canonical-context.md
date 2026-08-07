@@ -69,16 +69,14 @@ said UltraScale+; that was aspirational and is now wrong.
 
 ## Prior Work (authoritative — do not change these numbers)
 
-### IEEE DASC 2026 (accepted) — BEST POSTER AWARD
+### IEEE DCAS 2026 (published) — BEST POSTER AWARD
 "Hardware-Accelerated NGAC Authorization for Real-Time Multi-Robot Systems"
-Karim, H., S. Sitharaman, D. Gupta. No DOI yet.
+H. Karim, S. Sitharaman, D. Gupta, *2026 IEEE 19th Dallas Circuits and Systems
+Conference (DCAS)*, pp. 1-4. https://doi.org/10.1109/dcas69364.2026.11544855
 
-**Venue name discrepancy — resolve before submitting.** Author-supplied record says
-**DASC** (Dependable, Autonomic and Secure Computing). Earlier repo docs and the
-OneDrive folder `DCAS2026_HW_NGAC_Auth/` say **DCAS**. The author list also differs
-(earlier docs omitted Sitharaman). The author-supplied version above is treated as
-authoritative; confirm the venue string against the acceptance email before the
-bibliography is final.
+**Venue resolved 2026-08-07 via Crossref.** It is **DCAS** (Dallas Circuits and
+Systems), not DASC. Author list confirmed as Karim, Sitharaman, Gupta — earlier repo
+docs omitted Sitharaman. Do not reintroduce "DASC" or "no DOI yet".
 
 - Pure bitmask AND: **34–37 ns** (two independent platforms)
 - ROS2 callback: **1.05 µs** mean
@@ -109,18 +107,20 @@ The withdrawal removes the double-submission concern that motivated the old rule
 - **The time-scoping contribution itself stays with the journal paper.** IPCCC's
   contribution is the hardware primitive and the dimensionality result. Do not present
   time-scoped delegation as an IPCCC contribution.
-- Author decision still required: if the journal version is not yet submitted,
-  publishing overlapping material at IPCCC first may affect its novelty claim. Confirm
-  the contribution split before the manuscript is final.
+- **Author decision 2026-08-07: cite TS-NGAC as "under review."** That is the agreed
+  status string.
+- **The OPA/XACML reuse is deferred past the abstract.** Do not add OPA numbers to the
+  abstract. Revisit for the manuscript only.
 
 ### REQUIRED CITATIONS — the hypergraph/NGAC lineage
 
 Author instruction 2026-08-07: **every** paper in this project must cite all four.
 This is the group's own research line; omitting any of them misrepresents the lineage.
 
-1. Karim, H., S. Sitharaman, D. Gupta (accepted 2026). "Hardware-Accelerated NGAC
-   Authorization for Real-Time Multi-Robot Systems." IEEE DASC 2026.
-   **BEST POSTER AWARD.** No DOI yet.
+1. H. Karim, S. Sitharaman, D. Gupta, "Hardware-Accelerated NGAC Authorization for
+   Real-Time Multi-Robot Systems," *2026 IEEE 19th Dallas Circuits and Systems
+   Conference (DCAS)*, pp. 1-4, 2026. **BEST POSTER AWARD.**
+   https://doi.org/10.1109/dcas69364.2026.11544855
 2. S. Sitharaman, H. Karim, D. Gupta, and M. Tyagi, "Scalable Privilege Analysis for
    Multi-Cloud Big Data Platforms: A Hypergraph Approach," 2025 IEEE International
    Conference on Big Data (BigData), pp. 6626-6633, Dec. 2025.

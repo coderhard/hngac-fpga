@@ -1,10 +1,10 @@
-# Email draft to Farouq — 2026-08-07
+# Email draft to Omar Faruque (cc Hameed Badawy) — 2026-08-07
 
 **Subject:** H-NGAC package verified and committed — two asks before the manuscript
 
 ---
 
-Farouq,
+Omar,
 
 The evidence package arrived and it is excellent work. I have gone through it end to
 end and committed it to the repo. Two notes before the asks.
@@ -60,9 +60,10 @@ wins on both cycles and wall clock.
    correctness, which is valuable, but we currently cannot cite any measured hardware
    latency from silicon, only from co-simulation. Not a blocker if it is not practical.
 
-**Authorship.** You produced all the synthesis, co-simulation and board data, so you
-belong on the author list. Please send me your full name as you want it to appear and
-your affiliation, and let me know your preference on author order.
+**Authorship.** The author list is Karim, Faruque, Badawy, Sitharaman, Gupta. You
+produced all the synthesis, co-simulation and board data, so second author is yours.
+Let me know if you want your name rendered differently, and confirm Hameed is happy
+with the ordering.
 
 Thanks again. This closed a dependency that had the paper parked since April.
 
@@ -72,8 +73,8 @@ Hassan
 
 ## Notes before sending
 
-- Confirm Farouq's preferred name spelling and whether the Badawy lab affiliation is
-  the right one to list.
+- Affiliation for both is Florida International University. Confirm how Hameed renders
+  his name on recent papers before the bibliography is final.
 - If the 3D run is not possible before the manuscript deadline, the fallback is to
   scope the claim to 4D versus 5D throughout. That is already the wording in
   `docs/canonical-context.md`, so nothing breaks; the paper is just slightly less
