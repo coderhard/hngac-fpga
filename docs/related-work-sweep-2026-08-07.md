@@ -273,3 +273,64 @@ dimensions in synthesized hardware. Four works each hold one piece:
   DOI 10.1109/FCCM.2018.00017. Label-check wrappers on FPGA IP, not policy-model
   evaluation.
 
+
+---
+
+## Gemini Deep Research cross-check (received 2026-08-07 ~17:30)
+
+Raw evidence: `docs/sota-garbeled.txt` (report) and `docs/related_work.tex`
+(Gemini's BibTeX export). **Neither is citable as delivered.** Every entry was
+checked against our agent-verified data or re-verified online before use.
+
+### Verdicts — the analysis confirms the sweep on every kill-shot question
+
+| Q | Gemini verdict | Agrees with our sweep? |
+|---|---|---|
+| 1. Hardware NGAC anywhere | "REFUTED — NO PRIOR ART EXISTS. 5D H-NGAC is the first hardware implementation of NIST NGAC" | Yes — **two independent engines now confirm** |
+| 2. Zero-cycle dimensionality | Adjacent patterns only (StrideBV, Aker); nobody proves it for policy models | Yes |
+| 3. Closed-form latency vs policy size | No direct prior art | Yes |
+| 4. Provenance/state per-command authorization | Silos only (SecOC origin auth, ISO 10218 interlocks, DDS-Security topic ACLs); nothing unified | Yes, and adds the industrial-standards framing |
+| 5. Underweighted venues/patents | No direct conflicts | Yes |
+| 6. TCAM/P4/SmartNIC | Adjacent only | Yes |
+| 7. 2024–2026 recency | No direct conflicts | Yes |
+
+### Verification table — Gemini's bibliographic data is unreliable
+
+| Gemini entry | Verdict | Evidence |
+|---|---|---|
+| Aker DOI `10.1109/ICCAD51581.2021.9643534` | **WRONG** | Crossref: DOI does not exist. Ours (`…51958…9643538`) resolves to the correct paper |
+| "m-NGAC Patent US 11,909,768 B2" (ranked #2 closest prior art) | **WRONG NUMBER** | That patent is "in-home network security using AI," Erik J. Barnett, Securetelligence LLC. The real NIST line exists (below) but not under this number |
+| "VLSI Access Control Engine, SCCTS Research Team, Energies 2025" (ranked #3 closest) | **FABRICATED** | DOI `10.3390/en18081973` resolves to "Blockchain-Based, Dynamic Attribute-Based Access Control for Smart Home Energy Systems" — a real but unrelated software paper. The 65nm CMOS FSM description is confabulated |
+| Deng CCS 2022 authors "Deng, Aoyagi, Zhao, Kim", pp. 1205–1219, DOI `…3560662` | **WRONG** | Actual (Crossref-verified): Gelei Deng, Guowen Xu, Yuan Zhou, Tianwei Zhang, Yang Liu, pp. 739–753, DOI `…3560681` |
+| SECA pages 129–138, DOI `10.1145/1086228.1086246` | **CONFLICTS** with agent-verified pp. 78–89, DOI `10.1145/1086297.1086308` — ours from Crossref/ACM DL |
+| StrideBV TPDS "Single Bit-Vector Lookup," 25(8) 1967–1976, DOI `…2013.216` | **CONFLICTS** with agent-verified title/pages/DOI (`…2013.261`, pp. 1135–1144) |
+| Huffmire TODAES DOI `10.1145/1365890.1365896` | **CONFLICTS** with agent-verified `10.1145/1367045.1367053` |
+| `ferraiolo2013ngac` "NIST SP 800-162 / INCITS 565" as one 2013 techreport | **GARBLED** — conflates the 2014 ABAC guide, the 2020 standard, and the Policy Machine manual |
+| Honeybee/NEMO "NSF Research Team" | **CONFLATED** — probably a real vector-DB RBAC paper, but attribution is garbage; low relevance; not integrated |
+| Huffmire ESORICS 2006, AUTOSAR SecOC R20-11, Fugkeaw IEEE Access 2024 | Consistent / plausible |
+
+### Genuinely new, verified, and integrated
+
+- **Ferraiolo, Gavrila, Katwala, Roberts, "Imposing Fine-grain Next Generation
+  Access Control over Database Queries," 2nd ACM Workshop on ABAC (ABAC '17),
+  2017. DOI 10.1145/3041048.3041050.** Verified via NIST publication record.
+  This is the real, citable core of Gemini's garbled patent entry: NIST's own
+  NGAC enforcement line is database/software. Added to refs.bib and Section VII
+  as direct support for the "no hardware NGAC" posture. (NIST also holds
+  related patents licensed to Tetrate.io and the NSA, per NIST TPO records;
+  patent numbers unverified, so we cite the paper, not a patent.)
+
+### Recorded, not cited (team context from Gemini)
+
+- Faruque: Gate-Breaker (netlist-to-RTL reverse engineering, 2025);
+  TrojanWhisper (arXiv:2412.07636, 2024); GHOST (2024); WBAN security. Hardware
+  trojan/verification line; supports his hardware-lead role, not related work
+  for this paper.
+- Badawy: compiler vectorization across x86/ARM (MWSCAS 2025, unverified) —
+  potentially relevant if the Cortex-A9 baseline ever lands.
+
+**Net effect:** the novelty claim now stands on two independent engines, and the
+Section VII sentence "no prior hardware implementation of NGAC exists at all"
+survives an adversarial deep-research pass. The cost of skipping verification
+would have been three garbage citations in a submitted paper, including two of
+Gemini's own top-five "closest prior works."
