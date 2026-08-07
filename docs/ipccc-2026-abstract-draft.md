@@ -1,6 +1,6 @@
 ---
-title: "IPCCC 2026 — Abstract, Revision 4"
-subtitle: "5D H-NGAC: provenance-aware authorization on FPGA. Terminology corrected; H-NGAC and HyperNGAC separated."
+title: "IPCCC 2026 — Abstract, Revision 5"
+subtitle: "5D H-NGAC: provenance-aware authorization on FPGA. Matches the manuscript verbatim after the reviewer-2 fixes."
 date: "7 August 2026"
 ---
 
@@ -26,17 +26,19 @@ Hassan Karim, Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
 
 > Author block final 2026-08-07. Affiliations from the ac4aiagents Overleaf bios (Sitharaman: Founder and CTO, Zetafence, Inc., Dublin, CA; Gupta: Assistant Professor, Texas A&M University–Central Texas). Badawy rendering confirmed from his Google Scholar profile (verified fiu.edu email): "Abdel-Hameed A. Badawy".
 
-# Abstract (229 words)
+# Abstract (238 words — Revision 5, matches `paper/main.tex` verbatim)
 
 Real-time robotic systems often leave authorization out of the control path because no software policy engine guarantees a decision within a fixed cycle budget. The tail comes from operating system contention, not policy evaluation, so a faster engine does not tighten it.
 
 H-NGAC compiles NGAC policy graphs into fixed-width bitmasks, so an authorization decision reduces to a chain of bitwise AND operations. We present 5D H-NGAC, which adds two dimensions and synthesizes the result to reconfigurable logic: system state, closing safety-interlock bypass, and command provenance, closing injection from nodes that hold valid DDS credentials but an unauthorized source type. Both are CVE-anchored classes that identity-based authorization admits.
 
-Synthesized with Vitis HLS to a Zynq-7020 at 100 MHz, the four- and five-dimensional kernels resolve in an identical number of cycles at every policy size tested, with minimum, mean and maximum equal at 12 + n/2 cycles for n rules. The fifth dimension costs 524 LUTs and no BRAM or DSP; in software it raises per-rule cost from 0.645 to 1.220 cycles. RBAC and DAG-NGAC baselines resolve faster only by admitting every state-violating request in our corpus; the kernel blocks 18,878 ROS 2 injection attempts with no false positives and verifies functionally on PYNQ-Z1 silicon.
+Synthesized with Vitis HLS to a Zynq-7020 at 100 MHz, the four- and five-dimensional kernels resolve in an identical number of cycles at every policy size tested, with minimum, mean and maximum equal at 12 + n/2 cycles for n rules. The fifth dimension costs 524 additional LUTs and no BRAM or DSP; in software it raises per-rule cost from 0.645 to 1.220 cycles. RBAC and DAG-NGAC baselines resolve faster only by admitting every state-violating request in our corpus; the five-dimensional policy blocks 18,878 ROS 2 injection attempts in a software gatekeeper with no false positives, and the kernel verifies functionally on PYNQ-Z1 silicon.
 
-A security dimension is therefore free in time and nearly free in area, which makes the authorization worst case a synthesis parameter rather than a measurement.
+The added security dimension is therefore free in time and nearly free in area, which makes the authorization worst case a synthesis parameter rather than a measurement.
 
-**If the submission form enforces a hard 220-word cap,** delete "and verifies functionally on PYNQ-Z1 silicon" (6 words), "tested" (1 word), and "Both are CVE-anchored classes that identity-based authorization admits" (9 words, but it is the only signal that a threat model exists). The first two land at 222; all three land at 213.
+**Portal update note (2026-08-07 evening).** Revision 4 (229 words, "the kernel blocks") was the version at abstract submission this morning. Revision 5 applies the reviewer-2 fixes: the blocking is credited to the five-dimensional policy in a software gatekeeper, the kernel to silicon functional verification, and the closing generalization is scoped to "the added security dimension." Paste-ready plain text: `docs/ipccc-2026-abstract-portal-text.txt`.
+
+**If the submission form enforces a hard 220-word cap,** delete "and the kernel verifies functionally on PYNQ-Z1 silicon" (8 words), "tested" (1 word), and "Both are CVE-anchored classes that identity-based authorization admits" (9 words, but it is the only signal that a threat model exists). All three land exactly at 220. Do not cut "in a software gatekeeper"; that phrase is the reviewer-2 fix.
 
 ## Terminology corrections in this revision
 
