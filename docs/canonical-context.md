@@ -44,16 +44,26 @@ to that resource — application layer, not transport layer.
 Provenance bits: Bit 0=authenticated_ros2_node, Bit 1=local_terminal,
 Bit 2=remote_operator, Bits 3+=reserved
 CVE anchor: CVE-2021-38425 (eProsima Fast DDS RTPS injection)
-**Hardware overhead: pending synthesis confirmation.**
-The working claim is that a 5-input AND tree resolves in the same LUT stage count
-as a 3-input tree on UltraScale+, but this must remain a placeholder until the
-4D and 5D HLS reports confirm or correct it.
+**Hardware overhead: MEASURED 2026-08-05. Zero cycles, +11.4% LUT.**
+Superseded the prior placeholder. See "Hardware Results" below.
 
 ### KEY FINDING (must be central to the paper)
-Security dimensionality is expected to scale at zero hardware cost.
-Three attack classes should be blocked for the resource cost of one if synthesis
-confirms equal LUT-stage count across 3D/4D/5D. This property does NOT hold in
-software and must not be stated as measured hardware fact until HLS reports exist.
+**Security dimensionality scales at zero time cost in hardware. MEASURED, not projected.**
+
+4D and 5D resolve in an identical number of clock cycles at every policy size
+tested, with identical initiation interval (II=1) and identical timing slack.
+The fifth dimension costs +524 LUT (+11.4%) and +100 FF (+3.9%), zero BRAM and
+zero DSP. This property does NOT hold in software, where each added dimension
+steepens the per-rule slope (3D 0.645, 4D 1.024, 5D 1.220 cycles per rule).
+
+**Precise wording rule.** The claim is "free in time, nearly free in area," NOT
+"free." Do not write "zero hardware cost" unqualified — the LUT delta is real and
+a reviewer will find it in the csynth report. Do not claim equal LUT-stage count
+across 3D/4D/5D: **3D was never synthesized.** Only 4D and 5D exist. Either run
+the 3D csynth or scope the claim to 4D vs 5D.
+
+Target part is **Zynq-7020 (xc7z020-clg400-1)**, not UltraScale+. Earlier drafts
+said UltraScale+; that was aspirational and is now wrong.
 
 ---
 
@@ -137,6 +147,88 @@ Not contradictions — different measurement contexts.
 
 ---
 
+## Hardware Results (August 5, 2026) — AUTHORITATIVE
+
+Source: `hngac-package-from-farouq/` (see its `PROVENANCE.md`).
+Toolchain Vitis HLS 2025.2. Part `xc7z020-clg400-1` (Zynq-7020 / PYNQ-Z1).
+Clock 10 ns (100 MHz). All tables below re-derived from raw reports and verified
+to reproduce exactly on 2026-08-07.
+
+### Kernel cycles per decision (co-simulation, Verilog, Pass)
+
+4D and 5D are identical at every point. min = avg = max at every point.
+
+| Rules | 4D | 5D |
+|---|---|---|
+| 4 | 14 | 14 |
+| 10 | 17 | 17 |
+| 50 | 37 | 37 |
+| 100 | 62 | 62 |
+| 200 | 112 | 112 |
+| 500 | 262 | 262 |
+
+**Closed-form latency: cycles = 12 + rules/2.** Exact at every measured point.
+The optimized kernel checks two rules per clock, hence 0.5 cycles per rule.
+
+### Resource utilization (csynth)
+
+| Metric | 4D | 5D | Delta |
+|---|---|---|---|
+| II | 1 | 1 | 0 |
+| Iteration latency | 3 | 3 | 0 |
+| LUT | 4580 (8%) | 5104 (9%) | +524 (+11.4%) |
+| FF | 2579 (2%) | 2679 (2%) | +100 (+3.9%) |
+| BRAM | 0 | 0 | 0 |
+| DSP | 0 | 0 | 0 |
+| Timing slack | 0.33 ns | 0.33 ns | 0 |
+
+### Vivado place-and-route (earlier 4D run)
+
+Source: `hngac-package-from-farouq/kernel/4d/hngac-fpga_4d_hw_results/vivado_pr_report/`
+WNS +2.170 ns, TNS 0.000, **0 failing endpoints of 1987**. WHS +0.044 ns, 0 failing.
+This is the only post-route data we have. It is from the earlier 4D kernel, not opt-v1.
+
+### Software per-decision cycles (perf, i7-12800H at 4.96 GHz)
+
+Derived as mean ns x measured clock. 200k iterations, 1k warmup.
+
+| Model | 4 | 10 | 50 | 100 | 200 | 500 | Correct? |
+|---|---|---|---|---|---|---|---|
+| H-NGAC 3D | 70 | 75 | 115 | 151 | 211 | 390 | No, over-authorizes |
+| H-NGAC 4D | 74 | 78 | 120 | 194 | 292 | 582 | No, over-authorizes |
+| H-NGAC 5D | 80 | 82 | 130 | 221 | 360 | 685 | **Yes** |
+| RBAC hash map | 97 | 87 | 93 | 91 | 89 | 100 | No, over-authorizes |
+| NGAC-DAG traversal | 608 | 638 | 636 | 629 | 636 | 1032 | No, over-authorizes |
+| Flattened 5D lookup | 990 | 1016 | 970 | 1003 | 1003 | 984 | **Yes**, 19.7x memory |
+
+### Marginal cost per policy rule (cycles per rule)
+
+| | 3D | 4D | 5D |
+|---|---|---|---|
+| Software | 0.645 | 1.024 | 1.220 |
+| Hardware | not synthesized | 0.500 | 0.500 |
+
+### Board verification, PYNQ-Z1 silicon
+
+2,307 requests across 6 rule counts, **all PASS**, allow/deny counts match csim
+and cosim exactly. **Functional verification only — no on-board timing was taken.**
+
+### Honesty constraints on the hardware numbers
+
+- Wall clock: at 500 rules HW is 2.62 us (262 cycles at 100 MHz), SW is 138 ns
+  (685 cycles at 4.96 GHz). **The CPU beats the FPGA by ~19x on mean wall clock.**
+  Never imply otherwise. The hardware argument is boundedness, not mean speed.
+- The defensible comparison is worst case. SW 5D worst observed vs HW worst
+  (= HW best, since variance is zero): 4 rules 298.8 us vs 0.14 us; 200 rules
+  355.4 us vs 1.12 us; 500 rules 17.2 us vs 2.62 us.
+- SW cycles are **derived** (mean ns x 4.96 GHz), not per-decision counter reads.
+  The benchmark also emits a `CYCLES|` line that disagrees (82.29 vs 70 for 3D at
+  4 rules). State which method the paper uses.
+- The SW baseline is a 4.96 GHz laptop CPU; the fabric is a 100 MHz Zynq. An
+  ARM Cortex-A9 run on the PYNQ-Z1 itself would make this comparison fair.
+
+---
+
 ## Attack Class 2 Demo Results (April 18, 2026)
 
 30-second session, ROS2 Jazzy, WSL2. Log: `data/attack2_gatekeeper_20260418_150727.log`
@@ -161,6 +253,13 @@ Not contradictions — different measurement contexts.
 - BigData 2025 (0.12 s) is a batch sweep result. Do not put it in the latency table.
 - ICCCN 2026 (TS-NGAC, 0.065 µs) is a different paper. Do not reproduce its
   contribution as IPCCC's own. Cite it as complementary prior work.
-- The KEY FINDING must lead Section IV and the conclusion as a pending hardware
-  claim: zero-cost security dimensionality, or three attack classes for the resource
-  cost of one if 4D/5D synthesis confirms equal LUT-stage count.
+- The KEY FINDING must lead Section IV and the conclusion as a **measured** result:
+  adding the provenance dimension costs zero clock cycles and +11.4% LUT, while in
+  software the same dimension makes every policy rule 19% more expensive. Phrase it
+  as "free in time, nearly free in area," never as "zero hardware cost."
+- **3D was never synthesized.** Do not write that 3D, 4D and 5D resolve in the same
+  LUT-stage count. Only 4D vs 5D is supported by evidence.
+- The target part is Zynq-7020, not UltraScale+. Correct any surviving draft text.
+- Never present the board test as a timing result. It is functional PASS only.
+- Never present the FPGA as faster than the CPU on mean latency. It is not. The
+  claim is a bounded, jitter-free, closed-form worst case.

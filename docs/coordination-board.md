@@ -14,6 +14,29 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 No active agent claims.
 
+## Released Claims (most recent first)
+
+### 2026-08-07 — COMPLETED / RELEASED (Claude Code, Opus 5)
+
+- Agent: Claude Code (Opus 5)
+- Scope: ingest, verify and commit the HW evidence package; move the hardware
+  claim from placeholder to measured
+- Files:
+  - `hngac-package-from-farouq/**` (new, evidence — treat as immutable)
+  - `.gitignore`
+  - `docs/canonical-context.md`
+  - `docs/decision-log.md`
+  - `docs/status-log.md`
+  - `docs/project-overview.md`
+  - `docs/coordination-board.md`
+  - `CLAUDE.md`
+  - `analysis/make_hw_sw_charts.py` (new)
+  - `docs/hngac-fpga-status-review-2026-08-07.md` (new)
+- Note for co-authors: `hngac-package-from-farouq/` is evidence, not working
+  source. The live kernel remains `fpga/hls/src/hngac_kernel.cpp`. See
+  `hngac-package-from-farouq/PROVENANCE.md`.
+- CLAIM RELEASED
+
 ## Released Claims
 
 ### 2026-04-20 17:22 CDT — STALE/RELEASED 2026-04-26 15:39 CDT

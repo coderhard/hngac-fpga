@@ -15,16 +15,21 @@ type: project
 
 ## Core Claim
 
-An FPGA-targeted H-NGAC bitmask authorization primitive is intended to deliver
-deterministic, hardware-bounded WCET that software cannot guarantee regardless of
-optimization level. The central hardware claim is that security dimensionality scales
-at zero hardware cost: the 3D, 4D, and 5D variants should resolve in the same LUT
-stage count on UltraScale+. This remains pending until HW-team synthesis reports
-confirm or correct it.
+An FPGA-targeted H-NGAC bitmask authorization primitive delivers deterministic,
+hardware-bounded WCET that software cannot guarantee regardless of optimization level.
+
+**MEASURED 2026-08-05 on Zynq-7020 (xc7z020-clg400-1) at 100 MHz.** Adding the
+provenance dimension costs **zero clock cycles** and +11.4% LUT. Latency is
+closed-form (`cycles = 12 + rules/2`) with min = avg = max at every policy size.
+In software the same dimension makes every policy rule 19% more expensive.
+
+State the claim as **"free in time, nearly free in area,"** never "zero hardware
+cost." Note that 3D was never synthesized, so the claim is scoped to 4D vs 5D.
+Full numbers and honesty constraints: `docs/canonical-context.md`.
 
 ---
 
-## Project Status (as of 2026-04-20)
+## Project Status (as of 2026-08-07)
 
 | Item | Status | Notes |
 |---|---|---|
@@ -34,9 +39,15 @@ confirm or correct it.
 | April 18 canonical benchmark run | **Done** | 200k iterations, 1k warmup — see below |
 | Attack Class 2 ROS2 demo | **Done** | 18,878 injections blocked, 100%, 0 FP |
 | Attack Class 1 timing data | **Done** | 0 slips under WSL2 load |
-| Paper skeleton | **~70% written** | All sections drafted; hardware tables have placeholders |
-| HLS synthesis reports (4D + 5D) | **Pending** | Badawy/HW-team handoff — leave hardware placeholders until reports arrive |
-| Hardware latency measurement | **Optional** | Badawy board or AWS F2; sim-only is acceptable |
+| Paper skeleton | **~70% written** | All sections drafted; hardware tables can now be filled from real data |
+| HLS synthesis reports (4D + 5D) | **Done 2026-08-05** | `hngac-package-from-farouq/results/cosim-opt-v1-{4d,5d}/syn_report/` |
+| RTL co-simulation (4D + 5D) | **Done 2026-08-05** | Verilog Pass; per-call cycles in `cosim_report/verilog/result.transaction.rpt` |
+| Board verification (5D) | **Done** | 2,307 requests PASS on PYNQ-Z1 silicon — functional only, no timing |
+| Vivado place-and-route | **Partial** | Earlier 4D run only: WNS +2.170 ns, 0 failing endpoints |
+| 3D synthesis | **Not done** | Blocks the original three-way equal-LUT-stage claim; one cheap csynth run |
+| Fair embedded SW baseline | **Not done** | Run the benchmark on the PYNQ-Z1's own ARM Cortex-A9 |
+| IPCCC abstract | **Due 2026-08-07** | |
+| IPCCC manuscript | **Due week of 2026-08-14** | |
 
 ---
 

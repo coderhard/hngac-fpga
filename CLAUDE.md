@@ -6,7 +6,11 @@ This file provides repository-local guidance for implementation sessions working
 
 **hngac-fpga** implements a 5D provenance-aware H-NGAC authorization primitive targeting FPGA via Vitis HLS. It extends the IEEE DCAS 2026 software baseline by adding **state** and **provenance** dimensions on top of subject, object, and attribute, then prepares the authorization primitive for hardware evaluation.
 
-The active paper contribution is not just “NGAC on FPGA.” The main claim is that security dimensionality should scale at zero hardware cost: 3D, 4D, and 5D bitmask variants should resolve in the same LUT stage count while blocking unauthorized access, unsafe state bypass, and command provenance abuse. This hardware claim remains pending until Vitis/HW-team synthesis reports are available.
+The active paper contribution is not just “NGAC on FPGA.” The main claim is that security dimensionality scales at **zero time cost** in hardware while blocking unauthorized access, unsafe state bypass, and command provenance abuse.
+
+**This claim is now MEASURED (2026-08-05).** On Zynq-7020 at 100 MHz, the 4D and 5D kernels resolve in an identical number of clock cycles at every policy size, with identical II=1 and identical timing slack. The fifth dimension costs +11.4% LUT and zero extra cycles. Evidence lives in `hngac-package-from-farouq/`; authoritative numbers and wording rules are in `docs/canonical-context.md`.
+
+Two wording rules that matter: say **“free in time, nearly free in area,”** not “zero hardware cost”; and do not claim 3D/4D/5D parity, because **3D was never synthesized**.
 
 ## Source-of-Truth Files
 
@@ -91,6 +95,9 @@ Keep HLS work products out of the repo tree. Use `/tmp` or another throwaway pat
 | `benchmarks/` | Legacy DCAS software microbenchmarks |
 | `ros2_ws/`, `analysis/`, `data/` | Preserved DCAS software baseline artifacts |
 | `docs/` | Plans, benchmark analysis, coordination, decisions, and status logs |
+| `docs/figures/` | Generated paper figures (`analysis/make_hw_sw_charts.py`) |
+| `analysis/` | Result plotting and stats scripts |
+| `hngac-package-from-farouq/` | **HW evidence, immutable.** Synthesis, co-sim, board test, SW perf. See its `PROVENANCE.md`. Not working source — the live kernel is `fpga/hls/src/`. |
 
 ### Core kernel
 
@@ -107,7 +114,15 @@ Current kernel synthesis status:
 
 - HLS `INTERFACE` pragmas are present for return, rule count, request, and policy memory.
 - HLS `PIPELINE II=1` is present inside the rule scan.
-- Vitis synthesis, co-simulation, and hardware measurements are still pending external HW-team validation.
+- Vitis HLS 2025.2 synthesis and Verilog co-simulation: **done 2026-08-05** for 4D and 5D
+  on `xc7z020-clg400-1` at 100 MHz. Both Pass. Reports in `hngac-package-from-farouq/results/`.
+- Board verification: **done** — 2,307 requests PASS on PYNQ-Z1 silicon. Functional only,
+  no on-board timing was taken. Never cite it as a timing result.
+- The delivered `opt-v1` kernel is **optimized beyond the version in `fpga/hls/src/`**: it
+  checks two rules per clock, giving 0.5 cycles per rule. Reconciling that optimization back
+  into the repo kernel is open work.
+- Still not done: 3D synthesis, and a fair embedded software baseline on the PYNQ-Z1's own
+  ARM Cortex-A9.
 
 ### Key types
 

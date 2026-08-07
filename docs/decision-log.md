@@ -1,5 +1,76 @@
 # Decision Log
 
+## 2026-08-07
+
+### Decision
+
+Hardware claims move from placeholder to measured fact, scoped to what the
+evidence actually supports: 4D vs 5D only, free in time, +11.4% LUT in area.
+
+### Reason
+
+The Badawy/HW-team dependency that blocked the paper since April closed on
+2026-08-05. `hngac-package-from-farouq/` contains Vitis HLS 2025.2 csynth reports,
+passing Verilog co-simulation with per-call transaction latencies, a PYNQ-Z1 board
+verification run, and perf-counter software baselines. Every derived table was
+re-run from the raw reports on 2026-08-07 and reproduces exactly.
+
+The 4D and 5D builds differ by exactly one term (`prov_ok`) on the same part, clock,
+testbench and corpus, so the comparison is properly controlled.
+
+### Alternatives considered
+
+- Keep the placeholder framing (rejected: the evidence exists and the abstract is
+  due today)
+- State the original "3D/4D/5D equal LUT-stage count" claim as confirmed (rejected:
+  3D was never synthesized, and 5D costs 11.4% more LUT than 4D, so the original
+  wording is not supported)
+
+### Impact on code/tests/paper
+
+- `docs/canonical-context.md` gains an authoritative Hardware Results section and
+  five new framing constraints.
+- The paper must say "free in time, nearly free in area," never "zero hardware cost."
+- The paper must not claim the FPGA is faster than the CPU on mean latency. It is
+  not, by ~19x at 500 rules. The argument is boundedness and zero jitter.
+- The board test is functional verification only and must never be cited as timing.
+- 3D synthesis remains open work and is the one cheap experiment that would restore
+  the original three-way claim.
+
+## 2026-08-07
+
+### Decision
+
+The HW evidence package is committed as an immutable record, excluding the two
+full repo mirrors it ships with.
+
+### Reason
+
+The standing portfolio rule requires experiment results and methodology to live in
+git. The package also contains `kernel/4d/` and `kernel/5d/hngac-fpga/`, which are
+copies of this repo at an older commit; committing them would duplicate the working
+tree, invite edits to the wrong copy, and carry a `scripts/aws/fpga-dev.env` that
+this repo deliberately gitignores.
+
+### Alternatives considered
+
+- Commit the package whole (rejected: 2.9 MB of duplicated working tree, and a
+  co-author will eventually edit the wrong `hngac_kernel.cpp`)
+- Commit only `results/` (rejected: loses the exact measured software source and
+  the only Vivado place-and-route data we have)
+
+### Impact on code/tests/paper
+
+- Committed: `results/`, `synthesis/`, `board-test/`, plus
+  `kernel/5d/hngac-fpga/fpga/hls/` (exact source measured) and
+  `kernel/4d/hngac-fpga_4d_hw_results/` (Vivado place-and-route, WNS +2.170 ns).
+- Excluded via `.gitignore`: the repo mirrors, 255 `*:Zone.Identifier` files, the
+  duplicate zip, and `*.backup`.
+- `hngac-package-from-farouq/PROVENANCE.md` records toolchain, part, dates, the
+  full include/exclude rationale, and reproduction commands.
+- Open: the opt-v1 two-rules-per-clock optimization and Farouq's modified
+  benchmark harness still need reconciling back into `fpga/hls/`.
+
 ## 2026-04-26
 
 ### Decision
