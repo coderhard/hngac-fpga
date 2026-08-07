@@ -223,3 +223,14 @@ No active agent claims.
 - Not touched: `fpga/hls/` kernel or bench source; `hngac-package-from-farouq/` (immutable);
   `data/attack2_*.log` filenames (committed evidence identifiers)
 - Checkpoint: taxonomy + terminology landed; CLAIM RELEASED
+
+### 2026-08-07 15:55 CDT — COMPLETED (Claude Code)
+
+- Agent: Claude Code
+- Scope: manuscript scaffold + full draft v1
+- Files: `docs/manuscript-scaffold-ipccc-2026.md` (new), `paper/main.tex` (new),
+  `paper/refs.bib` (new), `paper/figures/`, `docs/ipccc-2026-manuscript-draft-v1.docx`,
+  `.gitignore`, `docs/status-log.md`
+- Note: `paper/` is now TRACKED (April skeleton was lost to the old gitignore rule).
+  Standing rule "paper/main.tex one agent at a time" still applies.
+- Checkpoint: this commit — CLAIM RELEASED

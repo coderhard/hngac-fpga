@@ -19,7 +19,13 @@ fpga/hls/*.log
 *.swp
 scripts/aws/fpga-dev.env
 .codex
-paper/
+# paper/ was gitignored until 2026-08-07; the April '~70% written' skeleton
+# lived only on a local disk and is gone. Manuscript source is now tracked.
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.blg
+paper/*.bbl
 data/attack2_*.log
 docs/generate_simple_docx.py
 docs/hngac-fpga-project-overview.docx

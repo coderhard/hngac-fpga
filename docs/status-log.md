@@ -184,3 +184,25 @@
   - Git history rewritten and force-pushed
   - Authorship updated to Stable Cyber LLC / Hassan Karim only
   - Outstanding: Vitis synthesis run (needs hardware), OPA baseline (stretch goal)
+
+## 2026-08-07 (afternoon) — Manuscript draft v1 built from zero
+
+- Discovered the April `paper/` skeleton ("~70% written") is gone: it was gitignored
+  and local-only, and it is not on this disk. Exactly the loss mode the portfolio
+  git rule exists to prevent. `paper/` source is now tracked (build artifacts stay
+  ignored).
+- Built `docs/manuscript-scaffold-ipccc-2026.md`: consolidated story, asset
+  assessment, honesty/statistics ledger, section map, citation ledger.
+- Drafted the full manuscript: `paper/main.tex` + `paper/refs.bib`, compiles to
+  6 pages IEEEtran with zero overfull boxes. HSK v1.2 academic voice, authentic
+  mode. Review copy: `docs/ipccc-2026-manuscript-draft-v1.docx`.
+- New paper point found in the opt-v1 source: the scan has NO early exit (fixed
+  pairs+1 trip count, permit latches without shortening the scan), so zero jitter
+  is by construction, not observed. Section IV states this and the deliberate
+  average-case trade.
+- Stats gates applied: Wilson bounds on the ROS 2 proportions (block rate 100%,
+  18,878/18,878, one-sided 95% lower bound 99.99%; FP 0/17,059, upper bound
+  0.02%); deterministic HW cycles carry no CI by construction; SW cycles labeled
+  derived-from-perf-measured-clock; busy-wait excluded from empirical claims.
+- Open in the draft: OPA/XACML paragraph flagged AUTHOR DECISION; related-work
+  rubric rows await the sweep (TODO-SWEEP); two affiliations; HyperNGAC sign-off.
