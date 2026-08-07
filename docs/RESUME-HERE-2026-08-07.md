@@ -15,9 +15,9 @@ Read this first when you come back. Written at the point Hassan had to leave.
 Cost: A Provenance-Aware NGAC Authorization Primitive on FPGA." It is 229 words; if
 the form caps at 220, the exact cut is written into the doc.
 
-Two placeholders are still open in the author block: **Sitharaman's and Gupta's
-affiliations**, and a check on **how Badawy renders his name** on recent papers
-(Abdel-Hameed A. Badawy vs Abdel-Hameed Badawy).
+Affiliations are now resolved (Sitharaman: Zetafence, Inc.; Gupta: Texas A&M
+University–Central Texas). Still open: **how Badawy renders his name** on recent
+papers (Abdel-Hameed A. Badawy vs Abdel-Hameed Badawy).
 
 ## What changed today, in order
 
@@ -97,7 +97,7 @@ Source: `hngac-package-from-farouq/response_from_farouq.txt`.
 
 ## Open items, ranked
 
-1. Submit the abstract. Fill the two affiliation placeholders first.
+1. Submit the abstract. Affiliations are filled; only the Badawy rendering check remains.
 2. Confirm HyperNGAC with Sai before it appears in print.
 3. Rewrite `docs/email-to-farouq-2026-08-07.md` — Omar already answered. What is left
    is thanking him, confirming the perf-versus-rdtsc decision, and deciding whether

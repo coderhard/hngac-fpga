@@ -9,7 +9,7 @@ type: project
 **PI:** Hassan Karim, Stable Cyber LLC  
 **Venue:** IEEE IPCCC 2026 (deadlines TBD — est. abstract June, final July 2026)  
 **Repo:** `https://github.com/coderhard/hngac-fpga`  
-**Paper draft:** `paper/main.tex` (gitignored — contact Hassan for current version)
+**Paper draft:** `paper/main.tex` (tracked in git since 2026-08-07; full v1 draft, 6 pages)
 
 ---
 
@@ -44,12 +44,12 @@ Full numbers and honesty constraints: `docs/canonical-context.md`.
 | April 18 canonical benchmark run | **Done** | 200k iterations, 1k warmup — see below |
 | Command-provenance-abuse ROS2 demo | **Done** | 18,878 injections blocked, 100%, 0 FP |
 | Timing-window data (not an attack class) | **Done** | 0 slips under WSL2 load — null result |
-| Paper skeleton | **~70% written** | All sections drafted; hardware tables can now be filled from real data |
+| Manuscript draft | **v1 complete 2026-08-07** | `paper/main.tex`, 6 pages, all real data; the April skeleton was lost (gitignored, local-only) and the draft was rebuilt from zero |
 | HLS synthesis reports (4D + 5D) | **Done 2026-08-05** | `hngac-package-from-farouq/results/cosim-opt-v1-{4d,5d}/syn_report/` |
 | RTL co-simulation (4D + 5D) | **Done 2026-08-05** | Verilog Pass; per-call cycles in `cosim_report/verilog/result.transaction.rpt` |
 | Board verification (5D) | **Done** | 2,307 requests PASS on PYNQ-Z1 silicon — functional only, no timing |
 | Vivado place-and-route | **Partial** | Earlier 4D run only: WNS +2.170 ns, 0 failing endpoints |
-| 3D synthesis | **Not done** | Blocks the original three-way equal-LUT-stage claim; one cheap csynth run |
+| 3D synthesis | **Permanently out for IPCCC** | Omar has no 3D kernel code (2026-08-07); every claim scoped to 4D vs 5D |
 | Fair embedded SW baseline | **Not done** | Run the benchmark on the PYNQ-Z1's own ARM Cortex-A9 |
 | IPCCC abstract | **Due 2026-08-07** | |
 | IPCCC manuscript | **Due week of 2026-08-14** | |
@@ -130,8 +130,8 @@ architectural.
 | `fpga/hls/bench/hngac_compare_benchmark.cpp` | local comparison benchmark with H-NGAC, graph, RBAC, SQLite, and flattened lookup paths |
 | `fpga/hls/scripts/vitis_hls.tcl` | Vitis HLS synthesis script (env-var configured) |
 | `fpga/hls/scripts/run_local_compare.sh` | Single benchmark run helper |
-| `paper/main.tex` | Paper draft (gitignored) |
-| `paper/refs.bib` | Bibliography (gitignored) |
+| `paper/main.tex` | Paper draft (tracked since 2026-08-07) |
+| `paper/refs.bib` | Bibliography (tracked since 2026-08-07) |
 | `docs/canonical-context.md` | Authoritative numbers and framing rules — read before touching numbers |
 | `docs/evidence-record-2026-04-18.md` | Full empirical evidence record with reproducibility instructions |
 | `docs/hw-team-update-2026-04-20.md` | Updated guidance for the Badawy lab HW lead |
