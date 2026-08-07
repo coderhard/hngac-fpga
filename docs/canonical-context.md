@@ -69,9 +69,16 @@ said UltraScale+; that was aspirational and is now wrong.
 
 ## Prior Work (authoritative — do not change these numbers)
 
-### DCAS 2026 (accepted, camera-ready submitted)
+### IEEE DASC 2026 (accepted) — BEST POSTER AWARD
 "Hardware-Accelerated NGAC Authorization for Real-Time Multi-Robot Systems"
-Karim, Gupta
+Karim, H., S. Sitharaman, D. Gupta. No DOI yet.
+
+**Venue name discrepancy — resolve before submitting.** Author-supplied record says
+**DASC** (Dependable, Autonomic and Secure Computing). Earlier repo docs and the
+OneDrive folder `DCAS2026_HW_NGAC_Auth/` say **DCAS**. The author list also differs
+(earlier docs omitted Sitharaman). The author-supplied version above is treated as
+authoritative; confirm the venue string against the acceptance email before the
+bibliography is final.
 
 - Pure bitmask AND: **34–37 ns** (two independent platforms)
 - ROS2 callback: **1.05 µs** mean
@@ -81,19 +88,52 @@ Karim, Gupta
 - OPA edge deployment: **1–5 ms** (measured)
 - XACML OpenPDP: **~50 ms** (measured)
 
-### ICCCN 2026 (submitted March 2026)
+### TS-NGAC — WITHDRAWN from ICCCN 2026, being retargeted to a journal
 "Deterministic Time-Scoped NGAC for Real-Time Multi-Robot Systems"
 Karim, Gupta, Sitharaman
+
+**Status: withdrawn, unpublished.** Cite as "under review" or "in preparation" —
+never as an ICCCN publication.
 
 - H-NGAC mean: **0.065 µs** / P99: **0.214 µs**
 - TS-NGAC mean: **0.105 µs** / P99: **0.249 µs**
 - OPA mean: **271.491 µs**, 13 deadline misses
 - Speedup vs OPA: **2,585×** mean
 
-**IMPORTANT:** IPCCC must NOT duplicate ICCCN content.
-ICCCN = time-scoped software extension.
-IPCCC = hardware synthesis of base primitive + 4D + 5D + adversarial demo.
-Complementary, not overlapping.
+**Reuse policy (revised 2026-08-07, supersedes the earlier do-not-duplicate rule).**
+The withdrawal removes the double-submission concern that motivated the old rule.
+
+- **The OPA and XACML baseline data from this run MAY be reused in IPCCC.** IPCCC has
+  no OPA implementation of its own, and "why not just use OPA" is the first reviewer
+  question. OPA mean 271.491 us with 13 deadline misses is the answer.
+- **The time-scoping contribution itself stays with the journal paper.** IPCCC's
+  contribution is the hardware primitive and the dimensionality result. Do not present
+  time-scoped delegation as an IPCCC contribution.
+- Author decision still required: if the journal version is not yet submitted,
+  publishing overlapping material at IPCCC first may affect its novelty claim. Confirm
+  the contribution split before the manuscript is final.
+
+### REQUIRED CITATIONS — the hypergraph/NGAC lineage
+
+Author instruction 2026-08-07: **every** paper in this project must cite all four.
+This is the group's own research line; omitting any of them misrepresents the lineage.
+
+1. Karim, H., S. Sitharaman, D. Gupta (accepted 2026). "Hardware-Accelerated NGAC
+   Authorization for Real-Time Multi-Robot Systems." IEEE DASC 2026.
+   **BEST POSTER AWARD.** No DOI yet.
+2. S. Sitharaman, H. Karim, D. Gupta, and M. Tyagi, "Scalable Privilege Analysis for
+   Multi-Cloud Big Data Platforms: A Hypergraph Approach," 2025 IEEE International
+   Conference on Big Data (BigData), pp. 6626-6633, Dec. 2025.
+   https://doi.org/10.1109/bigdata66926.2025.11401728
+3. H. Karim, D. Gupta, and S. Sitharaman, "Securing LLM Workloads with NIST AI RMF in
+   the Internet of Robotic Things," IEEE Access, pp. 1-1, Jan. 2025.
+   https://doi.org/10.1109/access.2025.3561235
+4. H. Karim, S. Sitharaman, D. Gupta, D. B. Rawat, "Securing Autonomous Clinical
+   Agents: Time-Scoped Hypergraph Delegation for Controlling Patient Data Access."
+   Presented at IEEE ICDH 2026, Sydney, Australia.
+
+Item 2 (BigData) is the **intellectual origin** of this work and should appear in the
+Introduction, not only in Related Work.
 
 ### BigData 2025 (published)
 "Scalable Privilege Analysis for Multi-Cloud Big Data Platforms"
@@ -250,9 +290,13 @@ and cosim exactly. **Functional verification only — no on-board timing was tak
 - The RBAC 6,674× figure is from a modeled busy-wait baseline. It must never appear
   as an empirical measurement. Use the SQLite-backed comparison (20.6× over 4D) for
   empirical RBAC+state claims.
-- BigData 2025 (0.12 s) is a batch sweep result. Do not put it in the latency table.
-- ICCCN 2026 (TS-NGAC, 0.065 µs) is a different paper. Do not reproduce its
-  contribution as IPCCC's own. Cite it as complementary prior work.
+- BigData 2025 is the **intellectual origin of this work** (the hypergraph approach to
+  privilege analysis) and must be cited prominently in the Introduction and Related Work.
+  The narrow rule is only about one number: 0.12 s is a batch compliance sweep over
+  n=4000, not a per-decision latency, so it must never appear in the per-decision latency
+  table. Cite the paper freely; keep that one figure out of that one table.
+- TS-NGAC is withdrawn and unpublished. Never cite it as an ICCCN paper. Its OPA and
+  XACML baselines may be reused in IPCCC; its time-scoping contribution may not.
 - The KEY FINDING must lead Section IV and the conclusion as a **measured** result:
   adding the provenance dimension costs zero clock cycles and +11.4% LUT, while in
   software the same dimension makes every policy rule 19% more expensive. Phrase it
