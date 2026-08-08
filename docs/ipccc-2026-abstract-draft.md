@@ -14,12 +14,12 @@ date: "7 August 2026"
 
 # Authors
 
-Hassan Karim, Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
+Hassan Karim, Md Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
 
 | Author | Affiliation |
 |---|---|
 | Hassan Karim | Stable Cyber LLC |
-| Omar Faruque | New Mexico State University (corrected 2026-08-07 evening; confirm in his reply) |
+| Md Omar Faruque | Klipsch School of Electrical and Computer Engineering, New Mexico State University, Las Cruces, NM 88003, USA — confirmed by Omar (faruque@nmsu.edu), 2026-08-07 |
 | Abdel-Hameed A. Badawy | Florida International University |
 | Sai Sitharaman | Zetafence, Inc. |
 | Deepti Gupta | Texas A&M University–Central Texas |

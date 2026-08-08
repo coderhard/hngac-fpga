@@ -169,7 +169,7 @@ Confirmed 2026-08-07. Order as listed.
 | Author | Affiliation | Role | Primary Contribution |
 |---|---|---|---|
 | Hassan Karim | Stable Cyber LLC | PI / Corresponding | Research design, paper writing, benchmark harness, submission |
-| Omar Faruque | Florida International University | Hardware | Vitis HLS synthesis, co-simulation, PYNQ-Z1 board bring-up and verification |
+| Md Omar Faruque | Klipsch School of ECE, New Mexico State University (confirmed by Omar, faruque@nmsu.edu) | Hardware | Vitis HLS synthesis, co-simulation, PYNQ-Z1 board bring-up and verification |
 | Abdel-Hameed A. Badawy | Florida International University | Hardware Lead | Hardware direction and review |
 | Sai Sitharaman | Zetafence, Inc. | Co-Author | BigData 2025 hypergraph lineage, cloud/AWS resources |
 | Deepti Gupta | Texas A&M University–Central Texas | Co-Author | DCAS lineage, paper review, related work |

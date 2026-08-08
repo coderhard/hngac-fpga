@@ -58,11 +58,10 @@ demanding per-decision counter dumps we do not have.
    prior art we missed, this week is the time to say so.
 
 **Authorship is final:** Karim, Faruque, Badawy, Sitharaman, Gupta. You are
-second author; you produced the synthesis, co-simulation, and board data. Two
-confirmations with your reply. First, I have you as New Mexico State
-University, per your LinkedIn and ResearchGate; tell me if that is wrong or if
-you want it rendered differently. Second, confirm Hameed is happy with the
-ordering and with Florida International University as his affiliation.
+second author; you produced the synthesis, co-simulation, and board data. You
+are in as Md Omar Faruque, New Mexico State University, exactly as you sent.
+One confirmation with your reply: that Hameed is happy with the ordering and
+with Florida International University as his affiliation.
 
 The manuscript is due next week. Comments by Tuesday give me time to fold them
 in without rushing the final pass.
