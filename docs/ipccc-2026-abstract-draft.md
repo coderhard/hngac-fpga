@@ -4,11 +4,32 @@ subtitle: "5D H-NGAC: provenance-aware authorization on FPGA. Hassan's rewrite w
 date: "7 August 2026"
 ---
 
-# Title options
+# Title
 
-**Use option 1.** Since hardware belongs to DCAS and hypergraph belongs to BigData, dimensionality is this paper's only unclaimed contribution word, and option 1 is the only title that leads with it.
+**Final (author's choice, 2026-08-07 late):**
 
-1. **Security Dimensionality at Zero Time Cost: A Provenance-Aware NGAC Authorization Primitive on FPGA** ✅
+> **Authenticated but Unauthorized: 5D H-NGAC for Bounded-Latency Authorization in FPGA-Based Real-Time Robotics**
+
+Leads with the threat-model hook (the credentialed-but-unentitled node) instead
+of the finding. Applied to `paper/main.tex` same day.
+
+# Portal topics (choose 1–3)
+
+Selected 2026-08-07:
+
+1. **Security and Privacy** — primary; routes to reviewers who know access control.
+2. **Cyber Physical Systems** — the threat model's home: robotic actuators, safety interlocks, all three CVE anchors are CPS incidents.
+3. **Embedded Systems** — Zynq-7020, resource utilization, WCET-style framing.
+
+Considered and passed over: *Performance Evaluation and Modeling* (IPCCC home
+crowd, but a perf-modeling specialist is the reviewer most likely to press the
+modeled RBAC+state delay and derived cycle counts; every IPCCC reviewer is
+perf-literate anyway) and *Network Information Assurance and Security* (reads
+as network defense and risks a reviewer expecting a networking paper).
+
+# Earlier title options (superseded)
+
+1. ~~Security Dimensionality at Zero Time Cost: A Provenance-Aware NGAC Authorization Primitive on FPGA~~ — was the working title through revision 8; replaced by the author's final title above.
 2. ~~Three Attack Classes for the Area Cost of One: Hardware-Accelerated 5D NGAC Authorization for Real-Time Robotics~~ — **do not use.** Two problems. "Three attack classes for the area of one" asserts a three-way claim that 3D synthesis does not support, since 3D was never synthesized. And "Hardware-Accelerated" is almost verbatim the DCAS title, which invites the reviewer to ask what is new.
 3. **Bounded Authorization for Real-Time Robotic Systems: State- and Provenance-Aware NGAC in Reconfigurable Logic** — safe fallback. Accurate, but leads with boundedness, which DCAS already argued, rather than with the new result.
 
