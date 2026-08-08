@@ -1,6 +1,6 @@
 ---
-title: "IPCCC 2026 — Abstract, Revision 6"
-subtitle: "5D H-NGAC: provenance-aware authorization on FPGA. Rewritten to the withholding register per author direction; matches the manuscript verbatim."
+title: "IPCCC 2026 — Abstract, Revision 7 (FINAL — author's text)"
+subtitle: "5D H-NGAC: provenance-aware authorization on FPGA. Hassan's rewrite with the four accepted corrections; matches the manuscript and portal text verbatim."
 date: "7 August 2026"
 ---
 
@@ -26,7 +26,15 @@ Hassan Karim, Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
 
 > Author block final 2026-08-07. Affiliations from the ac4aiagents Overleaf bios (Sitharaman: Founder and CTO, Zetafence, Inc., Dublin, CA; Gupta: Assistant Professor, Texas A&M University–Central Texas). Badawy rendering confirmed from his Google Scholar profile (verified fiu.edu email): "Abdel-Hameed A. Badawy".
 
-# Abstract (198 words — Revision 6, matches `paper/main.tex` verbatim)
+# Abstract (210 words — Revision 7 FINAL, author's text, matches `paper/main.tex` and the portal file verbatim)
+
+Real-time robotic systems often leave authorization out of the control path because software policy engines do not offer decisions within a fixed cycle time budget. Operating system scheduling, not policy evaluation, creates non-deterministic latency, so a faster software-based engine does not offer the guarantees required by hard real-time applications. The gap leaves attack classes open that identity-based authorization cannot see, including unsafe-state operation and command injection from compromised but credentialed nodes. H-NGAC compiles NGAC policy graphs into fixed-width bitmasks so that an authorization decision reduces to a chain of bitwise AND operations. In this paper we extend H-NGAC with two further dimensions, runtime system state and command provenance. We also synthesize the four- and five-dimensional kernels to a Zynq-7020 FPGA. We evaluate the synthesized kernels against six software baselines, and the five-dimensional policy in an adversarial Robot Operating System 2 (ROS 2) scenario against a credentialed compromised node. We found that the added security dimension is free in time. Both kernels resolve in an identical number of clock cycles at every policy size tested, with a closed-form worst case and zero jitter by construction. Thus, the authorization worst case becomes a synthesis parameter rather than a measurement, and we quantify what that determinism costs in area and in average-case speed.
+
+**Revision 7 note.** Hassan's rewrite of revision 6, with the four corrections he accepted from the error check: (1) the ROS 2 evaluation re-attributed to the five-dimensional policy rather than the synthesized kernels, closing the reviewer-2 conflation; (2) "HW applications" corrected to "hard real-time applications"; (3) "Robotic Operating System (ROS 2)" corrected to "Robot Operating System 2 (ROS 2)"; (4) comma before "so" and "don't" expanded to "do not." All other wording is the author's, including the sentence splits.
+
+## Superseded revision 6 text (kept for the record)
+
+# ~~Abstract (198 words — Revision 6)~~
 
 Real-time robotic systems often leave authorization out of the control path because no software policy engine guarantees a decision within a fixed cycle budget. The tail comes from operating system scheduling, not policy evaluation, so a faster engine does not tighten it. The gap leaves attack classes open that identity-based authorization cannot see, among them unsafe-state operation and command injection from compromised but credentialed nodes, both anchored to published CVEs. H-NGAC compiles NGAC policy graphs into fixed-width bitmasks so that an authorization decision reduces to a chain of bitwise AND operations. In this paper we extend H-NGAC with two further dimensions, runtime system state and command provenance, and synthesize the four- and five-dimensional kernels to a Zynq-7020 FPGA. We evaluate the synthesized kernels against six software baselines and in an adversarial ROS 2 scenario against a credentialed compromised node. The added security dimension is free in time: both kernels resolve in an identical number of clock cycles at every policy size tested, with a closed-form worst case and zero jitter by construction. Thus the authorization worst case becomes a synthesis parameter rather than a measurement, and we quantify what that determinism costs in area and in average-case speed.
 
