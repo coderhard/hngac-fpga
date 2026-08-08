@@ -1,5 +1,5 @@
 ---
-title: "IPCCC 2026 — Abstract, Revision 7 (FINAL — author's text)"
+title: "IPCCC 2026 — Abstract, Revision 8 (FINAL — author's text + 19% comparative)"
 subtitle: "5D H-NGAC: provenance-aware authorization on FPGA. Hassan's rewrite with the four accepted corrections; matches the manuscript and portal text verbatim."
 date: "7 August 2026"
 ---
@@ -26,9 +26,21 @@ Hassan Karim, Omar Faruque, Abdel-Hameed A. Badawy, Sai Sitharaman, Deepti Gupta
 
 > Author block final 2026-08-07. Affiliations from the ac4aiagents Overleaf bios (Sitharaman: Founder and CTO, Zetafence, Inc., Dublin, CA; Gupta: Assistant Professor, Texas A&M University–Central Texas). Badawy rendering confirmed from his Google Scholar profile (verified fiu.edu email): "Abdel-Hameed A. Badawy".
 
-# Abstract (210 words — Revision 7 FINAL, author's text, matches `paper/main.tex` and the portal file verbatim)
+# Abstract (Revision 8 FINAL — author's text, matches `paper/main.tex` and the portal file verbatim)
 
-Real-time robotic systems often leave authorization out of the control path because software policy engines do not offer decisions within a fixed cycle time budget. Operating system scheduling, not policy evaluation, creates non-deterministic latency, so a faster software-based engine does not offer the guarantees required by hard real-time applications. The gap leaves attack classes open that identity-based authorization cannot see, including unsafe-state operation and command injection from compromised but credentialed nodes. H-NGAC compiles NGAC policy graphs into fixed-width bitmasks so that an authorization decision reduces to a chain of bitwise AND operations. In this paper we extend H-NGAC with two further dimensions, runtime system state and command provenance. We also synthesize the four- and five-dimensional kernels to a Zynq-7020 FPGA. We evaluate the synthesized kernels against six software baselines, and the five-dimensional policy in an adversarial Robot Operating System 2 (ROS 2) scenario against a credentialed compromised node. We found that the added security dimension is free in time. Both kernels resolve in an identical number of clock cycles at every policy size tested, with a closed-form worst case and zero jitter by construction. Thus, the authorization worst case becomes a synthesis parameter rather than a measurement, and we quantify what that determinism costs in area and in average-case speed.
+Real-time robotic and drone system designers often leave authorization out of the control path because software policy engines do not offer decisions within a fixed cycle budget. Operating system scheduling, not policy evaluation, creates non-deterministic latency, so a faster software-based engine does not offer the guarantees required by hard real-time applications. The gap leaves attack classes open that identity-based authorization cannot see, including unsafe-state operation and command injection from compromised but credentialed nodes. State of the art H-NGAC compiles NGAC policy graphs into fixed-width hardware bitmasks so that an authorization decision reduces to a chain of bitwise AND operations. In this paper we extend H-NGAC with two further dimensions, runtime system state and command provenance. We also synthesize these four- and five-dimensional kernels to a Zynq-7020 FPGA. We evaluate the synthesized kernels against six software baselines, and the five-dimensional policy in an adversarial Robot Operating System 2 (ROS 2) scenario against a compromised node that has already authenticated. We found that the added security dimension is free in time. Both kernels resolve in an identical number of clock cycles at every policy size tested, with a closed-form worst case and zero jitter by construction. In software, the same added dimension makes every policy rule 19% more expensive. Thus, the authorization worst case becomes a synthesis parameter rather than a measurement, and we quantify what that determinism costs in area and in average-case speed.
+
+**Revision 8 note.** Two changes on top of revision 7. First, Hassan's manual
+edits in `paper/main.tex` are adopted as canonical: drone framing in the
+opening, "State of the art H-NGAC," "hardware bitmasks," "a compromised node
+that has already authenticated," the TAMU-Central Texas dash, and the title
+now reading "5D H-NGAC." Second, one comparative sentence added on author
+instruction: "In software, the same added dimension makes every policy rule
+19% more expensive." The 19% is the 4D-to-5D per-rule slope (1.024 to 1.220
+cycles), the same-dimension, same-scope foil for the zero-cycle claim, per
+`docs/canonical-context.md`. The 0.645-to-1.220 span was rejected for the
+abstract because it starts at 3D, which was never synthesized, and the area
+number stays out to preserve the closing tease.
 
 **Revision 7 note.** Hassan's rewrite of revision 6, with the four corrections he accepted from the error check: (1) the ROS 2 evaluation re-attributed to the five-dimensional policy rather than the synthesized kernels, closing the reviewer-2 conflation; (2) "HW applications" corrected to "hard real-time applications"; (3) "Robotic Operating System (ROS 2)" corrected to "Robot Operating System 2 (ROS 2)"; (4) comma before "so" and "don't" expanded to "do not." All other wording is the author's, including the sentence splits.
 
