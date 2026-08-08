@@ -1,0 +1,130 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="hngac-datapath" name="5D H-NGAC opt-v1 datapath">
+    <mxGraphModel dx="1200" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="650" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- stage containers (dashed, behind) -->
+        <mxCell id="stage1box" value="Stage 1 — fetch pair 2p, 2p+1" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=none;strokeColor=#999999;verticalAlign=top;align=left;spacingLeft=6;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="310" y="125" width="320" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="stage2box" value="Stage 2 — match (5-input AND per lane)" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=none;strokeColor=#999999;verticalAlign=top;align=left;spacingLeft=6;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="260" y="225" width="430" height="230" as="geometry" />
+        </mxCell>
+
+        <!-- left column: interface, request, precompute, control -->
+        <mxCell id="axi" value="AXI4-Lite slave&#10;start / done / permit&#10;rule_count n" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="20" y="40" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="req" value="Request registers q&#10;subject_id, object_id&#10;attribute mask A (256 b)&#10;state mask σ (32 b)&#10;provenance mask π (32 b)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="20" y="150" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="pre" value="Precompute, once per request&#10;subject word / bit select&#10;object word / bit select&#10;bounds check: ids &lt; 256" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="20" y="300" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ctr" value="Pair counter p = 0 … ⌈n/2⌉&#10;fixed trip count ⌈n/2⌉ + 1&#10;II = 1, no early exit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="20" y="430" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- policy memory -->
+        <mxCell id="mem" value="Policy rule memory (BRAM port)&#10;up to 512 PolicyRule entries" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="330" y="40" width="280" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- stage 1 registers -->
+        <mxCell id="ra" value="rule_a_reg" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="330" y="150" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="rb" value="rule_b_reg" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="480" y="150" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- stage 2 match lanes as stacked check lists -->
+        <mxCell id="laneA" value="Match unit, lane A" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="280" y="250" width="185" height="181" as="geometry" />
+        </mxCell>
+        <mxCell id="laneA1" value="subject bit test (256 b)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=10;" vertex="1" parent="laneA">
+          <mxGeometry y="26" width="185" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="laneA2" value="object bit test (256 b)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=10;" vertex="1" parent="laneA">
+          <mxGeometry y="57" width="185" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="laneA3" value="attribute subset, 4 × 64 b" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=10;" vertex="1" parent="laneA">
+          <mxGeometry y="88" width="185" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="laneA4" value="state subset: r.σ ⊆ q.σ (32 b)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=10;" vertex="1" parent="laneA">
+          <mxGeometry y="119" width="185" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="laneA5" value="provenance π intersect (32 b, ∅ ⇒ any)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="laneA">
+          <mxGeometry y="150" width="185" height="31" as="geometry" />
+        </mxCell>
+
+        <mxCell id="laneB" value="Match unit, lane B" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="490" y="250" width="185" height="181" as="geometry" />
+        </mxCell>
+        <mxCell id="laneB1" value="subject bit test (256 b)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=10;" vertex="1" parent="laneB">
+          <mxGeometry y="26" width="185" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="laneB2" value="object bit test (256 b)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=10;" vertex="1" parent="laneB">
+          <mxGeometry y="57" width="185" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="laneB3" value="attribute subset, 4 × 64 b" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=10;" vertex="1" parent="laneB">
+          <mxGeometry y="88" width="185" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="laneB4" value="state subset: r.σ ⊆ q.σ (32 b)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=10;" vertex="1" parent="laneB">
+          <mxGeometry y="119" width="185" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="laneB5" value="provenance π intersect (32 b, ∅ ⇒ any)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="laneB">
+          <mxGeometry y="150" width="185" height="31" as="geometry" />
+        </mxCell>
+
+        <!-- combine and output -->
+        <mxCell id="orb" value="lane A ∨ lane B&#10;found: sticky OR register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="740" y="300" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="perm" value="permit&#10;(AXI-Lite return)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="960" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="L(n) = 12 + n/2 cycles at 100 MHz&#10;4D and 5D: identical cycles, II = 1&#10;the fifth dimension adds only the π row:&#10;+524 LUT, +100 FF, +0 cycles" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="740" y="420" width="290" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="req" target="pre">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="q + selects" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="pre" target="laneA">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="pre" target="laneB">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="addr 2p, 2p+1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="ctr" target="mem">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="mem" target="ra">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="mem" target="rb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="ra" target="laneA">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="rb" target="laneB">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="laneA" target="orb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="laneB" target="orb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="orb" target="perm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -184,8 +184,8 @@ The identical kernel logic, compiled for the i7 and measured under perf, tells t
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{chart-key-finding.png}
-\caption{Cycles per decision versus policy size. Software slopes steepen with each added dimension. The 4D and 5D hardware series are identical at every measured point.}
+\includegraphics[width=\columnwidth]{fig-key-finding.pdf}
+\caption{Cycles per decision versus policy size. Software cycles are derived from perf-measured means and the 4.96~GHz clock; hardware cycles are co-simulated. Software slopes steepen with each added dimension. The 4D and 5D hardware series are identical at every measured point.}
 \label{fig:keyfinding}
 \end{figure}
 
@@ -219,7 +219,14 @@ The same runs measured the timing-window property. Under both idle and saturated
 
 \subsection{The comparison we do not make, and the one we do}
 
-It might be tempting to infer from Table~\ref{tab:cycles} that the fabric outpaces the CPU. That inference would be incorrect, and we pre-empt it. At 500 rules the i7 completes a mean five-dimensional decision in 138~ns of wall clock against the fabric's 2.62~$\mu$s, because a 4.96~GHz core is 49.6 times faster per cycle than a 100~MHz fabric. The CPU wins the mean by roughly 19$\times$. The defensible comparison is the worst case, and there the ordering reverses: the software path's worst observed decision at 200 rules was 355.4~$\mu$s against the fabric's invariant 1.12~$\mu$s, and its worst at four rules was 298.8~$\mu$s against 0.14~$\mu$s. Further, the software figure is an observation, not a bound. The 157~$\mu$s outlier in our DCAS baseline arrived in a run whose mean was 1.14~$\mu$s \cite{karim2026dcas}. An operating system does not guarantee its own tail, and a control loop budgets for the tail.
+It might be tempting to infer from Table~\ref{tab:cycles} that the fabric outpaces the CPU. That inference would be incorrect, and we pre-empt it. At 500 rules the i7 completes a mean five-dimensional decision in 138~ns of wall clock against the fabric's 2.62~$\mu$s, because a 4.96~GHz core is 49.6 times faster per cycle than a 100~MHz fabric. The CPU wins the mean by roughly 19$\times$. The defensible comparison is the worst case, and there the ordering reverses: the software path's worst observed decision at 200 rules was 355.4~$\mu$s against the fabric's invariant 1.12~$\mu$s, and its worst at four rules was 298.8~$\mu$s against 0.14~$\mu$s. Further, the software figure is an observation, not a bound. The 157~$\mu$s outlier in our DCAS baseline arrived in a run whose mean was 1.14~$\mu$s \cite{karim2026dcas}. An operating system does not guarantee its own tail, and a control loop budgets for the tail. Figure~\ref{fig:tail} plots both concessions on one wall-clock axis. The software mean runs below the hardware bound at every policy size. The software worst case runs above it at every size, by more than three orders of magnitude at four rules, and it does not track policy size, because the tail belongs to the scheduler and not to the policy.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig-tail.pdf}
+\caption{Wall-clock latency per decision, log scale. The software mean and worst observed come from perf measurements of the five-dimensional path. The hardware line is the closed-form bound of (4) at 100~MHz, where minimum, mean and maximum coincide. The software worst case is an observation, not a bound, and does not track policy size.}
+\label{fig:tail}
+\end{figure}
 
 % AUTHOR DECISION: OPA/XACML reuse from TS-NGAC (approved for manuscript per
 % canonical-context, flagged as open in manuscript-agent-prompt rule 8).

@@ -1,0 +1,80 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="hngac-ros2-scenario" name="ROS 2 adversarial scenario">
+    <mxGraphModel dx="1200" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1050" pageHeight="480" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- publishers -->
+        <mxCell id="legit" value="Legitimate operator node&#10;valid DDS certificate&#10;subject 1&#10;π = authenticated_ros2_node&#10;17,059 commands in 30 s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="230" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="bad" value="Compromised node (bad_actor)&#10;valid DDS certificate&#10;same subject 1&#10;π = remote_operator&#10;5× publish rate&#10;18,878 attempts in 30 s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="230" width="230" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- DDS note -->
+        <mxCell id="ddsnote" value="DDS-Security authenticates&#10;both streams equally.&#10;Identity cannot separate them." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="310" y="40" width="190" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- topics -->
+        <mxCell id="t1" value="topic&#10;/cmd_untrusted" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="320" y="170" width="160" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" value="topic&#10;/cmd_vel" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="860" y="175" width="130" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- platform state -->
+        <mxCell id="state" value="Platform state σ&#10;maintenance_mode, safety_interlock&#10;battery_low, calibration_required" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="560" y="30" width="240" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- gatekeeper -->
+        <mxCell id="gk" value="ngac_gatekeeper&#10;5D decision function:&#10;subject ∧ object ∧ attribute&#10;∧ state σ ∧ provenance π" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="165" width="240" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- actuator -->
+        <mxCell id="act" value="Robot actuator&#10;45 kg platform" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="850" y="300" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- result annotations -->
+        <mxCell id="blocknote" value="blocked 18,878 / 18,878&#10;(95% Wilson lower bound 99.99%)&#10;identity valid, state valid:&#10;π alone separates the streams" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="300" y="290" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="passnote" value="forwarded 17,059 / 17,059&#10;false positives 0&#10;(95% upper bound 0.02%)" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="580" y="310" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="legit" target="t1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" edge="1" parent="1" source="bad" target="t1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="t1" target="gk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="state" target="gk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="permit only" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="gk" target="t2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="t2" target="act">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#999999;" edge="1" parent="1" source="gk" target="blocknote">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#999999;" edge="1" parent="1" source="gk" target="passnote">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

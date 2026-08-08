@@ -206,3 +206,33 @@
   derived-from-perf-measured-clock; busy-wait excluded from empirical claims.
 - Open in the draft: OPA/XACML paragraph flagged AUTHOR DECISION; related-work
   rubric rows await the sweep (TODO-SWEEP); two affiliations; HyperNGAC sign-off.
+
+## 2026-08-08 — Final title, portal topics, and the figure round
+
+- Author's final title adopted in `paper/main.tex`: "Authenticated but
+  Unauthorized: 5D H-NGAC for Bounded-Latency Authorization in FPGA-Based
+  Real-Time Robotics". Keywords revised to echo the three chosen IPCCC portal
+  topics (Security and Privacy; Cyber Physical Systems; Embedded Systems);
+  selection rationale recorded in `docs/ipccc-2026-abstract-draft.md`.
+- CFP fact: regular papers get 8 pages free, up to 2 extra at $100/page. The
+  draft sits at 7 pages, so one free page of headroom remains.
+- New `analysis/make_paper_figures.py` renders IEEE print figures: column-width
+  (3.5 in) vector PDFs, Times-matched serif, 7-8 pt fonts, no embedded titles
+  (captions do that work). Distinct from `make_hw_sw_charts.py`, which keeps
+  the dashboard-styled presentation versions.
+- `fig:keyfinding` replaced with the print PDF; caption now labels software
+  cycles as derived and hardware cycles as co-simulated (closes the Attack 8
+  exposure at the figure level).
+- New `fig:tail` in VI-E: wall-clock log-scale plot of SW mean, SW worst
+  observed, and the closed-form HW bound at all six policy sizes. Worst-observed
+  data extracted from the perf SUMMARY max fields (298,814 / 1,913 / 117,854 /
+  27,275 / 355,410 / 17,230 ns at 4/10/50/100/200/500 rules). The jagged max
+  series shows the tail does not track policy size: it belongs to the scheduler.
+  SW mean sits below the HW bound at every size, conceding the mean visibly.
+- Editable draw.io sources delivered for the two diagrams still to enter the
+  paper: `paper/figures/fig-datapath.drawio` (opt-v1 two-lane datapath, fifth
+  dimension highlighted, from the package kernel source) and
+  `paper/figures/fig-ros2-scenario.drawio` (gatekeeper topology with demo
+  counts). Hassan edits in draw.io, exports PDF into `paper/figures/`, then we
+  wire figure environments into Sections IV and VI-D.
+- Build state: 7 pages, zero overfull, zero undefined references.

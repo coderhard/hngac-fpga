@@ -107,7 +107,7 @@ Keep HLS work products out of the repo tree. Use `/tmp` or another throwaway pat
 | `benchmarks/` | Legacy DCAS software microbenchmarks |
 | `ros2_ws/`, `analysis/`, `data/` | Preserved DCAS software baseline artifacts |
 | `docs/` | Plans, benchmark analysis, coordination, decisions, and status logs |
-| `docs/figures/` | Generated paper figures (`analysis/make_hw_sw_charts.py`) |
+| `docs/figures/` | Generated figures: presentation charts (`analysis/make_hw_sw_charts.py`) and paper-figure PNG previews (`analysis/make_paper_figures.py`, whose print PDFs land in `paper/figures/`) |
 | `analysis/` | Result plotting and stats scripts |
 | `hngac-package-from-farouq/` | **HW evidence, immutable.** Synthesis, co-sim, board test, SW perf. See its `PROVENANCE.md`. Not working source — the live kernel is `fpga/hls/src/`. |
 
