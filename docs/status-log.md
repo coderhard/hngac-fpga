@@ -235,4 +235,18 @@
   `paper/figures/fig-ros2-scenario.drawio` (gatekeeper topology with demo
   counts). Hassan edits in draw.io, exports PDF into `paper/figures/`, then we
   wire figure environments into Sections IV and VI-D.
+- Figure color re-encoded after a validator run (dataviz skill checker) failed
+  the first palette: black is not a legal series color, and the three software
+  series were being treated as three unrelated hues when 3D/4D/5D is an ordered
+  tier. Both figures now read blue = software, orange accent = hardware, held
+  constant across figures so a hue always names the same entity. The software
+  series in `fig:keyfinding` take one blue hue in monotone lightness steps
+  (`#5598e7` / `#256abf` / `#104281`), so the dimensional order is visible in
+  the color and survives grayscale printing. Validator commands and their
+  results are recorded in the script docstring, per the reproducibility rule.
+- Series labels moved from series color to ink. Colored 7.5 pt type does not
+  clear the text-contrast floor, and the line end beside the label already
+  carries the hue. The lightest blue sits at 2.99:1 on white, just under the
+  3:1 mark floor; the relief is the direct labels plus Tables I-III, which
+  carry the same numbers the figures plot.
 - Build state: 7 pages, zero overfull, zero undefined references.
