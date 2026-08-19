@@ -6,7 +6,7 @@
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{url}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \graphicspath{{figures/}}
 
 % hyperref LAST, after every other package. hidelinks keeps Section/Table/Figure
@@ -22,6 +22,14 @@
 %     \newcommand{\newcolor}{}
 % Nothing else needs touching, and the two commands must stay defined because
 % they are used inside table bodies where \textcolor cannot span rows.
+% Pastel row tints for the related-work rubric (Table II). Chosen light enough
+% that black text keeps >14:1 contrast on every one, and paired with printed group
+% labels so no information is carried by color alone.
+\definecolor{grpSW}{HTML}{E7F0F9}
+\definecolor{grpHW}{HTML}{E8F1E3}
+\definecolor{grpRT}{HTML}{FBEDDF}
+\definecolor{grpOUR}{HTML}{F0EAF7}
+\definecolor{grpTHIS}{HTML}{F9E39F}
 \definecolor{hkred}{rgb}{0.72,0.06,0.06}
 \newcommand{\new}[1]{\textcolor{hkred}{#1}}
 \newcommand{\newcolor}{\color{hkred}}
@@ -76,17 +84,75 @@ H-NGAC~\cite{karim2026dcas},  presented at IEEE DCAS 2026, converted that idea t
 In this paper we extend H-NGAC with those two dimensions and synthesize the result to reconfigurable logic. We contribute three things:
 \begin{itemize}
     \item 5D H-NGAC, an authorization model that adds a system-state mask $\sigma$ and a command-provenance mask $\pi$ to the H-NGAC identity triple. % SAVE THIS FOR RESULTS/CONCLUSION... , closing the two CVE-anchored attack classes above at the application layer where transport security cannot see them;
-    \item A synthesized hardware evaluation on a Zynq-7020 showing three-, four- and five-dimensional kernels with equal clock cycles. % SAVE THIS FOR RESULTS... at every policy size tested, with a closed-form latency of $12 + n/2$ cycles for $n$ rules, zero jitter by construction, \new{and on-board confirmation from a hardware-latched counter, }while the \new{two added dimensions together cost 1{,}336 LUTs} and no BRAM or DSP; and
+    \item A synthesized hardware evaluation on a Zynq-7020 showing three-, four- and five-dimensional kernels with equal clock cycles at every policy size tested. % SAVE THIS FOR RESULTS... at every policy size tested, with a closed-form latency of $12 + n/2$ cycles for $n$ rules, zero jitter by construction, \new{and on-board confirmation from a hardware-latched counter, }while the \new{two added dimensions together cost 1{,}336 LUTs} and no BRAM or DSP; and
     \item An adversarial ROS~2 evaluation against five-dimensional policy and a six-model software comparison.
     % SAVE THIS FOR RESULTS... in which the five-dimensional policy blocks 18{,}878 injection attempts from a node holding valid credentials with zero false positives across 17{,}059 legitimate commands, together with a six-model software comparison showing that every baseline that beats H-NGAC on mean latency does so by over-authorizing.
 \end{itemize}
 % (a) 5D H-NGAC, an authorization model that adds a system-state mask $\sigma$ and a command-provenance mask $\pi$ to the H-NGAC identity triple, closing the two CVE-anchored attack classes above at the application layer where transport security cannot see them; (b) a synthesized hardware evaluation on a Zynq-7020 showing that the \new{three-, }four- and five-dimensional kernels resolve in an identical number of clock cycles at every policy size tested, with a closed-form latency of $12 + n/2$ cycles for $n$ rules, zero jitter by construction, \new{and on-board confirmation from a hardware-latched counter, }while the \new{two added dimensions together cost 1{,}336 LUTs} and no BRAM or DSP; and (c) an adversarial ROS~2 evaluation in which the five-dimensional policy blocks 18{,}878 injection attempts from a node holding valid credentials with zero false positives across 17{,}059 legitimate commands, together with a six-model software comparison showing that every baseline that beats H-NGAC on mean latency does so by over-authorizing.
 
-In software, each added dimension makes every policy rule more expensive. That is, the per-rule cost rises from 0.645 cycles in three dimensions to 1.220 in five, and a richer policy is paid for on every decision. In hardware those same two dimensions cost zero cycles. They are free in time and nearly free in area. Thus the authorization worst case becomes a synthesis parameter rather than a measurement.
-% ORIGINAL (v1 draft) OF THE PARAGRAPH ABOVE, kept for comparison:
+% KEY-FINDING PARAGRAPH, CUT 2026-08-19. The numbers live in Sec. VII-C, which
+% states all three slopes (0.645 / 1.024 / 1.220) rather than the two endpoints.
+% Restored version (HSK v1.2 voice), uncomment to put it back:
+% In software, each added dimension makes every policy rule more expensive. That is, the per-rule cost rises from 0.645 cycles in three dimensions to 1.220 in five, and a richer policy is paid for on every decision. In hardware those same two dimensions cost zero cycles. They are free in time and nearly free in area. Thus the authorization worst case becomes a synthesis parameter rather than a measurement.
+% v1 draft of the same paragraph:
 % The central finding deserves its own sentence. In software, each added security dimension makes every policy rule more expensive, raising the per-rule cost from 0.645 to 1.220 cycles between the three- and five-dimensional variants. In hardware the added dimensions cost zero cycles. They are free in time and nearly free in area, which converts the authorization worst case from a measurement into a synthesis parameter.
 
-The remainder of this paper is organized as follows. Section~\ref{sec:background} describes the threat model and the background this work extends. Section~\ref{sec:model} formalizes the 5D H-NGAC decision function. Section~\ref{sec:arch} renders the model into a pipelined hardware architecture and derives its determinism. Section~\ref{sec:method} details the experimental method and its honesty rules. Section~\ref{sec:results} reports results. Section~\ref{sec:related} rates related work on a scored rubric. Section~\ref{sec:limitations} bounds our claims, and Section~\ref{sec:conclusion} concludes.
+The remainder of this paper is organized as follows. Section~\ref{sec:related} rates related work on a scored rubric. Section~\ref{sec:background} describes the threat model and the background this work extends. Section~\ref{sec:model} formalizes the 5D H-NGAC decision function. Section~\ref{sec:arch} renders the model into a pipelined hardware architecture and derives its determinism. Section~\ref{sec:method} details the experimental method and its honesty rules. Section~\ref{sec:results} reports results. Section~\ref{sec:limitations} bounds our claims, and Section~\ref{sec:conclusion} concludes.
+
+\section{Related Work}
+\label{sec:related}
+
+We rate prior work on four axes, each an integer score $x \in \mathbb{Z},\ 0 \le x \le 5$: per-decision latency evidence ($\mathit{pdl}$), where 5 requires cycle-accurate per-decision measurement; worst-case boundedness ($\mathit{wcb}$), where 5 requires a closed-form bound verified at every measured point; enforcement dimensionality beyond the identity triple ($\mathit{dim}$), where 3 denotes one added runtime dimension and 5 denotes both state and provenance; and hardware validation ($\mathit{hwv}$), where 5 requires cycle-accurate co-simulation plus silicon functional verification. Table~\ref{tab:rubric} scores each line of prior work under these definitions. The paragraphs below justify the scores that matter most, and they concede three genuine ancestors plainly.
+
+\begin{table}[t]
+\caption{Related work scored on the four rubric axes. Group names are printed, so the shading is redundant encoding.}
+\label{tab:rubric}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lcccc}
+\toprule
+Prior work & $\mathit{pdl}$ & $\mathit{wcb}$ & $\mathit{dim}$ & $\mathit{hwv}$ \\
+\midrule
+\multicolumn{5}{l}{\textit{Software policy engines and models}} \\
+\rowcolor{grpSW} NGAC standard / Policy Machine \cite{incits565, ferraiolo2011policymachine} & 1 & 0 & 2 & 0 \\
+\rowcolor{grpSW} Linear-time NGAC \cite{mell2017linear} & 3 & 1 & 2 & 0 \\
+\rowcolor{grpSW} XEngine \cite{liu2011xengine} & 3 & 0 & 3 & 0 \\
+\rowcolor{grpSW} OPA \cite{opa} & 3 & 0 & 3 & 0 \\
+\rowcolor{grpSW} XACML PDP \cite{oasisxacml} & 2 & 0 & 3 & 0 \\
+\addlinespace[2pt]
+\multicolumn{5}{l}{\textit{Hardware enforcement}} \\
+\rowcolor{grpHW} FPGA reference monitor \cite{huffmire2006policy} & 3 & 3 & 1 & 4 \\
+\rowcolor{grpHW} NoC data protection units \cite{fiorin2008secure} & 3 & 3 & 1 & 3 \\
+\rowcolor{grpHW} Bit-vector classification \cite{song2005bvtcam, ganegedara2014scalable} & 4 & 4 & 0 & 4 \\
+\rowcolor{grpHW} SoC access-control wrappers \cite{restuccia2021aker} & 3 & 3 & 1 & 4 \\
+\rowcolor{grpHW} CHERI \cite{watson2015cheri} & 4 & 4 & 0 & 5 \\
+\addlinespace[2pt]
+\multicolumn{5}{l}{\textit{Real-time and robot security}} \\
+\rowcolor{grpRT} SROS2 / DDS-Security \cite{mayoralvilches2022sros2, omgddssec} & 2 & 0 & 0 & 0 \\
+\rowcolor{grpRT} App-layer ROS authorization \cite{dieber2017security} & 2 & 0 & 1 & 0 \\
+\rowcolor{grpRT} ROS-Defender \cite{rivera2019rosdefender} & 2 & 0 & 1 & 0 \\
+\rowcolor{grpRT} ABAC for multi-robot systems \cite{salimi2025abac} & 2 & 0 & 3 & 0 \\
+\rowcolor{grpRT} Security-aware RT scheduling \cite{hasan2017contego, lesi2017security, hasan2024sok} & 3 & 2 & 1 & 0 \\
+\rowcolor{grpRT} CPS runtime enforcement \cite{pinisetty2017runtime} & 2 & 3 & 1 & 0 \\
+\addlinespace[2pt]
+\multicolumn{5}{l}{\textit{Our prior work}} \\
+\rowcolor{grpOUR} HyperNGAC \cite{sitharaman2025hypergraph} & 0 & 0 & 3 & 0 \\
+\rowcolor{grpOUR} H-NGAC \cite{karim2026dcas} & 4 & 2 & 0 & 1 \\
+\rowcolor{grpOUR} TS-NGAC \cite{karim2026tsngac} & 4 & 3 & 3 & 0 \\
+\addlinespace[2pt]
+\rowcolor{grpTHIS} \textbf{This work} & \textbf{5} & \textbf{5} & \textbf{5} & \textbf{5} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Software policy engines and models.} The NGAC standard and the Policy Machine define the model we compile but report no per-decision latency evidence \cite{incits565, ferraiolo2011policymachine, hu2014sp800162}, and NGAC's decision and review advantages over XACML are established in the standards comparison of Ferraiolo et al.\ \cite{ferraiolo2016xacml}. NGAC implementations to date are software, including NIST's own fine-grain enforcement over database queries \cite{ferraiolo2017database}, and the strongest software NGAC decision result is the linear-time graph algorithms of Mell et al.\ \cite{mell2017linear}. That is the right software bound, and it is still a per-decision traversal whose constant depends on the host. XEngine compiles XACML into numeric structures offline and speeds decisions by orders of magnitude \cite{liu2011xengine}, the closest software analogue of our compilation step, but its decision latency still varies with policy and request shape. Servos and Osborn's survey lists ABAC decision performance among the field's open problems \cite{servos2017abac}, and our own measurements place OPA and an XACML PDP three to five orders of magnitude above the closed-form bound we derive in Section~\ref{sec:arch} \cite{opa, karim2026tsngac, oasisxacml}.
+
+\textbf{Hardware enforcement.} This literature holds three genuine ancestors, and we cite them as such. Huffmire et al.\ compiled a formally specified memory-isolation policy directly into an FPGA reference monitor in 2006 \cite{huffmire2006policy}, and Fiorin et al.\ placed access-rights checks into NoC interfaces with no added latency on the authorized path \cite{fiorin2008secure}. Both make enforcement latency a property of a synthesized circuit. Neither evaluates a relational policy model, and neither analyzes what an added policy dimension costs. The third concession is packet classification: TCAM and bit-vector engines match wide multi-field keys at deterministic rates \cite{song2005bvtcam}, and the StrideBV line advertises latency independent of ruleset content \cite{ganegedara2014scalable}. However, StrideBV latency grows linearly with match-key width. That is, in the closest deterministic prior art, added dimensions are precisely not free in time, which is the axis this paper claims. Aker wraps SoC controllers in verified access-control hardware at the bus-transaction level \cite{restuccia2021aker}, and CHERI enforces per-instruction memory capabilities in silicon \cite{watson2015cheri}. Both police a lower layer than a policy model.
+
+\textbf{Real-time and robot security.} The real-time security literature schedules software enforcement around deadlines: Contego slots security tasks into scheduling slack \cite{hasan2017contego}, Lesi et al.\ trade control quality against integrity checking \cite{lesi2017security}, and the 2024 SoK catalogs the paradigm \cite{hasan2024sok}. We exit that paradigm rather than optimize within it, since a fabric decision consumes no CPU slack at all. Pinisetty et al.\ synthesize runtime enforcers from timed automata for reactive CPS \cite{pinisetty2017runtime}, the nearest formal-synthesis neighbor, targeting safety properties rather than authorization and offering no hardware latency model. In robotics, Dieber et al.\ argued for application-layer authorization above transport crypto with identity-based decisions \cite{dieber2017security}, ROS-Defender filters node flows at the network layer \cite{rivera2019rosdefender}, and Salimi et al.\ condition per-request ABAC decisions on task and capability attributes through a blockchain bridge \cite{salimi2025abac}. None conditions a command on its source type or the platform's runtime safety state, and none is an inline bounded-latency primitive.
+
+Since this work measures cycle-accurate per-decision latency, verifies a closed-form bound at every measured point, enforces both state and provenance, and validates through co-simulation, silicon functional verification, \new{and a hardware-latched on-board cycle capture that tracks co-simulation to a constant offset}, we assign it the maximum on all four axes under the definitions above, and Section~\ref{sec:results} supplies the evidence for that row. We state the novelty claim in its bounded form. Constant-latency wide-key matching exists in TCAMs, deterministic classification exists in the bit-vector family, and policy-to-circuit compilation dates to 2006. To our knowledge, no prior work compiles a standardized relational authorization model to hardware and demonstrates, on identical toolflow and part, that added policy dimensions cost zero clock cycles, and no prior hardware implementation of NGAC exists at all. We invite correction on both points.
 
 \section{Background and Threat Model}
 \label{sec:background}
@@ -342,53 +408,6 @@ It might be tempting to infer from Table~\ref{tab:cycles} that the fabric outpac
 % canonical-context, flagged as open in manuscript-agent-prompt rule 8).
 % Cut this paragraph if the journal contribution split argues otherwise.
 For completeness we place general-purpose policy engines on the same axis. In our prior evaluation, Open Policy Agent averaged 271.491~$\mu$s per decision with 13 deadline misses \cite{karim2026tsngac}, and an XACML OpenPDP deployment averaged roughly 50~ms \cite{karim2026dcas, oasisxacml}. These engines evaluate far richer policy than (2) expresses, and we do not fault their generality. We observe only that they occupy a latency regime three to five orders of magnitude above the closed form of (4), which is the regime that keeps authorization out of control paths.
-
-\section{Related Work}
-\label{sec:related}
-
-We rate prior work on four axes, each an integer score $x \in \mathbb{Z},\ 0 \le x \le 5$: per-decision latency evidence ($\mathit{pdl}$), where 5 requires cycle-accurate per-decision measurement; worst-case boundedness ($\mathit{wcb}$), where 5 requires a closed-form bound verified at every measured point; enforcement dimensionality beyond the identity triple ($\mathit{dim}$), where 3 denotes one added runtime dimension and 5 denotes both state and provenance; and hardware validation ($\mathit{hwv}$), where 5 requires cycle-accurate co-simulation plus silicon functional verification. Table~\ref{tab:rubric} scores each line of prior work under these definitions. The paragraphs below justify the scores that matter most, and they concede three genuine ancestors plainly.
-
-\begin{table}[t]
-\caption{Related work scored on the four rubric axes.}
-\label{tab:rubric}
-\centering
-\footnotesize
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lcccc}
-\toprule
-Prior work & $\mathit{pdl}$ & $\mathit{wcb}$ & $\mathit{dim}$ & $\mathit{hwv}$ \\
-\midrule
-DAG-NGAC / Policy Machine \cite{incits565, ferraiolo2011policymachine} & 1 & 0 & 2 & 0 \\
-Linear-time NGAC \cite{mell2017linear} & 3 & 1 & 2 & 0 \\
-XEngine \cite{liu2011xengine} & 3 & 0 & 3 & 0 \\
-OPA \cite{opa} & 3 & 0 & 3 & 0 \\
-XACML PDP \cite{oasisxacml} & 2 & 0 & 3 & 0 \\
-SROS2 / DDS-Security \cite{mayoralvilches2022sros2, omgddssec} & 2 & 0 & 0 & 0 \\
-App-layer ROS authorization \cite{dieber2017security} & 2 & 0 & 1 & 0 \\
-ROS-Defender \cite{rivera2019rosdefender} & 2 & 0 & 1 & 0 \\
-ABAC for multi-robot systems \cite{salimi2025abac} & 2 & 0 & 3 & 0 \\
-FPGA reference monitor \cite{huffmire2006policy} & 3 & 3 & 1 & 4 \\
-NoC data protection units \cite{fiorin2008secure} & 3 & 3 & 1 & 3 \\
-Bit-vector classification \cite{song2005bvtcam, ganegedara2014scalable} & 4 & 4 & 0 & 4 \\
-SoC access-control wrappers \cite{restuccia2021aker} & 3 & 3 & 1 & 4 \\
-CHERI \cite{watson2015cheri} & 4 & 4 & 0 & 5 \\
-Security-aware RT scheduling \cite{hasan2017contego, lesi2017security, hasan2024sok} & 3 & 2 & 1 & 0 \\
-CPS runtime enforcement \cite{pinisetty2017runtime} & 2 & 3 & 1 & 0 \\
-HyperNGAC \cite{sitharaman2025hypergraph} & 0 & 0 & 3 & 0 \\
-H-NGAC \cite{karim2026dcas} & 4 & 2 & 0 & 1 \\
-TS-NGAC \cite{karim2026tsngac} & 4 & 3 & 3 & 0 \\
-\textbf{This work} & \textbf{5} & \textbf{5} & \textbf{5} & \textbf{5} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Software policy engines and models.} The NGAC standard and the Policy Machine define the model we compile but report no per-decision latency evidence \cite{incits565, ferraiolo2011policymachine, hu2014sp800162}, and NGAC's decision and review advantages over XACML are established in the standards comparison of Ferraiolo et al.\ \cite{ferraiolo2016xacml}. NGAC implementations to date are software, including NIST's own fine-grain enforcement over database queries \cite{ferraiolo2017database}, and the strongest software NGAC decision result is the linear-time graph algorithms of Mell et al.\ \cite{mell2017linear}. That is the right software bound, and it is still a per-decision traversal whose constant depends on the host. XEngine compiles XACML into numeric structures offline and speeds decisions by orders of magnitude \cite{liu2011xengine}, the closest software analogue of our compilation step, but its decision latency still varies with policy and request shape. Servos and Osborn's survey lists ABAC decision performance among the field's open problems \cite{servos2017abac}, and our own measurements place OPA and an XACML PDP three to five orders of magnitude above (4) \cite{opa, karim2026tsngac, oasisxacml}.
-
-\textbf{Hardware enforcement.} This literature holds three genuine ancestors, and we cite them as such. Huffmire et al.\ compiled a formally specified memory-isolation policy directly into an FPGA reference monitor in 2006 \cite{huffmire2006policy}, and Fiorin et al.\ placed access-rights checks into NoC interfaces with no added latency on the authorized path \cite{fiorin2008secure}. Both make enforcement latency a property of a synthesized circuit. Neither evaluates a relational policy model, and neither analyzes what an added policy dimension costs. The third concession is packet classification: TCAM and bit-vector engines match wide multi-field keys at deterministic rates \cite{song2005bvtcam}, and the StrideBV line advertises latency independent of ruleset content \cite{ganegedara2014scalable}. However, StrideBV latency grows linearly with match-key width. That is, in the closest deterministic prior art, added dimensions are precisely not free in time, which is the axis this paper claims. Aker wraps SoC controllers in verified access-control hardware at the bus-transaction level \cite{restuccia2021aker}, and CHERI enforces per-instruction memory capabilities in silicon \cite{watson2015cheri}. Both police a lower layer than a policy model.
-
-\textbf{Real-time and robot security.} The real-time security literature schedules software enforcement around deadlines: Contego slots security tasks into scheduling slack \cite{hasan2017contego}, Lesi et al.\ trade control quality against integrity checking \cite{lesi2017security}, and the 2024 SoK catalogs the paradigm \cite{hasan2024sok}. We exit that paradigm rather than optimize within it, since a fabric decision consumes no CPU slack at all. Pinisetty et al.\ synthesize runtime enforcers from timed automata for reactive CPS \cite{pinisetty2017runtime}, the nearest formal-synthesis neighbor, targeting safety properties rather than authorization and offering no hardware latency model. In robotics, Dieber et al.\ argued for application-layer authorization above transport crypto with identity-based decisions \cite{dieber2017security}, ROS-Defender filters node flows at the network layer \cite{rivera2019rosdefender}, and Salimi et al.\ condition per-request ABAC decisions on task and capability attributes through a blockchain bridge \cite{salimi2025abac}. None conditions a command on its source type or the platform's runtime safety state, and none is an inline bounded-latency primitive.
-
-Since this work measures cycle-accurate per-decision latency, verifies a closed-form bound at every measured point, enforces both state and provenance, and validates through co-simulation, silicon functional verification, \new{and a hardware-latched on-board cycle capture that tracks co-simulation to a constant offset}, we assign it the maximum on all four axes under the definitions above. We state the novelty claim in its bounded form. Constant-latency wide-key matching exists in TCAMs, deterministic classification exists in the bit-vector family, and policy-to-circuit compilation dates to 2006. To our knowledge, no prior work compiles a standardized relational authorization model to hardware and demonstrates, on identical toolflow and part, that added policy dimensions cost zero clock cycles, and no prior hardware implementation of NGAC exists at all. We invite correction on both points.
 
 \section{Limitations}
 \label{sec:limitations}
