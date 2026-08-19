@@ -53,6 +53,7 @@ access control, NGAC, FPGA, high-level synthesis, real-time systems, robotics, R
 \end{IEEEkeywords}
 
 \section{Introduction}
+\label{sec:intro}
 
 A quadruped inspection robot in maintenance mode should not move. Consider the scenario where Layla, a field robotics engineer, is replacing a battery pack on a 45~kg rover, and an "increase velocity" command arrives from a remote operator console. The Data Distribution Service middleware API protocol (DDS) transport authenticates the console's certificate and delivers the command in well under a millisecond. In this scenario, nothing asks whether a remote operator was entitled to command motion while a human is nearby and explicitly locked to maintenance mode. If the rover acts, Layla could be hurt. This failure mode is demonstrated in CVE-2022-33323~\cite{cve202233323} where Mitsubishi MELFA industrial robots were vulnerable to unauthorized command execution. Also CVE-2021-38425~\cite{cve202138425} documents message injection against eProsima Fast DDS, the default ROS~2 transport.
 
@@ -75,9 +76,10 @@ In this paper we extend H-NGAC with those two dimensions and synthesize the resu
 %The central finding deserves its own sentence.
 % MOVE THIS TO RESULTS... In software, each added security dimension makes every policy rule more expensive, raising the per-rule cost from 0.645 to 1.220 cycles between the three- and five-dimensional variants. In hardware the added dimensions cost zero cycles. They are free in time and nearly free in area, which converts the authorization worst case from a measurement into a synthesis parameter.
 
-The remainder of this paper is organized as follows. Section~II describes the threat model and the background this work extends. Section~III formalizes the 5D H-NGAC decision function. Section~IV renders the model into a pipelined hardware architecture and derives its determinism. Section~V details the experimental method and its honesty rules. Section~VI reports results. Section~VII rates related work on a scored rubric. Section~VIII bounds our claims, and Section~IX concludes.
+The remainder of this paper is organized as follows. Section~\ref{sec:background} describes the threat model and the background this work extends. Section~\ref{sec:model} formalizes the 5D H-NGAC decision function. Section~\ref{sec:arch} renders the model into a pipelined hardware architecture and derives its determinism. Section~\ref{sec:method} details the experimental method and its honesty rules. Section~\ref{sec:results} reports results. Section~\ref{sec:related} rates related work on a scored rubric. Section~\ref{sec:limitations} bounds our claims, and Section~\ref{sec:conclusion} concludes.
 
 \section{Background and Threat Model}
+\label{sec:background}
 
 \subsection{From DAG traversal to bitmask evaluation}
 
@@ -93,13 +95,14 @@ We consider three named attack classes, each anchored to a published CVE against
 
 \textbf{Command provenance abuse.} The attacker holds valid DDS credentials for an authorized subject but is not an entitled source type for the command it issues (CVE-2021-38425, eProsima Fast DDS \cite{cve202138425}). SROS2 and DDS-Security authenticate who a node is at the transport layer \cite{mayoralvilches2022sros2, omgddssec}. They never ask whether that source type may issue that command to that resource. Further, the transport layer's own access control is fragile: Deng et al.\ demonstrated four ways a credentialed insider bypasses SROS2 permissions and keeps publishing \cite{deng2022insecurity}. That is an application-layer question, and it is invisible at the transport layer by design.
 
-A fourth concern is deliberately not an attack class. The timing window, in which a correct deny arrives after the actuator has already acted, is a delivery property that cuts across all three classes. It is closed by bounding decision latency below message propagation time, not by any policy dimension. We return to it in Section~VI.
+A fourth concern is deliberately not an attack class. The timing window, in which a correct deny arrives after the actuator has already acted, is a delivery property that cuts across all three classes. It is closed by bounding decision latency below message propagation time, not by any policy dimension. We return to it in Section~\ref{sec:results}.
 
 \subsection{Assumptions}
 
 We assume the following. The attacker holds valid transport credentials for at least one authorized subject and can publish at wire rate. Transport security itself is intact. We do not defend broken cryptography. The policy decision point and the compiled policy are trusted. Policy compilation happens off the decision path, and policy updates are outside our present scope. The platform exposes its runtime state to the decision point as a bit vector.
 
 \section{The 5D H-NGAC Model}
+\label{sec:model}
 
 We formalize the decision function before describing hardware. Let $U$ be the universe of policy nodes with $|U| = 256$. A set over $U$ is a bitmask $M \in \{0,1\}^{256}$, stored as four 64-bit words.
 
@@ -123,13 +126,14 @@ and the decision over a policy of $n$ rules is
 \delta(q) = \bigvee_{i=0}^{n-1} \mathit{match}_i(q), \qquad \delta \in \{0,1\}.
 \end{equation}
 
-Every term in (2) is a bitwise AND against a precompiled mask followed by a comparison. That is, the first three terms are the H-NGAC identity triple from our prior work, the $\sigma$ term conditions the permission on the platform's runtime state, and the $\pi$ term conditions it on the command's source type. Dimensions four and five add two more AND terms to a conjunction that already exists. They add no traversal, no lookup and no branch. One scope statement belongs here. We compile the association subset of INCITS 565, that is, the rules that grant. Prohibitions, obligations and administrative relations are not compiled, and Section~VIII bounds our claims accordingly.
+Every term in (2) is a bitwise AND against a precompiled mask followed by a comparison. That is, the first three terms are the H-NGAC identity triple from our prior work, the $\sigma$ term conditions the permission on the platform's runtime state, and the $\pi$ term conditions it on the command's source type. Dimensions four and five add two more AND terms to a conjunction that already exists. They add no traversal, no lookup and no branch. One scope statement belongs here. We compile the association subset of INCITS 565, that is, the rules that grant. Prohibitions, obligations and administrative relations are not compiled, and Section~\ref{sec:limitations} bounds our claims accordingly.
 
-\textbf{Hypothesis.} An added security dimension is free in time if and only if its evaluation synthesizes to additional combinational inputs within an existing pipeline stage, rather than to an additional sequential stage or memory access. Equation (2) is constructed so that $\sigma$ and $\pi$ satisfy this condition: each is one AND-and-compare against a 32-bit register, far narrower than the 256-bit identity terms beside it. Section~VI tests this hypothesis directly.
+\textbf{Hypothesis.} An added security dimension is free in time if and only if its evaluation synthesizes to additional combinational inputs within an existing pipeline stage, rather than to an additional sequential stage or memory access. Equation (2) is constructed so that $\sigma$ and $\pi$ satisfy this condition: each is one AND-and-compare against a 32-bit register, far narrower than the 256-bit identity terms beside it. Section~\ref{sec:results} tests this hypothesis directly.
 
-The limit behavior of (3) matters for the reader budgeting a control loop. As $n$ grows toward the 512-rule capacity, hardware cost grows only through scan length, and Section~IV shows that growth is exactly half a cycle per rule regardless of how many dimensions each rule carries. In software the same growth compounds with dimensionality: our measured per-rule slope rises from 0.645 cycles in three dimensions to 1.220 cycles in five. Thus the two curves diverge precisely where policy gets rich.
+The limit behavior of (3) matters for the reader budgeting a control loop. As $n$ grows toward the 512-rule capacity, hardware cost grows only through scan length, and Section~\ref{sec:arch} shows that growth is exactly half a cycle per rule regardless of how many dimensions each rule carries. In software the same growth compounds with dimensionality: our measured per-rule slope rises from 0.645 cycles in three dimensions to 1.220 cycles in five. Thus the two curves diverge precisely where policy gets rich.
 
 \section{Hardware Architecture}
+\label{sec:arch}
 
 The kernel evaluates (3) as a pipelined linear scan. Each clock, a two-stage pipeline loads the next two rules from policy memory while evaluating the two rules loaded on the previous clock, giving 0.5 cycles per rule at an initiation interval of one. The policy resides behind a BRAM-style port and the request and rule count arrive over AXI-Lite registers. Synthesis maps the evaluation entirely to LUTs and flip-flops. The kernel consumes zero BRAM and zero DSP blocks, so the policy port is the only memory interface.
 
@@ -151,6 +155,7 @@ holds exactly at every policy size we tested, where the constant 12 covers inter
 We note one design consequence plainly. Forgoing early exit costs the average case: a software scan that exits on first match would beat (4) whenever the match lands early. We spend that average case to buy a worst case with zero variance, because the control loop budgets for the worst case and only the worst case.
 
 \section{Experimental Method}
+\label{sec:method}
 
 \subsection{Platforms}
 
@@ -158,13 +163,14 @@ Hardware results come from Vitis HLS 2025.2 targeting the Zynq-7020 (xc7z020-clg
 
 \subsection{Request corpus}
 
-The corpus generator emits, for each policy rule, one request that satisfies all five dimensions, plus a state-failing and a provenance-failing variant where applicable, yielding eleven requests for the four-rule policy and 1{,}334 at 500 rules. The corpus therefore exercises permit paths, state denials and provenance denials at every policy size, and it is the corpus under which the correctness columns of Section~VI are computed.
+The corpus generator emits, for each policy rule, one request that satisfies all five dimensions, plus a state-failing and a provenance-failing variant where applicable, yielding eleven requests for the four-rule policy and 1{,}334 at 500 rules. The corpus therefore exercises permit paths, state denials and provenance denials at every policy size, and it is the corpus under which the correctness columns of Section~\ref{sec:results} are computed.
 
 \subsection{Honesty rules}
 
 We label every number by how it was obtained, and we hold the paper to the labels. Hardware cycle counts are measured and deterministic. No confidence interval applies because variance is zero by construction. Software per-decision cycle counts are derived: perf supplies a measured effective clock of 4.96~GHz, and cycles are mean nanoseconds multiplied by that clock. They are not per-decision counter reads. Proportions from the adversarial run carry exact denominators and one-sided 95\% Wilson score bounds. One baseline, RBAC with a modeled external state lookup, is a synthetic busy-wait. We exclude it from every empirical claim and use the measured SQLite-backed variant instead. The timing-window measurement produced zero slips and is reported only as a null result. \new{Board cycle counts are hardware-latched by an AXI Timer and are measurements; board round-trip latency includes the Linux userspace stack on the processing system and is reported as an observation of that stack, never as a property of the kernel.}
 
 \section{Results}
+\label{sec:results}
 
 \subsection{The key finding: dimensionality is free in time}
 
@@ -306,7 +312,7 @@ Rules & Co-sim cycles & Board cycles & Offset \\
 \end{tabular}
 \end{table}
 
-\new{The board tracks co-simulation with a constant 25-cycle offset at all six policy sizes, and minimum, mean and maximum are equal on silicon exactly as they are in simulation. The offset is the AXI-Lite handshake that moves the request into the kernel and the decision back out, and being constant it enters the closed form of (4) as an additive term rather than a source of variance. The determinism argued from pipeline structure in Section~IV therefore survives contact with the fabric, the interface, and the part.}
+\new{The board tracks co-simulation with a constant 25-cycle offset at all six policy sizes, and minimum, mean and maximum are equal on silicon exactly as they are in simulation. The offset is the AXI-Lite handshake that moves the request into the kernel and the decision back out, and being constant it enters the closed form of (4) as an additive term rather than a source of variance. The determinism argued from pipeline structure in Section~\ref{sec:arch} therefore survives contact with the fabric, the interface, and the part.}
 
 \new{The same board run measured round-trip latency from the processing system, and that number behaves differently. Mean round trip rises from 2.09~$\mu$s at four rules to 4.77~$\mu$s at 500, but the maximum reaches 5.92~ms at 500 rules, more than three orders of magnitude above its own mean. We report this because it is the honest counterpart to Table~\ref{tab:board} and because it makes the paper's argument on the paper's own hardware. The fabric is invariant and the counter proves it. The millisecond tail is contributed entirely by the Linux userspace stack on the board's Cortex-A9 between the timer read and the application, which is the identical mechanism we attribute the i7's tail to in Section~\ref{subsec:comparison}. A deterministic primitive does not confer determinism on a non-deterministic caller. It bounds the part of the path a designer can bound, and Table~\ref{tab:board} is the part we claim.}
 
@@ -328,6 +334,7 @@ It might be tempting to infer from Table~\ref{tab:cycles} that the fabric outpac
 For completeness we place general-purpose policy engines on the same axis. In our prior evaluation, Open Policy Agent averaged 271.491~$\mu$s per decision with 13 deadline misses \cite{karim2026tsngac}, and an XACML OpenPDP deployment averaged roughly 50~ms \cite{karim2026dcas, oasisxacml}. These engines evaluate far richer policy than (2) expresses, and we do not fault their generality. We observe only that they occupy a latency regime three to five orders of magnitude above the closed form of (4), which is the regime that keeps authorization out of control paths.
 
 \section{Related Work}
+\label{sec:related}
 
 We rate prior work on four axes, each an integer score $x \in \mathbb{Z},\ 0 \le x \le 5$: per-decision latency evidence ($\mathit{pdl}$), where 5 requires cycle-accurate per-decision measurement; worst-case boundedness ($\mathit{wcb}$), where 5 requires a closed-form bound verified at every measured point; enforcement dimensionality beyond the identity triple ($\mathit{dim}$), where 3 denotes one added runtime dimension and 5 denotes both state and provenance; and hardware validation ($\mathit{hwv}$), where 5 requires cycle-accurate co-simulation plus silicon functional verification. Table~\ref{tab:rubric} scores each line of prior work under these definitions. The paragraphs below justify the scores that matter most, and they concede three genuine ancestors plainly.
 
@@ -374,10 +381,12 @@ TS-NGAC \cite{karim2026tsngac} & 4 & 3 & 3 & 0 \\
 Since this work measures cycle-accurate per-decision latency, verifies a closed-form bound at every measured point, enforces both state and provenance, and validates through co-simulation, silicon functional verification, \new{and a hardware-latched on-board cycle capture that tracks co-simulation to a constant offset}, we assign it the maximum on all four axes under the definitions above. We state the novelty claim in its bounded form. Constant-latency wide-key matching exists in TCAMs, deterministic classification exists in the bit-vector family, and policy-to-circuit compilation dates to 2006. To our knowledge, no prior work compiles a standardized relational authorization model to hardware and demonstrates, on identical toolflow and part, that added policy dimensions cost zero clock cycles, and no prior hardware implementation of NGAC exists at all. We invite correction on both points.
 
 \section{Limitations}
+\label{sec:limitations}
 
-Our claims are bounded by several factors, and we state them plainly. \new{First, the parity result covers three, four and five dimensions on one part at one clock, and the three kernels differ only in the conjunction terms of the rule check. We have not shown that an arbitrary sixth dimension is free, only that these two were, and Section~IV names the mechanism that would end the pattern.} \new{Second,} the software baseline is a 4.96~GHz laptop CPU while the fabric runs at 100~MHz; an embedded-class CPU baseline on the board's own Cortex-A9 would make the wall-clock comparison fairer to the fabric, and we did not run it. \new{Our board data bounds the fabric and the interface but not a software decision path on the same silicon.} \new{Third,} software latency distributions were measured under WSL2, whose scheduler jitter contaminates maxima, which is why we cite worst observed values and never call them WCETs. \new{Fourth,} the primitive is capacity-bounded at 512 rules and 256 policy nodes, and policy update happens off the decision path. \new{Fifth,} one baseline, the modeled external-state lookup, is synthetic, and we excluded it from every empirical claim after finding it added nothing the measured SQLite path does not show. \new{Sixth,} the kernel compiles only the association subset of INCITS 565. Prohibitions, obligations and administrative relations are not implemented, so no claim here extends beyond rules that grant. \new{Seventh,} the zero-cycle result is demonstrated at one operating point, 100~MHz on a Zynq-7020, where \new{all three} kernels close timing with identical +0.33~ns slack. At an aggressive clock target \new{an} added dimension could force an additional pipeline stage, which is exactly the boundary the hypothesis of Section~III predicts\new{, and the two-to-three step in iteration latency between three and four dimensions shows the mechanism already operating below the threshold where it would cost cycles}. Characterizing that frequency ceiling is future work.
+Our claims are bounded by several factors, and we state them plainly. \new{First, the parity result covers three, four and five dimensions on one part at one clock, and the three kernels differ only in the conjunction terms of the rule check. We have not shown that an arbitrary sixth dimension is free, only that these two were, and Section~\ref{sec:arch} names the mechanism that would end the pattern.} \new{Second,} the software baseline is a 4.96~GHz laptop CPU while the fabric runs at 100~MHz; an embedded-class CPU baseline on the board's own Cortex-A9 would make the wall-clock comparison fairer to the fabric, and we did not run it. \new{Our board data bounds the fabric and the interface but not a software decision path on the same silicon.} \new{Third,} software latency distributions were measured under WSL2, whose scheduler jitter contaminates maxima, which is why we cite worst observed values and never call them WCETs. \new{Fourth,} the primitive is capacity-bounded at 512 rules and 256 policy nodes, and policy update happens off the decision path. \new{Fifth,} one baseline, the modeled external-state lookup, is synthetic, and we excluded it from every empirical claim after finding it added nothing the measured SQLite path does not show. \new{Sixth,} the kernel compiles only the association subset of INCITS 565. Prohibitions, obligations and administrative relations are not implemented, so no claim here extends beyond rules that grant. \new{Seventh,} the zero-cycle result is demonstrated at one operating point, 100~MHz on a Zynq-7020, where \new{all three} kernels close timing with identical +0.33~ns slack. At an aggressive clock target \new{an} added dimension could force an additional pipeline stage, which is exactly the boundary the hypothesis of Section~\ref{sec:model} predicts\new{, and the two-to-three step in iteration latency between three and four dimensions shows the mechanism already operating below the threshold where it would cost cycles}. Characterizing that frequency ceiling is future work.
 
 \section{Future Work and Conclusion}
+\label{sec:conclusion}
 
 Four questions structure our next steps. \new{1.~At what clock frequency does the next dimension stop being free, and does that ceiling move with policy width or only with stage depth? 2.~What does a decision path in software on the board's own Cortex-A9 cost, so the wall-clock comparison runs at one class of silicon?} 3.~Does the closed form of (4) survive a dynamic policy update path, or does update traffic reintroduce jitter? 4.~How does the primitive compose with time-scoped delegation, which our journal-track work develops in software? Further, we call on the community to report authorization performance as cycle-level worst cases rather than means, because a mean is precisely the statistic a control loop cannot budget against.
 
