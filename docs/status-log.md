@@ -1,5 +1,43 @@
 # Status Log
 
+## 2026-08-19 later (Claude Code, Opus 5) — author revision pass
+
+- Agent: Claude Code (Opus 5), working from the author's Overleaf paste.
+- Working file: `paper/main-author-rev-2026-08-19.tex`. **`paper/main.tex` was not
+  touched** and is still stale at `b8d22c9`, per the coordination-board warning.
+  Neither file is the Overleaf copy; the Overleaf export wins over both on merge.
+- Author's page-1 revision committed verbatim first (`71c6b33`), then every change
+  layered on top as its own commit so the author can see and revert each one.
+- Structure:
+  - `\label` on all nine sections plus `\ref` for the roadmap and eight in-body
+    cross-references; `hyperref` loaded with `hidelinks` (114 link annotations).
+  - Related Work moved from VII to II. Three fixes the move forced: its reference
+    to eq. (4) became a forward pointer, the rubric row was relabeled because
+    DAG-NGAC is not defined until Background, and the max-score paragraph now
+    points forward to Results for evidence.
+  - Rubric table regrouped and score-coded per cell, one pastel per score 0..5,
+    stepped so grayscale luminance falls monotonically 91.6% to 59.0%. Readable
+    in black-and-white print and under red-green color blindness.
+- Claims and wording:
+  - Title back to Bounded-Latency, 15 chars shorter than the Low-Latency version
+    so it still sets two lines. Low-Latency contradicted the Sec. VII-G concession.
+  - Abstract: 'Both kernels' -> 'All three'; 'we prove the security efficacy' ->
+    measured result with both denominators; closer replaced (it restated the DCAS
+    boundedness claim and ended on a cost concession) with the LUT figure plus the
+    implication. 222 -> 240 words.
+  - Intro key-finding paragraph cut, kept as a comment. Duplicated Sec. VII-C.
+  - Lesi reference dropped from the rubric row and the prose, per author.
+- **Author-voice rule learned this session, recorded in
+  `docs/decision-log.md`:** the manuscript's third person and de-identified
+  phrasing are deliberate. `our` marks THIS paper only; earlier work is third
+  person and is not attributed by author name. An agent pass reintroduced v1 draft
+  phrasing and a co-author's name and had to be reverted.
+- Verified after every change: 0 undefined references, 0 overfull boxes.
+- **Open: the paper is 9 pages. IPCCC gives 8 free, then $100/page.** Page 9 is
+  bibliography only, roughly one column of references [15]-[32]. Compression is
+  the next task.
+
+
 ## 2026-08-19 (Claude Code, Opus 5)
 
 - Agent: Claude Code (Opus 5)
