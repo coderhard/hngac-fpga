@@ -32,6 +32,14 @@ Until that copy lands:
 - If asked to work on the paper before the copy returns, **ask for the current
   Overleaf export first** rather than editing the stale tree.
 
+**2026-08-19 update.** The author's revision-in-progress (page 1 complete) is now
+checked in as `paper/main-author-rev-2026-08-19.tex`, separate from `main.tex`.
+That file is the working copy for the current pass; `main.tex` is still the stale
+`b8d22c9` state. Section labels (`sec:intro` .. `sec:conclusion`) were wired into
+the working copy so the roadmap paragraph and eight in-body cross-references use
+`\ref` instead of hardcoded roman numerals. Neither file is the Overleaf copy —
+merge order when the author saves back: Overleaf export wins over both.
+
 Remove this warning when the author's final copy is committed.
 
 ## Released Claims (most recent first)
