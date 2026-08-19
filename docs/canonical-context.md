@@ -73,6 +73,42 @@ Blocks: safety-interlock bypass, operation outside permitted state
 CVE anchor: CVE-2022-33323 (Mitsubishi MELFA unauthorized cmd)
 **Measured overhead: -2.83% (noise). 4D is computationally free.**
 
+### Σ is POSITIVE and MONOTONE — this constrains how we may describe a deny
+
+Verified in source 2026-08-20 (`fpga/hls/include/hngac_types.hpp`,
+`fpga/hls/src/hngac_kernel.cpp`):
+
+```c
+contains_all_states(required, available) => (required & available) == required
+```
+
+A rule fires only when **every** bit in its `required_states` is asserted in the
+request's `object_state`. `required_states == 0` is a wildcard. There is no
+negative term. **Asserting a state bit can therefore only make MORE rules match,
+never fewer.**
+
+**Consequence for the prose.** An asserted `maintenance_mode` bit cannot, by
+itself, deny anything. A deny arises from the **absence of a required bit**, not
+the presence of a hazard bit. The benchmark encodes it exactly that way:
+`make_deny_state_mask(required)` returns `required & (required - 1)`, which
+clears the lowest required bit. So the measured 4D denials are all
+missing-permissive-bit denials, and the numbers in "Hardware Results" stand.
+
+The four `StateBit` names (`battery_low`, `maintenance_mode`, `safety_interlock`,
+`calibration_required`) are named as hazards, which invites the opposite reading.
+A rule carrying `required_states = {maintenance_mode}` is a rule that fires **only
+during** maintenance, e.g. "a technician may run diagnostics in maintenance mode."
+`hngac_kernel_tb.cpp:54,86` asserts precisely that and expects PERMIT.
+
+**Wording rule.** Never write that the model denies because `maintenance_mode` is
+set. Write that motion rules require a permissive bit that maintenance clears.
+Definition 1 and Definition 3 in the manuscript are already correct and precise
+("the state bits that must be asserted for the rule to apply", `σ_i ⊆ σ_q`); it
+is the threat-model narrative and the Layla framing that must match them.
+
+Adding a genuine negative condition (`forbidden_states`) would be a kernel change
+plus re-synthesis. Out of scope for IPCCC 2026.
+
 ### 5D (+ Provenance Bit Flags Π)
 ```
 permit(s,o,a,σ,π) = 4D AND Π_mask[π]

@@ -12,7 +12,23 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 ## Active Claims
 
-No active agent claims.
+### 2026-08-20 02:25 +03 — IN PROGRESS (Codex, GPT-5)
+
+- Agent: Codex (GPT-5)
+- Scope: IEEE single-column scenario illustration, "Authenticated but
+  unauthorized," with editable draw.io source and vector PDF export
+- Files:
+  - `figures/fig-scenario.drawio` (new)
+  - `figures/fig-scenario.pdf` (new)
+  - `figures/fig-scenario-render.tex` (new, deterministic vector renderer)
+  - `docs/status-log.md`
+  - `docs/decision-log.md`
+  - `docs/coordination-board.md`
+- Checkpoint:
+  - encode the identical DDS/SROS2 authentication result for all three senders
+  - distinguish 5D state and provenance denials with redundant word/glyph/style
+    encodings suitable for grayscale and red-green CVD
+  - verify a 3.5-inch vector PDF with print-size text no smaller than 7 pt
 
 ## ⚠️ STANDING WARNING — `paper/main.tex` is NOT authoritative right now
 
