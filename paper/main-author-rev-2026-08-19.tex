@@ -269,27 +269,33 @@ We label every number by how it was obtained. Hardware cycle counts are measured
 
 \subsection{The key finding: dimensionality is free in time}
 
-Table~\ref{tab:cycles} reports co-simulated kernel cycles per decision. The \new{three-, }four- and five-dimensional kernels resolve in an identical number of cycles at every policy size, with identical initiation interval, \new{an identical 6.965~ns estimated clock against the 10.00~ns target, }and identical 0.33~ns timing slack. Minimum, mean and maximum are equal at every point\new{, all three co-simulations pass,} and the closed form \eqref{eq:latency} fits all \new{eighteen} points exactly. \new{Adding the state dimension to the identity triple costs zero clock cycles, and adding provenance on top of state costs zero more.}
+The cycle column of Table~\ref{tab:cycles} reports co-simulated kernel cycles per decision. The \new{three-, }four- and five-dimensional kernels resolve in an identical number of cycles at every policy size, with identical initiation interval, \new{an identical 6.965~ns estimated clock against the 10.00~ns target, }and identical 0.33~ns timing slack. Minimum, mean and maximum are equal at every point\new{, all three co-simulations pass,} and the closed form \eqref{eq:latency} fits all \new{eighteen} points exactly. \new{Adding the state dimension to the identity triple costs zero clock cycles, and adding provenance on top of state costs zero more.}
 
 \begin{table}[t]
-\caption{Kernel cycles per decision (Verilog co-simulation). Min, mean and max are equal at every point, and the \new{three} variants are identical columns.}
+\caption{\new{Same cycles, different decisions.} One corpus, three co-simulated kernels. Cycles per decision are identical across \new{3D, }4D and 5D at every policy size, with minimum, mean and maximum equal. \new{The permit columns are not identical. The 3D column simply repeats the request count, because it denies nothing.}}
 \label{tab:cycles}
 \centering
-\begin{tabular}{rrrrr}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{rrcrrr}
 \toprule
-Rules & Requests & \new{3D cycles} & 4D cycles & 5D cycles \\
+& & Cycles & \multicolumn{3}{c}{\new{Requests permitted}} \\
+\cmidrule(lr){3-3} \cmidrule(lr){4-6}
+Rules & Requests & 3D\,=\,4D\,=\,5D & \new{3D} & \new{4D} & \new{5D} \\
 \midrule
-4 & 11 & \new{14} & 14 & 14 \\
-10 & 27 & \new{17} & 17 & 17 \\
-50 & 134 & \new{37} & 37 & 37 \\
-100 & 267 & \new{62} & 62 & 62 \\
-200 & 534 & \new{112} & 112 & 112 \\
-500 & 1{,}334 & \new{262} & 262 & 262 \\
+4 & 11 & 14 & \new{11} & \new{8} & \new{4} \\
+10 & 27 & 17 & \new{27} & \new{19} & \new{10} \\
+50 & 134 & 37 & \new{134} & \new{92} & \new{50} \\
+100 & 267 & 62 & \new{267} & \new{184} & \new{100} \\
+200 & 534 & 112 & \new{534} & \new{367} & \new{200} \\
+500 & 1{,}334 & 262 & \new{1{,}334} & \new{917} & \new{500} \\
+\midrule
+Total & 2{,}307 & --- & \new{2{,}307} & \new{1{,}587} & \new{864} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\new{One row of Table~\ref{tab:resources} is not identical. Iteration latency is two cycles in three dimensions and three in four and five, so pipeline depth grows by one stage when state arrives and then stops when provenance is added. Because the initiation interval is one, that depth is amortized across the scan and never reaches the per-decision cycle count. That is why Table~\ref{tab:cycles} is flat while pipeline depth is not. Dimensionality is absorbed into the width of a pipeline stage, not the length of the pipeline, until a stage runs out of timing slack.}
+\new{One row of Table~\ref{tab:resources} is not identical. Iteration latency is two cycles in three dimensions and three in four and five, so pipeline depth grows by one stage when state arrives and then stops when provenance is added. Because the initiation interval is one, that depth is amortized across the scan and never reaches the per-decision cycle count. That is why the cycle column of Table~\ref{tab:cycles} is flat while pipeline depth is not. Dimensionality is absorbed into the width of a pipeline stage, not the length of the pipeline, until a stage runs out of timing slack.}
 
 \new{Dimensionality} is not free in area. Table~\ref{tab:resources} \new{prices it. The fourth dimension costs 812 LUTs (+21.6\%) over the identity triple and the fifth a further 524 (+11.4\%), so carrying both costs 1{,}336 LUTs (+35.5\%) and 331 flip-flops (+14.1\%). All three kernels use zero BRAM and zero DSP. The five-dimensional kernel occupies 9\% of the part against the three-dimensional kernel's 7\%, so two added dimensions cost about two percentage points of a \$100 device.} An earlier four-dimensional build completed Vivado place and route with +2.170~ns worst negative slack and zero failing endpoints of 1{,}987, so the co-simulated clock is not optimistic for this fabric.
 
@@ -315,34 +321,14 @@ Timing slack & \new{0.33 ns} & 0.33 ns & 0.33 ns \\
 
 \subsection{\new{Identical cycles, different security}}
 
-\new{Table~\ref{tab:cycles} shows three kernels spending the same cycles. Table~\ref{tab:rtlauth} shows them answering different questions. We ran the identical 2{,}307-request corpus through all three co-simulations, so these are RTL decisions, not software model decisions.}
+\new{Table~\ref{tab:cycles} puts both halves of the result side by side. One corpus of 2{,}307 requests went through all three co-simulations, so every number in it is a decision taken by RTL rather than by a software model of it. Read the cycle column and the three kernels are one number. Read the permit columns and they are three.}
 
-\begin{table}[t]
-\caption{\new{Requests permitted per dimensional variant, same corpus, same co-simulation, identical cycle cost. The corpus supplies one satisfying request per rule plus state-failing and provenance-failing variants whose identity triple is valid.}}
-\label{tab:rtlauth}
-\centering
-\newcolor
-\begin{tabular}{rrrrr}
-\toprule
-Rules & Requests & 3D permits & 4D permits & 5D permits \\
-\midrule
-4 & 11 & 11 & 8 & 4 \\
-10 & 27 & 27 & 19 & 10 \\
-50 & 134 & 134 & 92 & 50 \\
-100 & 267 & 267 & 184 & 100 \\
-200 & 534 & 534 & 367 & 200 \\
-500 & 1{,}334 & 1{,}334 & 917 & 500 \\
-\midrule
-Total & 2{,}307 & 2{,}307 & 1{,}587 & 864 \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \new{The three-dimensional kernel permits the entire corpus, all 2{,}307 requests, at every policy size. This is not a defect. Every request carries a valid identity triple and the variants differ only in the state and provenance fields, so a kernel that cannot represent $\sigma$ or $\pi$ has no basis to deny any of them. It answers its own question correctly. That question is not the one Layla's interlock asks.}
 
 \new{The four-dimensional kernel denies the state-failing variants and admits the provenance-failing ones, permitting 1{,}587. The five-dimensional kernel permits 864, exactly one satisfying request per rule at each policy size. Across the total row, 1{,}443 requests separate three dimensions from five, and 723 of those separate four from five. Each gap is an attack class: unsafe-state operation (CVE-2022-33323) and command provenance abuse (CVE-2021-38425).}
 
-\new{The two tables move independently. The cycle columns are identical and the permit columns are not. In hardware, the security question a kernel can ask is decoupled from what asking it costs in time.}
+\new{The two halves move independently. That is the finding. In hardware, the security question a kernel can ask is decoupled from what asking it costs in time.}
 
 \subsection{In software, the same dimension is not free}
 
