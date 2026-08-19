@@ -1,5 +1,57 @@
 # Decision Log
 
+## 2026-08-19
+
+### Decision
+
+The hardware claim is promoted to the full three-way form: 3D, 4D and 5D resolve
+in identical cycles. The prohibition recorded on 2026-08-07 ("scope the claim to
+4D vs 5D, 3D was never synthesized") is retired. Board AXI Timer cycle counts are
+admitted as a timing result; board round-trip latency is not.
+
+### Reason
+
+Evidence package v2, delivered 2026-08-13, contains a 3D synthesis and
+co-simulation on the same part, clock, pipeline, interface, testbench and corpus
+as 4D and 5D, differing only by the `state_ok` conjunction term. All three report
+II=1, a 6.965 ns estimated clock, 0.33 ns slack, and identical per-decision cycle
+counts at all six policy sizes. All three co-simulations Pass. That is exactly the
+controlled comparison the April framing lacked.
+
+The same package adds an AXI Timer capture on PYNQ-Z1 silicon that is
+hardware-latched, shows min = avg = max at every policy size, and tracks
+co-simulation with a constant 25-cycle offset. A constant offset is an additive
+interface term, not a source of variance, so it strengthens rather than qualifies
+the determinism claim.
+
+### Two qualifications that travel with the claim
+
+Iteration latency is 2 for 3D and 3 for 4D and 5D, so pipeline depth is not flat
+even though per-decision cycles are. And +11.4% LUT is the 5D-vs-4D delta; the
+full 3D→5D span costs +35.5%. Both are stated in the paper rather than left for a
+reviewer to extract from the csynth reports.
+
+### Alternatives considered
+
+- Report the three-way claim without the iteration-latency step (rejected: the
+  number is in a report we ship as evidence, and a reviewer who finds it
+  unmentioned will discount the rest)
+- Quote +11.4% as the cost of dimensionality (rejected: true only of the fifth
+  dimension, and the paper now prices all three variants)
+- Publish the board round-trip table as a latency result (rejected: its 5.92 ms
+  max at 500 rules is Linux scheduler jitter on the PS, and publishing it
+  unframed would hand a reviewer an apparent counterexample to the paper's own
+  bounded-tail argument. It appears in VI-F attributed to the software stack.)
+- Commit the v2 archive whole (rejected: strict superset of v1, so ~7 MB
+  including a byte-identical 4 MB bitstream would have been duplicated. Only the
+  32-file delta is tracked.)
+
+### Still open
+
+The Cortex-A9 software baseline was requested on 2026-08-13 and not delivered.
+The software perf log in v2 is byte-identical to v1 and still reports an
+i7-12800H. This stays a stated limitation and Future Work question 2.
+
 ## 2026-08-07
 
 ### Decision

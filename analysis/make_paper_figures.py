@@ -14,8 +14,12 @@ Data sources (docs/canonical-context.md wins on any disagreement):
               hngac-package-from-farouq/results/sw/sw_cycles.csv
   SW ns:      SUMMARY| lines in results/sw/perf_all_models_scaling.log
               (mean and max fields; max = worst observed, not a bound)
-  HW cycles:  co-simulation, results/hw/hw_cycles_per_rule_{4d,5d}.csv,
-              min = mean = max at every point, L(n) = 12 + n/2
+  HW cycles:  co-simulation, results/hw/hw_cycles_per_rule_{3d,4d,5d}.csv,
+              min = mean = max at every point, L(n) = 12 + n/2.
+              The 3d series arrived with evidence package v2; see
+              hngac-package-v2-from-farouq/PROVENANCE.md. All three
+              dimensional variants are the same numbers, so they render
+              as one line rather than three overplotted ones.
 
 Color encoding. Blue family = software, orange accent = hardware, held
 constant across both figures so a hue always names the same entity. The
@@ -86,7 +90,7 @@ RULES = [4, 10, 50, 100, 200, 500]
 SW3D = [70, 75, 115, 151, 211, 390]
 SW4D = [74, 78, 120, 194, 292, 582]
 SW5D = [80, 82, 130, 221, 360, 685]
-# hardware cycles: co-simulated, min = mean = max, 4D and 5D identical
+# hardware cycles: co-simulated, min = mean = max, 3D, 4D and 5D identical
 HW = [14, 17, 37, 62, 112, 262]
 
 # 5D software wall clock, ns, from perf SUMMARY lines (mean, max fields)
@@ -133,12 +137,12 @@ ax.plot(RULES, HW, color=HW_C, marker="D", markersize=3.6,
 label_end(ax, 500, SW5D[-1], "SW 5D")
 label_end(ax, 500, SW4D[-1], "SW 4D", dy=-3)
 label_end(ax, 500, SW3D[-1], "SW 3D")
-label_end(ax, 500, HW[-1], "HW 4D = 5D", weight="bold")
+label_end(ax, 500, HW[-1], "HW 3D = 4D = 5D", weight="bold")
 
 ax.set_xlabel("Policy size (rules)", color=INK)
 ax.set_ylabel("Cycles per decision", color=INK)
 ax.set_xticks([0, 100, 200, 300, 400, 500])
-ax.set_xlim(0, 690)  # right margin carries the direct labels
+ax.set_xlim(0, 760)  # right margin carries the direct labels
 ax.set_ylim(0, 740)
 fig.tight_layout(pad=0.3)
 save(fig, "fig-key-finding")

@@ -84,7 +84,8 @@ to that resource — application layer, not transport layer.
 Provenance bits: Bit 0=authenticated_ros2_node, Bit 1=local_terminal,
 Bit 2=remote_operator, Bits 3+=reserved
 CVE anchor: CVE-2021-38425 (eProsima Fast DDS RTPS injection)
-**Hardware overhead: MEASURED 2026-08-05. Zero cycles, +11.4% LUT.**
+**Hardware overhead: MEASURED. Zero cycles across 3D/4D/5D; +11.4% LUT for 5D over 4D,
++35.5% across the full 3D→5D span.** 4D/5D 2026-08-05, 3D 2026-08-13.
 Superseded the prior placeholder. See "Hardware Results" below.
 
 ---
@@ -135,17 +136,34 @@ identifiers**; renaming them would break the reproduction path against committed
 ### KEY FINDING (must be central to the paper)
 **Security dimensionality scales at zero time cost in hardware. MEASURED, not projected.**
 
-4D and 5D resolve in an identical number of clock cycles at every policy size
-tested, with identical initiation interval (II=1) and identical timing slack.
-The fifth dimension costs +524 LUT (+11.4%) and +100 FF (+3.9%), zero BRAM and
-zero DSP. This property does NOT hold in software, where each added dimension
-steepens the per-rule slope (3D 0.645, 4D 1.024, 5D 1.220 cycles per rule).
+3D, 4D and 5D resolve in an identical number of clock cycles at every policy size
+tested, with identical initiation interval (II=1), identical 6.965 ns estimated
+clock, and identical 0.33 ns timing slack. Carrying both added dimensions costs
++1,336 LUT (+35.5%) and +331 FF (+14.1%) over 3D, zero BRAM and zero DSP. This
+property does NOT hold in software, where each added dimension steepens the
+per-rule slope (3D 0.645, 4D 1.024, 5D 1.220 cycles per rule).
 
 **Precise wording rule.** The claim is "free in time, nearly free in area," NOT
 "free." Do not write "zero hardware cost" unqualified — the LUT delta is real and
-a reviewer will find it in the csynth report. Do not claim equal LUT-stage count
-across 3D/4D/5D: **3D was never synthesized.** Only 4D and 5D exist. Either run
-the 3D csynth or scope the claim to 4D vs 5D.
+a reviewer will find it in the csynth report.
+
+**The three-way claim is now supported (3D synthesized 2026-08-13, package v2).**
+The former prohibition on claiming 3D/4D/5D parity is RETIRED. Two qualifications
+travel with it:
+
+- **Iteration latency is not identical: 2 (3D), 3 (4D), 3 (5D).** Pipeline depth
+  grows one stage when state arrives, then stops. II=1 amortizes it, so the
+  per-decision cycle count does not move. State this in the paper; do not let a
+  reviewer discover it in the csynth report.
+- **+11.4% LUT is the 5D-vs-4D delta only.** The 3D→4D delta is +812 LUT (+21.6%)
+  and the full 3D→5D span is +1,336 LUT (+35.5%). Label which span any percentage
+  refers to.
+
+**Second key finding, also measured: identical cycles buy different security.**
+The 3D and 4D co-simulations ran the same 2,307-request corpus as 5D. At 500
+rules 3D permits all 1,334 requests, 4D permits 917, 5D permits 500 — at
+identical cycle cost. Over-authorization is now an RTL result, not a
+software-only argument.
 
 Target part is **Zynq-7020 (xc7z020-clg400-1)**, not UltraScale+. Earlier drafts
 said UltraScale+; that was aspirational and is now wrong.
@@ -282,31 +300,72 @@ to reproduce exactly on 2026-08-07.
 
 ### Kernel cycles per decision (co-simulation, Verilog, Pass)
 
-4D and 5D are identical at every point. min = avg = max at every point.
+3D, 4D and 5D are identical at every point. min = avg = max at every point.
+All three co-simulations Pass.
 
-| Rules | 4D | 5D |
-|---|---|---|
-| 4 | 14 | 14 |
-| 10 | 17 | 17 |
-| 50 | 37 | 37 |
-| 100 | 62 | 62 |
-| 200 | 112 | 112 |
-| 500 | 262 | 262 |
+| Rules | 3D | 4D | 5D |
+|---|---|---|---|
+| 4 | 14 | 14 | 14 |
+| 10 | 17 | 17 | 17 |
+| 50 | 37 | 37 | 37 |
+| 100 | 62 | 62 | 62 |
+| 200 | 112 | 112 | 112 |
+| 500 | 262 | 262 | 262 |
+
+### Requests permitted per variant (same corpus, same co-simulation)
+
+Source: `hngac-package-v2-from-farouq/results/cosim-opt-v1-*/cosim_report/verilog/tmp.log`
+
+| Rules | Requests | 3D permits | 4D permits | 5D permits |
+|---|---|---|---|---|
+| 4 | 11 | 11 | 8 | 4 |
+| 10 | 27 | 27 | 19 | 10 |
+| 50 | 134 | 134 | 92 | 50 |
+| 100 | 267 | 267 | 184 | 100 |
+| 200 | 534 | 534 | 367 | 200 |
+| 500 | 1334 | 1334 | 917 | 500 |
+| **Total** | **2307** | **2307** | **1587** | **864** |
+
+3D permits the entire corpus because every request carries a valid identity
+triple and the failing variants differ only in state and provenance.
+
+### On-board AXI Timer capture (PYNQ-Z1, hardware-latched)
+
+Source: `hngac-package-v2-from-farouq/board-test/.../board-scripts/bare_metal_latency.log`
+min = avg = max at every policy size. Constant +25-cycle AXI-Lite offset over co-sim.
+
+| Rules | Co-sim | Board | Offset |
+|---|---|---|---|
+| 4 | 14 | 39 | 25 |
+| 10 | 17 | 42 | 25 |
+| 50 | 37 | 62 | 25 |
+| 100 | 62 | 87 | 25 |
+| 200 | 112 | 137 | 25 |
+| 500 | 262 | 287 | 25 |
+
+**Board round-trip (CLOCK_MONOTONIC) is a different statistic and is NOT a kernel
+result.** Mean rises 2090 → 4765 ns across the sweep, but max reaches 5,920,702 ns
+at 500 rules. That tail is PS-side Linux userspace jitter. Never cite it without
+attributing it to the software stack rather than the fabric.
 
 **Closed-form latency: cycles = 12 + rules/2.** Exact at every measured point.
 The optimized kernel checks two rules per clock, hence 0.5 cycles per rule.
 
 ### Resource utilization (csynth)
 
-| Metric | 4D | 5D | Delta |
-|---|---|---|---|
-| II | 1 | 1 | 0 |
-| Iteration latency | 3 | 3 | 0 |
-| LUT | 4580 (8%) | 5104 (9%) | +524 (+11.4%) |
-| FF | 2579 (2%) | 2679 (2%) | +100 (+3.9%) |
-| BRAM | 0 | 0 | 0 |
-| DSP | 0 | 0 | 0 |
-| Timing slack | 0.33 ns | 0.33 ns | 0 |
+| Metric | 3D | 4D | 5D | 3D→5D |
+|---|---|---|---|---|
+| II | 1 | 1 | 1 | 0 |
+| Iteration latency | 2 | 3 | 3 | +1 |
+| LUT | 3768 (7%) | 4580 (8%) | 5104 (9%) | +1336 (+35.5%) |
+| FF | 2348 (2%) | 2579 (2%) | 2679 (2%) | +331 (+14.1%) |
+| BRAM | 0 | 0 | 0 | 0 |
+| DSP | 0 | 0 | 0 | 0 |
+| Est. clock | 6.965 ns | 6.965 ns | 6.965 ns | 0 |
+| Timing slack | 0.33 ns | 0.33 ns | 0.33 ns | 0 |
+
+4D→5D alone: +524 LUT (+11.4%), +100 FF (+3.9%).
+3D→4D alone: +812 LUT (+21.6%), +231 FF (+9.8%).
 
 ### Vivado place-and-route (earlier 4D run)
 
@@ -332,12 +391,14 @@ Derived as mean ns x measured clock. 200k iterations, 1k warmup.
 | | 3D | 4D | 5D |
 |---|---|---|---|
 | Software | 0.645 | 1.024 | 1.220 |
-| Hardware | not synthesized | 0.500 | 0.500 |
+| Hardware | 0.500 | 0.500 | 0.500 |
 
 ### Board verification, PYNQ-Z1 silicon
 
 2,307 requests across 6 rule counts, **all PASS**, allow/deny counts match csim
-and cosim exactly. **Functional verification only — no on-board timing was taken.**
+and cosim exactly. Since 2026-08-13 the board run **also carries hardware-latched
+timing** from an AXI Timer (see the capture table above). Round-trip latency from
+the PS is a separate statistic and is not a kernel result.
 
 ### Honesty constraints on the hardware numbers
 
@@ -384,13 +445,17 @@ and cosim exactly. **Functional verification only — no on-board timing was tak
 - TS-NGAC is withdrawn and unpublished. Never cite it as an ICCCN paper. Its OPA and
   XACML baselines may be reused in IPCCC; its time-scoping contribution may not.
 - The KEY FINDING must lead Section IV and the conclusion as a **measured** result:
-  adding the provenance dimension costs zero clock cycles and +11.4% LUT, while in
-  software the same dimension makes every policy rule 19% more expensive. Phrase it
-  as "free in time, nearly free in area," never as "zero hardware cost."
-- **3D was never synthesized.** Do not write that 3D, 4D and 5D resolve in the same
-  LUT-stage count. Only 4D vs 5D is supported by evidence.
+  adding state and provenance costs zero clock cycles across 3D, 4D and 5D, while in
+  software each added dimension makes every policy rule more expensive (the fifth by
+  19%). Phrase it as "free in time, nearly free in area," never as "zero hardware cost."
+- **The three-way 3D/4D/5D claim is supported as of 2026-08-13.** Report the
+  iteration-latency step (2/3/3) alongside it, and label which span any LUT
+  percentage refers to.
 - The target part is Zynq-7020, not UltraScale+. Correct any surviving draft text.
-- Never present the board test as a timing result. It is functional PASS only.
+- Board **AXI Timer cycle counts are a timing result** and may be cited as one:
+  hardware-latched, min=avg=max, constant +25-cycle offset over co-sim. Board
+  **round-trip** latency may not be cited as a kernel property; its millisecond tail
+  is PS-side Linux jitter.
 - Never present the FPGA as faster than the CPU on mean latency. It is not. The
   claim is a bounded, jitter-free, closed-form worst case.
 
@@ -443,6 +508,8 @@ Accuracy rule 9 in `docs/manuscript-agent-prompt.md` stands.
 > "Cosim cycle numbers should be fine, they are cycle accurate, board cycle counts would
 > be nice, but I didn't have enough time to figure out how to measure that."
 
-Co-simulation is the authoritative hardware timing source. The PYNQ-Z1 board run stays
-**functional verification only**. There is no on-board timing and there will not be one
-for IPCCC.
+Co-simulation remains the authoritative per-decision timing source. **Superseded in part
+on 2026-08-13:** the board run now carries an AXI Timer capture, hardware-latched, with
+min=avg=max and a constant +25-cycle AXI-Lite offset over cosim, so on-board cycle counts
+do exist for IPCCC and corroborate cosim. Board *round-trip* latency still may not be
+cited as a kernel property.

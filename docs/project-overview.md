@@ -23,13 +23,16 @@ hardware-bounded WCET that software cannot guarantee regardless of optimization 
 **HyperNGAC**, the hypergraph privilege analysis of BigData 2025. See the TERMINOLOGY
 table at the top of `docs/canonical-context.md` before writing prose.
 
-**MEASURED 2026-08-05 on Zynq-7020 (xc7z020-clg400-1) at 100 MHz.** Adding the
-provenance dimension costs **zero clock cycles** and +11.4% LUT. Latency is
-closed-form (`cycles = 12 + rules/2`) with min = avg = max at every policy size.
-In software the same dimension makes every policy rule 19% more expensive.
+**MEASURED on Zynq-7020 (xc7z020-clg400-1) at 100 MHz: 4D/5D 2026-08-05, 3D 2026-08-13.**
+Adding state and provenance costs **zero clock cycles** across all three variants;
+5D costs +11.4% LUT over 4D and +35.5% over 3D. Latency is closed-form
+(`cycles = 12 + rules/2`) with min = avg = max at every policy size, corroborated on
+silicon by an AXI Timer. In software each added dimension makes every policy rule more
+expensive (the fifth by 19%).
 
 State the claim as **"free in time, nearly free in area,"** never "zero hardware
-cost." Note that 3D was never synthesized, so the claim is scoped to 4D vs 5D.
+cost." The three-way claim is supported; report the iteration-latency step (2/3/3)
+alongside it.
 Full numbers and honesty constraints: `docs/canonical-context.md`.
 
 ---
@@ -192,9 +195,10 @@ recent papers (Abdel-Hameed A. Badawy vs Abdel-Hameed Badawy).
   as "under review." Never as an ICCCN paper. Its OPA and XACML baselines may be reused;
   its time-scoping contribution may not.
 - The KEY FINDING leads Section IV and the conclusion as a **measured** result
-  (2026-08-05, Zynq-7020): security dimensionality is free in time. Say "free in time,
-  nearly free in area," never "zero hardware cost" — the fifth dimension costs +524 LUT
-  (+11.4%). Scope the claim to **4D versus 5D**; 3D was never synthesized, so "three
-  attack classes for the area of one" is not yet supported by synthesis data.
+  (Zynq-7020; 4D/5D 2026-08-05, 3D 2026-08-13): security dimensionality is free in time.
+  Say "free in time, nearly free in area," never "zero hardware cost" — the fifth
+  dimension costs +524 LUT (+11.4%) and the full 3D→5D span costs +1,336 LUT (+35.5%).
+  The **three-way 3D/4D/5D claim is now supported**, so "three attack classes for the
+  area of one" stands on synthesis data.
 - Terminology: H-NGAC is **Hardware-NGAC** and this paper **extends** it rather than
   presenting it. See TERMINOLOGY in `docs/canonical-context.md`.

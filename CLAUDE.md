@@ -20,9 +20,21 @@ The active paper contribution is not just “NGAC on FPGA,” and it is not hard
 
 The **timing window is not an attack class** — it is a cross-cutting delivery property closed by the synthesis-time latency bound, not by any dimension. Measured slip rate is **zero**; never claim otherwise.
 
-**This claim is now MEASURED (2026-08-05).** On Zynq-7020 at 100 MHz, the 4D and 5D kernels resolve in an identical number of clock cycles at every policy size, with identical II=1 and identical timing slack. The fifth dimension costs +11.4% LUT and zero extra cycles. Evidence lives in `hngac-package-from-farouq/`; authoritative numbers and wording rules are in `docs/canonical-context.md`.
+**This claim is now MEASURED for all three variants (4D/5D 2026-08-05, 3D 2026-08-13).** On Zynq-7020 at 100 MHz, the 3D, 4D and 5D kernels resolve in an identical number of clock cycles at every policy size (14/17/37/62/112/262), with identical II=1, an identical 6.965 ns estimated clock, and identical 0.33 ns slack. Evidence lives in `hngac-package-from-farouq/` (v1) and `hngac-package-v2-from-farouq/` (v2 delta, 3D + board timing); authoritative numbers and wording rules are in `docs/canonical-context.md`.
 
-Two wording rules that matter: say **“free in time, nearly free in area,”** not “zero hardware cost”; and do not claim 3D/4D/5D parity, because **3D was never synthesized**.
+Wording rules that matter:
+
+- Say **“free in time, nearly free in area,”** not “zero hardware cost.”
+- The **three-way 3D/4D/5D parity claim is now supported.** The old prohibition is retired.
+- **Iteration latency is not identical**: 2 for 3D, 3 for 4D and 5D. Pipeline depth grows one
+  stage when state arrives, then stops; II=1 amortizes it so per-decision cycles do not move.
+  State this rather than let a reviewer find it.
+- **+11.4% LUT is 5D-vs-4D only.** Across 3D→5D it is +1,336 LUT (+35.5%) and +331 FF (+14.1%).
+- Board **AXI Timer cycle counts are a real timing result** (hardware-latched, min=avg=max,
+  constant +25-cycle AXI-Lite offset over co-sim). The old "board is functional-only, never
+  cite it as timing" rule is retired.
+- Board **round-trip** latency is not: its 5.92 ms max at 500 rules is PS-side Linux jitter.
+  Never publish it without attributing the tail to the userspace stack, not the fabric.
 
 ## Source-of-Truth Files
 
@@ -126,15 +138,20 @@ Current kernel synthesis status:
 
 - HLS `INTERFACE` pragmas are present for return, rule count, request, and policy memory.
 - HLS `PIPELINE II=1` is present inside the rule scan.
-- Vitis HLS 2025.2 synthesis and Verilog co-simulation: **done 2026-08-05** for 4D and 5D
-  on `xc7z020-clg400-1` at 100 MHz. Both Pass. Reports in `hngac-package-from-farouq/results/`.
-- Board verification: **done** — 2,307 requests PASS on PYNQ-Z1 silicon. Functional only,
-  no on-board timing was taken. Never cite it as a timing result.
+- Vitis HLS 2025.2 synthesis and Verilog co-simulation: **done 2026-08-05** for 4D and 5D,
+  **done 2026-08-13** for 3D, on `xc7z020-clg400-1` at 100 MHz. All three Pass. Reports in
+  `hngac-package-from-farouq/results/` (4D, 5D) and `hngac-package-v2-from-farouq/results/` (3D).
+- Board verification: **done** — 2,307 requests PASS on PYNQ-Z1 silicon, plus an AXI Timer
+  capture giving hardware-latched cycle counts (39/42/62/87/137/287, min=avg=max).
+- The 3D/4D co-simulations also measured **over-authorization in RTL**: on the same corpus at
+  500 rules, 3D permits all 1,334 requests, 4D permits 917, 5D permits 500 — at identical
+  cycle cost. This is the security half of the key finding and it is now hardware evidence.
 - The delivered `opt-v1` kernel is **optimized beyond the version in `fpga/hls/src/`**: it
   checks two rules per clock, giving 0.5 cycles per rule. Reconciling that optimization back
   into the repo kernel is open work.
-- Still not done: 3D synthesis, and a fair embedded software baseline on the PYNQ-Z1's own
-  ARM Cortex-A9.
+- Still not done: a fair embedded software baseline on the PYNQ-Z1's own ARM Cortex-A9. This
+  was asked for on 2026-08-13 and not delivered in v2; the perf log is byte-identical to v1
+  and still reports an i7-12800H.
 
 ### Key types
 

@@ -1,5 +1,50 @@
 # Status Log
 
+## 2026-08-19 (Claude Code, Opus 5)
+
+- Agent: Claude Code (Opus 5)
+- Status: evidence package v2 ingested and committed; the headline claim is
+  promoted from 4D-vs-5D to the full three-way 3D/4D/5D parity, and the paper
+  is rebuilt at 8 pages.
+- Trigger: Md Omar Faruque delivered a second package on 2026-08-13 answering the
+  high-priority ask from `docs/email-to-farouq-2026-08-07.md`. IPCCC deadline
+  2026-08-22.
+- Verification performed:
+  - diffed the v2 archive against v1: strict superset, 27 files added, 5 changed,
+    none removed. Only the 32-file delta is tracked, under
+    `hngac-package-v2-from-farouq/`; v1 stays immutable.
+  - diffed the 3D synthesis source against 4D: differs by exactly the `state_ok`
+    term and nothing else. Same part, clock, pipeline, interface, testbench, corpus.
+  - read the estimated clock out of all three `hngac_authorize_csynth.rpt`:
+    6.965 ns against a 10.00 ns target with 2.70 ns uncertainty, identical.
+  - checked allow/deny counts in all three cosim `tmp.log` files.
+  - md5'd the software perf log against v1: identical, so Ask 2 was not delivered.
+  - secret scan: no keys, credentials, tfstate or tfvars.
+- Key measured results:
+  - 3D, 4D and 5D resolve in identical cycles at every policy size (14/17/37/62/
+    112/262), II=1, identical 0.33 ns slack, all three cosims Pass
+  - iteration latency is NOT identical: 2 (3D), 3 (4D), 3 (5D). Pipeline depth
+    grows one stage when state arrives, then stops; II=1 amortizes it
+  - LUT 3768 / 4580 / 5104, so 3D→5D is +1,336 LUT (+35.5%) and +331 FF (+14.1%).
+    The +11.4% figure is 5D-vs-4D only
+  - over-authorization is now an RTL result: on the same corpus 3D permits all
+    2,307 requests, 4D permits 1,587, 5D permits 864, at identical cycle cost
+  - on-board AXI Timer capture, hardware-latched, min = avg = max, exactly 25
+    cycles above cosim at all six policy sizes
+- Open, and stated in the paper as a limitation: no Cortex-A9 software baseline.
+  The wall-clock comparison still runs a 4.96 GHz i7 against a 100 MHz fabric.
+- Caution recorded: board round-trip max is 5,920,702 ns at 500 rules. That is
+  PS-side Linux userspace jitter, not the fabric, and the paper says so in VI-F.
+- Paper changes: 3D columns in Tables I and II; new Table III (requests permitted
+  per variant) and Table V (on-board AXI Timer); new subsections VI-B "Identical
+  cycles, different security" and VI-F "On silicon"; Limitations 1 and 2 retired
+  and the list renumbered; Future Work questions 1 and 2 replaced; abstract,
+  contribution (b) and conclusion promoted to the three-way claim.
+- Docs updated: `CLAUDE.md`, `AGENTS.md`, `README.md`, `docs/canonical-context.md`,
+  `docs/project-overview.md`, `docs/decision-log.md`, `docs/coordination-board.md`
+- Figure: `analysis/make_paper_figures.py` relabels the hardware series
+  "HW 3D = 4D = 5D"; the data was already one line.
+
 ## 2026-08-07 (Claude Code, Opus 5)
 
 - Agent: Claude Code (Opus 5)

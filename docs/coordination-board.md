@@ -12,7 +12,11 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 ## Active Claims
 
-### 2026-08-19 03:10 CDT — IN PROGRESS (Claude Code, claude-opus-5)
+No active agent claims.
+
+## Released Claims (most recent first)
+
+### 2026-08-19 03:10 CDT — COMPLETED / RELEASED (Claude Code, claude-opus-5)
 
 - Agent: Claude Code (claude-opus-5)
 - Scope: ingest evidence package v2 (3D synthesis + board timing); promote the
@@ -27,6 +31,11 @@ Use this file to coordinate multiple coding agents working in the same repo.
 - Not touched: `hngac-package-from-farouq/` (immutable, v1), `fpga/hls/` kernel source
 - Note for co-authors: v2 is a strict superset of v1; only its 32-file delta is
   tracked. See `hngac-package-v2-from-farouq/PROVENANCE.md`.
+- Outcome: three-way parity claim landed; paper rebuilt at 8 pages, zero overfull
+  boxes, zero undefined references. `paper/figures/fig-system-bd.pdf` is committed
+  as an asset but is **not yet referenced** by `main.tex` — wiring it in costs a
+  ninth page at $100 and is an author decision.
+- CLAIM RELEASED
 
 ## Released Claims (most recent first)
 

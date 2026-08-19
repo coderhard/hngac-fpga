@@ -10,7 +10,7 @@ The active paper contribution is not just “NGAC on FPGA,” and it is not hard
 
 **This claim is now MEASURED (2026-08-05).** On Zynq-7020 (`xc7z020-clg400-1`) at 100 MHz, the 4D and 5D kernels resolve in an identical number of clock cycles at every policy size tested, with identical II=1 and identical timing slack. The fifth dimension costs +524 LUT (+11.4%) and zero extra cycles. Evidence is in `hngac-package-from-farouq/`; authoritative numbers and wording rules are in `docs/canonical-context.md`.
 
-Two wording rules that matter: say **“free in time, nearly free in area,”** not “zero hardware cost”; and do not claim 3D/4D/5D parity, because **3D was never synthesized**. The target part is Zynq-7020, never UltraScale+.
+Wording rules that matter: say **“free in time, nearly free in area,”** not “zero hardware cost.” The **three-way 3D/4D/5D parity claim is supported** as of 2026-08-13 (evidence package v2) — the old prohibition is retired — but report the iteration-latency step (2 for 3D, 3 for 4D/5D) alongside it, and note that +11.4% LUT is the 5D-vs-4D delta while the full 3D→5D span is +35.5%. Board AXI Timer cycle counts are a real timing result; board round-trip latency is not. The target part is Zynq-7020, never UltraScale+.
 
 **Attack classes (canonical names — integer numbering is retired).**
 

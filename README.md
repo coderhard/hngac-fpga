@@ -13,12 +13,14 @@ TERMINOLOGY table in `docs/canonical-context.md`.
 
 This is the IEEE IPCCC 2026 working repo. The core claim is that security
 dimensionality is **free in time and nearly free in area** in hardware. **Measured
-2026-08-05** on Zynq-7020 (`xc7z020-clg400-1`) at 100 MHz: the 4D and 5D kernels
-resolve in an identical number of clock cycles at every policy size tested, with
-identical II=1 and identical timing slack, while the fifth dimension costs +524 LUT
-(+11.4%). The claim is scoped to **4D versus 5D** — 3D was never synthesized. The repo
+2026-08-05 (4D, 5D) and 2026-08-13 (3D)** on Zynq-7020 (`xc7z020-clg400-1`) at 100 MHz:
+the 3D, 4D and 5D kernels resolve in an identical number of clock cycles at every policy
+size tested, with identical II=1 and identical timing slack, while carrying both added
+dimensions costs +1,336 LUT (+35.5%). On the same corpus the 3D kernel permits all 2,307
+requests that the 5D kernel narrows to 864 — identical cycles, different security. The repo
 implements the kernel, measures it locally against software baselines, and provides
-the synthesis flow; the hardware evidence lives in `hngac-package-from-farouq/`.
+the synthesis flow; the hardware evidence lives in `hngac-package-from-farouq/` (v1) and
+`hngac-package-v2-from-farouq/` (v2 delta: 3D synthesis and board timing).
 
 ---
 
