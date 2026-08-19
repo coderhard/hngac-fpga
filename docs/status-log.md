@@ -1,5 +1,36 @@
 # Status Log
 
+## 2026-08-20 — Fig. 1 scenario illustration
+
+- Added the editable diagrams.net source
+  `paper/figures/fig-scenario.drawio`, deterministic vector renderer
+  `paper/figures/fig-scenario-render.tex`, and publication artifact
+  `paper/figures/fig-scenario.pdf` for "Authenticated but unauthorized." The
+  requested export `figures/fig-scenario.pdf` is a byte-identical mirror.
+- The illustration makes the central distinction explicit: all three request
+  streams leave DDS/SROS2 with visually identical `AUTHENTICATED` badges, but
+  the 5D kernel permits only the navigation request and separately identifies
+  state and provenance denials. Permit and deny use the requested fill/stroke
+  palette plus redundant word, glyph, and border encodings.
+- Print production checks pass: the PDF is one page at exactly 3.5 inches wide,
+  all explicitly set body text is at least 7 pt, every font is embedded, and
+  `pdfimages -list` reports no raster payload. A 600-dpi grayscale proof keeps
+  permit and deny legible; their fill luminances are close (150 vs 159 on an
+  8-bit linear-luminance scale), so hue is not carrying the decision alone.
+- The editable canvas was increased from the requested approximate 1050 x 560
+  to 1050 x 650. At 3.5-inch placement, an 11-unit label on a 1050-unit-wide
+  canvas becomes about 2.6 pt; the extra height is the smallest practical way
+  to retain the requested copy at a true 7 pt minimum without using a
+  double-column figure.
+- The `2.62 us at n = 500` callout is treated as the 262-cycle kernel/
+  co-simulation bound at 100 MHz, not board round-trip latency. The
+  `maintenance_mode asserted` denial is a conceptual policy outcome: the live
+  positive state-mask implementation does not make that asserted bit alone an
+  executable deny predicate.
+- The manuscript was not edited. `paper/main.tex` remains protected by the
+  coordination-board warning, and the current Overleaf export is still needed
+  before this asset can replace or reorder the manuscript's present Fig. 1.
+
 ## 2026-08-19 later (Claude Code, Opus 5) — author revision pass
 
 - Agent: Claude Code (Opus 5), working from the author's Overleaf paste.

@@ -1,5 +1,45 @@
 # Decision Log
 
+## 2026-08-20
+
+### Decision
+
+The "Authenticated but unauthorized" scenario is delivered under the paper's
+existing `paper/figures/` convention as an editable draw.io diagram plus a
+deterministic TikZ renderer and a native 3.5-inch-wide vector PDF. A
+byte-identical PDF mirror is kept at the explicitly requested
+`figures/fig-scenario.pdf` path. The source canvas is 1050 x 650 rather than the
+approximate 1050 x 560 requested, and the PDF title lives in metadata/the IEEE
+caption rather than as redundant artwork inside the figure.
+
+### Reason
+
+Scaling a 1050-unit canvas to the IEEE 3.5-inch column width multiplies geometry
+by 0.24. An 11-unit draw.io label therefore prints at about 2.6 pt, not 7 pt;
+true 7 pt text would require roughly 29 units and cannot hold the complete
+specified copy in a 1050 x 560 four-column layout. A modest height increase to
+650 units preserves the requested single-column width, the complete labels, and
+a real 7 pt minimum. The deterministic renderer prevents a later manual export
+from silently reintroducing undersized type.
+
+### Claim boundaries carried into the figure
+
+- `12 + n/2` and `2.62 us at n = 500` name the measured kernel/co-simulation
+  bound. They do not name PS round-trip latency or the 287-cycle AXI Timer count.
+- The three identical authentication badges express transport-layer identity,
+  while the final outcome expresses application-layer authorization.
+- `maintenance_mode asserted` follows the requested conceptual narrative, but
+  it is not labeled as an exact trace of the current positive state-mask kernel;
+  extra asserted state bits are accepted by that implementation. The provenance
+  denial, by contrast, is directly exercised by the kernel tests.
+
+### Validation
+
+The draw.io XML parses, its minimum declared font size is 11 units, the PDF has
+only embedded vector fonts and no image objects, and a grayscale proof preserves
+the permit/deny distinction through words, check/cross glyphs, and line style.
+The manuscript remains untouched pending the current Overleaf export.
+
 ## 2026-08-19
 
 ### Decision

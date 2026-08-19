@@ -12,23 +12,7 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 ## Active Claims
 
-### 2026-08-20 02:25 +03 — IN PROGRESS (Codex, GPT-5)
-
-- Agent: Codex (GPT-5)
-- Scope: IEEE single-column scenario illustration, "Authenticated but
-  unauthorized," with editable draw.io source and vector PDF export
-- Files:
-  - `figures/fig-scenario.drawio` (new)
-  - `figures/fig-scenario.pdf` (new)
-  - `figures/fig-scenario-render.tex` (new, deterministic vector renderer)
-  - `docs/status-log.md`
-  - `docs/decision-log.md`
-  - `docs/coordination-board.md`
-- Checkpoint:
-  - encode the identical DDS/SROS2 authentication result for all three senders
-  - distinguish 5D state and provenance denials with redundant word/glyph/style
-    encodings suitable for grayscale and red-green CVD
-  - verify a 3.5-inch vector PDF with print-size text no smaller than 7 pt
+No active agent claims.
 
 ## ⚠️ STANDING WARNING — `paper/main.tex` is NOT authoritative right now
 
@@ -59,6 +43,30 @@ merge order when the author saves back: Overleaf export wins over both.
 Remove this warning when the author's final copy is committed.
 
 ## Released Claims (most recent first)
+
+### 2026-08-20 02:50 +03 — COMPLETED / RELEASED (Codex, GPT-5)
+
+- Agent: Codex (GPT-5)
+- Scope: IEEE single-column scenario illustration, "Authenticated but
+  unauthorized"
+- Files:
+  - `paper/figures/fig-scenario.drawio` (new, editable 1050 x 650 source)
+  - `paper/figures/fig-scenario.pdf` (new, canonical 3.5-inch vector PDF)
+  - `paper/figures/fig-scenario-render.tex` (new, deterministic print renderer)
+  - `figures/fig-scenario.pdf` (new, requested-path mirror)
+  - `docs/status-log.md`, `docs/decision-log.md`,
+    `docs/coordination-board.md`
+- Outcome: three identical `AUTHENTICATED` badges make transport identity
+  explicit; permit and both deny paths retain word/glyph/style redundancy in
+  grayscale. XML parses, every PDF font is embedded, and the PDF has no raster
+  image objects.
+- Claim boundary: the state denial follows the requested conceptual narrative,
+  while the positive monotone state-mask implementation cannot deny from an
+  extra asserted `maintenance_mode` bit alone. The timing callout is the
+  kernel/co-simulation bound, not board round-trip latency.
+- `paper/main.tex` was not touched; manuscript wiring still awaits the current
+  Overleaf export.
+- CLAIM RELEASED
 
 ### 2026-08-19 03:10 CDT — COMPLETED / RELEASED (Claude Code, claude-opus-5)
 
