@@ -14,6 +14,26 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 No active agent claims.
 
+## ⚠️ STANDING WARNING — `paper/main.tex` is NOT authoritative right now
+
+**As of 2026-08-19 the author is editing the manuscript in Overleaf, not in this
+repo.** The Overleaf copy is the live one. The author will save a final copy back
+here later.
+
+Until that copy lands:
+
+- **Do not edit `paper/main.tex`.** Any edit here will be silently overwritten by
+  the Overleaf save, or worse, will tempt someone to merge two diverged versions
+  three days before a deadline.
+- **Do not treat the committed `paper/main.pdf` as current.** It reflects repo
+  state at commit `b8d22c9`, not the author's Overleaf edits.
+- The author is trimming 9 pages back to 8 and stripping the red review markup
+  (`\new{}` / `\newcolor`). Expect both to be gone in the returning copy.
+- If asked to work on the paper before the copy returns, **ask for the current
+  Overleaf export first** rather than editing the stale tree.
+
+Remove this warning when the author's final copy is committed.
+
 ## Released Claims (most recent first)
 
 ### 2026-08-19 03:10 CDT — COMPLETED / RELEASED (Claude Code, claude-opus-5)
