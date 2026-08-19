@@ -9,6 +9,12 @@
 \usepackage{xcolor}
 \graphicspath{{figures/}}
 
+% hyperref LAST, after every other package. hidelinks keeps Section/Table/Figure
+% and citation numbers clickable without printing them in a box or a color, which
+% matters here for two reasons: IEEE wants a print-clean PDF, and this draft
+% already uses red for the \new{} review markup, so colored links would collide.
+\usepackage[hidelinks,breaklinks]{hyperref}
+
 
 % TO TURN THE MARKING OFF FOR SUBMISSION: change the \new definition below to
 %     \newcommand{\new}[1]{#1}
