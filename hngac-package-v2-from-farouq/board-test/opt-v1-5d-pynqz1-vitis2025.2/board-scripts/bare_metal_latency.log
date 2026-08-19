@@ -1,0 +1,44 @@
+bare_metal_latency.c:291:13: warning: ‘load_worst_case_policy’ defined but not used [-Wunused-function]
+  291 | static void load_worst_case_policy(int n) {
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+[sudo] password for xilinx: ========================================================================
+HNGAC 5D opt-v1 -- bare-metal latency + functional verification (C)
+PYNQ-Z1 @ 100 MHz, 100 trials per latency measurement
+========================================================================
+
+[0] Functional verification (full corpus, 2307 requests)
+
+ rules |  reqs | allow |  deny | result
+-------+-------+-------+-------+-------
+     4 |    11 |     4 |     7 |   PASS
+    10 |    27 |    10 |    17 |   PASS
+    50 |   134 |    50 |    84 |   PASS
+   100 |   267 |   100 |   167 |   PASS
+   200 |   534 |   200 |   334 |   PASS
+   500 |  1334 |   500 |   834 |   PASS
+
+All corpus decisions match csim/cosim.
+
+AXI Timer capture: active
+
+[1] Round-trip latency (CLOCK_MONOTONIC, full corpus)
+
+ rules |  reqs |  min(ns) |  avg(ns) |  max(ns)
+-------+-------+----------+----------+---------
+     4 |    11 |     2055 |     2090 |     2148
+    10 |    27 |     2043 |     2087 |     2751
+    50 |   134 |     2246 |     2436 |    81686
+   100 |   267 |     2566 |     2608 |    61729
+   200 |   534 |     3058 |     3117 |    31858
+   500 |  1334 |     4511 |     4765 |  5920702
+
+[2] AXI Timer capture (full corpus, hardware-latched)
+
+ rules |  reqs | min(cyc) | avg(cyc) | max(cyc)
+-------+-------+----------+----------+---------
+     4 |    11 |       39 |       39 |       39
+    10 |    27 |       42 |       42 |       42
+    50 |   134 |       62 |       62 |       62
+   100 |   267 |       87 |       87 |       87
+   200 |   534 |      137 |      137 |      137
+   500 |  1334 |      287 |      287 |      287

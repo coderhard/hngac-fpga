@@ -12,7 +12,21 @@ Use this file to coordinate multiple coding agents working in the same repo.
 
 ## Active Claims
 
-No active agent claims.
+### 2026-08-19 03:10 CDT — IN PROGRESS (Claude Code, claude-opus-5)
+
+- Agent: Claude Code (claude-opus-5)
+- Scope: ingest evidence package v2 (3D synthesis + board timing); promote the
+  hardware claim from 4D-vs-5D to the full three-way 3D/4D/5D parity
+- Files:
+  - `hngac-package-v2-from-farouq/**` (new, evidence — treat as immutable)
+  - `.gitignore`
+  - `paper/main.tex`, `paper/figures/fig-system-bd.pdf` (new)
+  - `analysis/make_paper_figures.py`
+  - `CLAUDE.md`, `docs/canonical-context.md`, `docs/status-log.md`,
+    `docs/decision-log.md`, `docs/coordination-board.md`
+- Not touched: `hngac-package-from-farouq/` (immutable, v1), `fpga/hls/` kernel source
+- Note for co-authors: v2 is a strict superset of v1; only its 32-file delta is
+  tracked. See `hngac-package-v2-from-farouq/PROVENANCE.md`.
 
 ## Released Claims (most recent first)
 

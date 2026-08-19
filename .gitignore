@@ -33,9 +33,12 @@ docs/hngac-fpga-project-overview.docx
 # Windows "mark of the web" metadata that rides along with files copied from OneDrive
 *:Zone.Identifier
 
-# As-delivered archive of the HW evidence package. The extracted tree is committed
-# under hngac-package-from-farouq/, so the zip would be a byte-for-byte duplicate.
+# As-delivered archives of the HW evidence packages. The extracted trees are committed
+# under hngac-package-from-farouq/ and hngac-package-v2-from-farouq/, so the zips would
+# be byte-for-byte duplicates. v2 is a strict superset of v1; only its delta is tracked.
+# See hngac-package-v2-from-farouq/PROVENANCE.md.
 fpga/hngac-package-from-farouq.zip
+fpga/hngac-package_v2.zip
 
 # Repo mirrors inside the HW evidence package. These duplicate this working tree and
 # invite editing the wrong copy. The reproducibility-critical parts are committed:
