@@ -31,10 +31,18 @@ No active agent claims.
 - Not touched: `hngac-package-from-farouq/` (immutable, v1), `fpga/hls/` kernel source
 - Note for co-authors: v2 is a strict superset of v1; only its 32-file delta is
   tracked. See `hngac-package-v2-from-farouq/PROVENANCE.md`.
-- Outcome: three-way parity claim landed; paper rebuilt at 8 pages, zero overfull
-  boxes, zero undefined references. `paper/figures/fig-system-bd.pdf` is committed
-  as an asset but is **not yet referenced** by `main.tex` — wiring it in costs a
-  ninth page at $100 and is an author decision.
+- Outcome: three-way parity claim landed; paper rebuilt with zero overfull boxes
+  and zero undefined references.
+- Follow-up in the same session, at author request: the Vivado block design is now
+  wired in as `Fig.~1` (a `figure*` in Section IV, cropped to its CropBox), and all
+  2026-08-19 edits are marked in red for author review.
+- **Paper is at 9 pages.** IPCCC gives 8 free, then $100/page. The author is
+  trimming verbiage manually to get back to 8.
+- **Review markup convention:** edits made when evidence package v2 landed are
+  wrapped in `\new{...}` (inline) or preceded by `\newcolor` (whole new tables),
+  defined in the `main.tex` preamble. **To turn marking off before submission,**
+  redefine `\new` to `{#1}` and `\newcolor` to empty. Both must stay *defined* —
+  they are used inside table bodies. Instructions repeat in the preamble comment.
 - CLAIM RELEASED
 
 ## Released Claims (most recent first)
