@@ -22,14 +22,20 @@
 %     \newcommand{\newcolor}{}
 % Nothing else needs touching, and the two commands must stay defined because
 % they are used inside table bodies where \textcolor cannot span rows.
-% Pastel row tints for the related-work rubric (Table II). Chosen light enough
-% that black text keeps >14:1 contrast on every one, and paired with printed group
-% labels so no information is carried by color alone.
-\definecolor{grpSW}{HTML}{E7F0F9}
-\definecolor{grpHW}{HTML}{E8F1E3}
-\definecolor{grpRT}{HTML}{FBEDDF}
-\definecolor{grpOUR}{HTML}{F0EAF7}
-\definecolor{grpTHIS}{HTML}{F9E39F}
+% Score ramp for the related-work rubric. One pastel per score 0..5, stepped so
+% grayscale luminance falls monotonically 91.6% -> 59.0% as the score rises. That
+% ordering is what makes the table readable in black-and-white print and under
+% red-green color blindness: magnitude is carried by lightness, and hue only
+% reinforces it. Black text keeps >12.8:1 contrast on every step.
+% \sco{n} paints a cell with the tint for score n and prints n.
+\definecolor{sc0}{HTML}{F7F5F3}
+\definecolor{sc1}{HTML}{FCEDE1}
+\definecolor{sc2}{HTML}{FBE5C8}
+\definecolor{sc3}{HTML}{EEE6A2}
+\definecolor{sc4}{HTML}{D2E4A0}
+\definecolor{sc5}{HTML}{A6D6A6}
+\newcommand{\sco}[1]{\cellcolor{sc#1}#1}
+\newcommand{\scob}[1]{\cellcolor{sc#1}\textbf{#1}}
 \definecolor{hkred}{rgb}{0.72,0.06,0.06}
 \newcommand{\new}[1]{\textcolor{hkred}{#1}}
 \newcommand{\newcolor}{\color{hkred}}
@@ -105,7 +111,7 @@ The remainder of this paper is organized as follows. Section~\ref{sec:related} r
 We rate prior work on four axes, each an integer score $x \in \mathbb{Z},\ 0 \le x \le 5$: per-decision latency evidence ($\mathit{pdl}$), where 5 requires cycle-accurate per-decision measurement; worst-case boundedness ($\mathit{wcb}$), where 5 requires a closed-form bound verified at every measured point; enforcement dimensionality beyond the identity triple ($\mathit{dim}$), where 3 denotes one added runtime dimension and 5 denotes both state and provenance; and hardware validation ($\mathit{hwv}$), where 5 requires cycle-accurate co-simulation plus silicon functional verification. Table~\ref{tab:rubric} scores each line of prior work under these definitions. The paragraphs below justify the scores that matter most, and they concede three genuine ancestors plainly.
 
 \begin{table}[t]
-\caption{Related work scored on the four rubric axes. Group names are printed, so the shading is redundant encoding.}
+\caption{Related work scored on the four rubric axes. Cell shading tracks the score, lightest at 0 and darkest at 5, so the ordering reads in grayscale.}
 \label{tab:rubric}
 \centering
 \footnotesize
@@ -115,33 +121,33 @@ We rate prior work on four axes, each an integer score $x \in \mathbb{Z},\ 0 \le
 Prior work & $\mathit{pdl}$ & $\mathit{wcb}$ & $\mathit{dim}$ & $\mathit{hwv}$ \\
 \midrule
 \multicolumn{5}{l}{\textit{Software policy engines and models}} \\
-\rowcolor{grpSW} NGAC standard / Policy Machine \cite{incits565, ferraiolo2011policymachine} & 1 & 0 & 2 & 0 \\
-\rowcolor{grpSW} Linear-time NGAC \cite{mell2017linear} & 3 & 1 & 2 & 0 \\
-\rowcolor{grpSW} XEngine \cite{liu2011xengine} & 3 & 0 & 3 & 0 \\
-\rowcolor{grpSW} OPA \cite{opa} & 3 & 0 & 3 & 0 \\
-\rowcolor{grpSW} XACML PDP \cite{oasisxacml} & 2 & 0 & 3 & 0 \\
+NGAC standard / Policy Machine \cite{incits565, ferraiolo2011policymachine} & \sco{1} & \sco{0} & \sco{2} & \sco{0} \\
+Linear-time NGAC \cite{mell2017linear} & \sco{3} & \sco{1} & \sco{2} & \sco{0} \\
+XEngine \cite{liu2011xengine} & \sco{3} & \sco{0} & \sco{3} & \sco{0} \\
+OPA \cite{opa} & \sco{3} & \sco{0} & \sco{3} & \sco{0} \\
+XACML PDP \cite{oasisxacml} & \sco{2} & \sco{0} & \sco{3} & \sco{0} \\
 \addlinespace[2pt]
 \multicolumn{5}{l}{\textit{Hardware enforcement}} \\
-\rowcolor{grpHW} FPGA reference monitor \cite{huffmire2006policy} & 3 & 3 & 1 & 4 \\
-\rowcolor{grpHW} NoC data protection units \cite{fiorin2008secure} & 3 & 3 & 1 & 3 \\
-\rowcolor{grpHW} Bit-vector classification \cite{song2005bvtcam, ganegedara2014scalable} & 4 & 4 & 0 & 4 \\
-\rowcolor{grpHW} SoC access-control wrappers \cite{restuccia2021aker} & 3 & 3 & 1 & 4 \\
-\rowcolor{grpHW} CHERI \cite{watson2015cheri} & 4 & 4 & 0 & 5 \\
+FPGA reference monitor \cite{huffmire2006policy} & \sco{3} & \sco{3} & \sco{1} & \sco{4} \\
+NoC data protection units \cite{fiorin2008secure} & \sco{3} & \sco{3} & \sco{1} & \sco{3} \\
+Bit-vector classification \cite{song2005bvtcam, ganegedara2014scalable} & \sco{4} & \sco{4} & \sco{0} & \sco{4} \\
+SoC access-control wrappers \cite{restuccia2021aker} & \sco{3} & \sco{3} & \sco{1} & \sco{4} \\
+CHERI \cite{watson2015cheri} & \sco{4} & \sco{4} & \sco{0} & \sco{5} \\
 \addlinespace[2pt]
 \multicolumn{5}{l}{\textit{Real-time and robot security}} \\
-\rowcolor{grpRT} SROS2 / DDS-Security \cite{mayoralvilches2022sros2, omgddssec} & 2 & 0 & 0 & 0 \\
-\rowcolor{grpRT} App-layer ROS authorization \cite{dieber2017security} & 2 & 0 & 1 & 0 \\
-\rowcolor{grpRT} ROS-Defender \cite{rivera2019rosdefender} & 2 & 0 & 1 & 0 \\
-\rowcolor{grpRT} ABAC for multi-robot systems \cite{salimi2025abac} & 2 & 0 & 3 & 0 \\
-\rowcolor{grpRT} Security-aware RT scheduling \cite{hasan2017contego, lesi2017security, hasan2024sok} & 3 & 2 & 1 & 0 \\
-\rowcolor{grpRT} CPS runtime enforcement \cite{pinisetty2017runtime} & 2 & 3 & 1 & 0 \\
+SROS2 / DDS-Security \cite{mayoralvilches2022sros2, omgddssec} & \sco{2} & \sco{0} & \sco{0} & \sco{0} \\
+App-layer ROS authorization \cite{dieber2017security} & \sco{2} & \sco{0} & \sco{1} & \sco{0} \\
+ROS-Defender \cite{rivera2019rosdefender} & \sco{2} & \sco{0} & \sco{1} & \sco{0} \\
+ABAC for multi-robot systems \cite{salimi2025abac} & \sco{2} & \sco{0} & \sco{3} & \sco{0} \\
+Security-aware RT scheduling \cite{hasan2017contego, lesi2017security, hasan2024sok} & \sco{3} & \sco{2} & \sco{1} & \sco{0} \\
+CPS runtime enforcement \cite{pinisetty2017runtime} & \sco{2} & \sco{3} & \sco{1} & \sco{0} \\
 \addlinespace[2pt]
 \multicolumn{5}{l}{\textit{Our prior work}} \\
-\rowcolor{grpOUR} HyperNGAC \cite{sitharaman2025hypergraph} & 0 & 0 & 3 & 0 \\
-\rowcolor{grpOUR} H-NGAC \cite{karim2026dcas} & 4 & 2 & 0 & 1 \\
-\rowcolor{grpOUR} TS-NGAC \cite{karim2026tsngac} & 4 & 3 & 3 & 0 \\
+HyperNGAC \cite{sitharaman2025hypergraph} & \sco{0} & \sco{0} & \sco{3} & \sco{0} \\
+H-NGAC \cite{karim2026dcas} & \sco{4} & \sco{2} & \sco{0} & \sco{1} \\
+TS-NGAC \cite{karim2026tsngac} & \sco{4} & \sco{3} & \sco{3} & \sco{0} \\
 \addlinespace[2pt]
-\rowcolor{grpTHIS} \textbf{This work} & \textbf{5} & \textbf{5} & \textbf{5} & \textbf{5} \\
+\textbf{5D H-NGAC (this work)} & \scob{5} & \scob{5} & \scob{5} & \scob{5} \\
 \bottomrule
 \end{tabular}
 \end{table}
