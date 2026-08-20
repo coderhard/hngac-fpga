@@ -1,5 +1,62 @@
 # Decision Log
 
+## 2026-08-20 — Submission state: Fig. 1 replaced, one Future Work question spent, markup off
+
+### Decision
+
+Three decisions closing the IPCCC revision pass.
+
+1. **Fig. 1 is the author's draw.io artwork, not the TikZ render.** The paper
+   now includes `paper/figures/fig-scenario-Verticle.drawio.pdf`. The TikZ
+   sources stay in the tree but nothing references them.
+2. **The fourth Future Work question is spent, not deleted.** "How does the
+   primitive compose with time-scoped delegation, which TS-NGAC develops in
+   software?" is commented out in place and the lead-in reads "three questions."
+3. **Review markup is off for submission.** `\new` and `\newcolor` are no-ops
+   with the red definitions commented directly above them. `hkred` stays
+   defined.
+
+### Reason
+
+The TikZ figure read left to right across four columns. Reading it required
+tracking three horizontal streams at once, and at 252 x 138 bp the copy that
+explained the two denials had already been cut to fit. The draw.io version
+reads top to bottom in six bands, which is the order the argument is made in.
+
+It is taller, 252 x 219 bp against 138, and the page budget had no slack. The
+delegation question paid for it. That question was the weakest of the four:
+TS-NGAC is a separate software paper, so composition with it is the one item on
+the list that does not follow from anything measured here.
+
+Markup off is a mechanical switch, but it is recorded because the two commands
+must remain *defined* rather than removed. They appear inside table bodies where
+`\textcolor` cannot span rows, so deleting them breaks Table V.
+
+### Verification
+
+Measured, not estimated. The manuscript builds at 8 pages with zero overfull
+boxes and zero undefined references. Markup removal was confirmed by scanning
+all eight rendered pages for review-red pixels rather than by reading the
+source: the only red remaining is figure content (Fig. 1 DENY stroke #A03030,
+the Vitis HLS badge inside the IP block in Fig. 2, and the #EB6834 hardware
+accent in Figs. 3 and 4).
+
+### Claim boundaries carried into the new Fig. 1
+
+- Each outcome sits in the column of the sender that produced it. This is
+  load-bearing: the fan-out arrows all leave the kernel from one point, so
+  column position is the only thing mapping a request to its decision.
+  Compromised -> DENY-pi, Operator console -> DENY-sigma, Nav node -> PERMIT.
+- All three senders name a **source type**, since that is the field the pi
+  branch tests. The compromised node is `unregistered_publisher`, not a
+  narrative about a stolen certificate.
+- The sigma outcome reads "state precondition not met." Sigma is positive and
+  monotone, so the figure must not imply that an asserted `maintenance_mode`
+  bit is itself a deny condition.
+- The figure carries no latency annotation. The `2.62 us` bound named in earlier
+  versions is the co-simulated kernel figure and belongs in Sec. V, where its
+  provenance is stated.
+
 ## 2026-08-20
 
 ### Decision
