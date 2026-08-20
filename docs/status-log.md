@@ -445,3 +445,31 @@ Still 8 pages, letter, zero overfull, zero undefined.
 **Overleaf note.** The hyperref change travels in the `.tex`, but the font fix is
 inside the figure binary. `paper/figures/fig-system-bd.pdf` has to be re-uploaded
 to Overleaf or the Helvetica rejection returns.
+
+## 2026-08-20 — SUBMITTED to IPCCC 2026 (#1571338382)
+
+Accepted by the upload checker after the three fixes above. Revision window is
+open for roughly one day, to 2026-08-21, in case a co-author wants a change.
+
+**Artifact of record: `paper/KarimFarouq_5D_H_NGAC.pdf`** (commit `176849c`),
+committed so the exact bytes submitted are recoverable without depending on the
+conference site. Independently verified after the fact rather than assumed:
+8 pages, letter, zero fonts with `emb=no`, no `/Type /Outlines`, zero
+`/Subtype /Link`, zero `/URI`.
+
+**Source of that PDF is `paper/main-author-rev-2026-08-19.tex`, NOT
+`paper/main.tex`.** `main.tex` is still stale at `b8d22c9` and does not contain
+the 43-edit compression pass, the merged Table II, the equation labels, the
+sigma-semantics prose, Fig. 1, the rewritten conclusion, or the submission
+preamble. Anyone opening `main.tex` expecting the submitted paper will get the
+wrong document. Reconciling the two is open work and was deliberately not done
+during the submission window.
+
+**If a co-author wants a revision in the next day**, the sequence is: edit
+`main-author-rev-2026-08-19.tex`, rebuild, confirm 8 pages and zero overfull,
+re-confirm the three checker properties on the output PDF, then re-upload. The
+font fix lives in the binary `paper/figures/fig-system-bd.pdf`, so a fresh
+Overleaf project needs that file re-uploaded or the Helvetica rejection returns.
+
+Title as submitted: *Authenticated but Unauthorized: Bounded-Latency 5D H-NGAC
+for Real-Time Robotics.*
