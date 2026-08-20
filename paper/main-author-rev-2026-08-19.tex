@@ -37,8 +37,14 @@
 \newcommand{\sco}[1]{\cellcolor{sc#1}#1}
 \newcommand{\scob}[1]{\cellcolor{sc#1}\textbf{#1}}
 \definecolor{hkred}{rgb}{0.72,0.06,0.06}
-\newcommand{\new}[1]{\textcolor{hkred}{#1}}
-\newcommand{\newcolor}{\color{hkred}}
+% MARKUP OFF FOR SUBMISSION 2026-08-20. Both commands stay defined so every
+% \new{...} and \newcolor call site keeps compiling untouched. To bring the red
+% back for a revision pass, restore the two commented lines below and comment
+% out the two live ones.
+% \newcommand{\new}[1]{\textcolor{hkred}{#1}}
+% \newcommand{\newcolor}{\color{hkred}}
+\newcommand{\new}[1]{#1}
+\newcommand{\newcolor}{}
 
 \begin{document}
 

@@ -388,8 +388,18 @@
   "three questions" to match. That cut is what pays for the taller figure.
 - Build state: 8 pages, zero overfull, zero undefined references, zero
   multiply-defined labels. Verified by build, not estimated.
-- Known cosmetic gap, not fixed: the compromised sender's italic line reads
-  "stolen DDS cert, valid" where the other two senders carry a source type
-  (`remote_operator`, `authenticated_ros2_node`). Since the pi branch tests
-  source type, that field should read `unregistered_publisher` for the three
-  columns to be parallel.
+- The compromised sender's italic line read "stolen DDS cert, valid" where the
+  other two senders carry a source type (`remote_operator`,
+  `authenticated_ros2_node`). The pi branch tests source type, so that field is
+  now `unregistered_publisher` and the three columns are parallel. Fixed in
+  `paper/figures/fig-scenario-Verticle.drawio`, which was recovered from the
+  mxfile the exporter embeds in the PDF Subject field and is therefore exactly
+  what was drawn. **The PDF still carries the old string**: draw.io has no CLI
+  on this machine, so the re-export has to happen in the app.
+- Review markup turned OFF for submission. `\new` and `\newcolor` are now
+  no-ops and the red definitions sit commented directly above them, so every
+  call site compiles untouched and one uncomment brings the markup back.
+  `hkred` stays defined. Verified by scanning all eight rendered pages for
+  review-red pixels: the only red left is figure content (the Fig. 1 DENY
+  stroke #A03030, the Vitis HLS badge inside the IP block in Fig. 2, and the
+  #EB6834 hardware accent in Figs. 3 and 4). Still 8 pages, zero overfull.
