@@ -433,12 +433,12 @@ The fabric does not outpace the CPU, and we say so directly. At 500 rules the i7
 
 \new{First, the parity result covers three, four and five dimensions on one part at one clock. We have not shown that an arbitrary sixth dimension is free, only that these two were, and Section~\ref{sec:arch} names the mechanism that would end the pattern.} \new{Second,} the software baseline is a 4.96~GHz laptop CPU while the fabric runs at 100~MHz. A baseline on the board's own Cortex-A9 would make the wall-clock comparison fairer, and we did not run it. \new{The board data bounds the fabric and the interface, not a software decision path on the same silicon.} \new{Third,} software latency distributions were measured under WSL2, whose scheduler jitter contaminates maxima, which is why we cite worst observed values and never call them WCETs. \new{Fourth,} the primitive is capacity-bounded at 512 rules and 256 policy nodes, and policy update happens off the decision path. \new{Fifth,} the modeled external-state lookup is synthetic and excluded from every empirical claim, since the measured SQLite path shows the same thing. \new{Sixth,} the kernel compiles only the association subset of INCITS 565, so no claim extends beyond rules that grant. \new{$\sigma$ and $\pi$ are likewise positive conditions: a rule requires a state or source type and cannot forbid one.} \new{Seventh,} the zero-cycle result holds at one operating point, 100~MHz on a Zynq-7020, where \new{all three} kernels close timing with +0.33~ns slack. At an aggressive clock target \new{an} added dimension could force another pipeline stage, the boundary the hypothesis of Section~\ref{sec:model} predicts\new{. The two-to-three step in iteration latency already shows that mechanism operating below the threshold where it costs cycles}. Characterizing the frequency ceiling is future work.
 
-\section{Future Work and Conclusion}
+\section{Conclusion and Future Work}
 \label{sec:conclusion}
 
-Future work will seek to address three questions: \new{1.~At what clock does the next dimension stop being free, and does that ceiling move with policy width or only with stage depth? 2.~What does a software decision path on the board's own Cortex-A9 cost, so the wall-clock comparison runs at one class of silicon?} 3.~Does \eqref{eq:latency} survive a dynamic policy update path, or does update traffic reintroduce jitter? %4.~How does the primitive compose with time-scoped delegation, which TS-NGAC develops in software \cite{karim2026tsngac}?
-Further, we call on the community to report authorization performance as cycle-level worst cases rather than means, because a mean is the statistic a control loop cannot budget against.
-
+% ORDER CORRECTED 2026-08-20. This section ran future work first from the v1
+% scaffold onward. The finding now comes first and the open questions follow,
+% so the last paragraph a reviewer reads is the answer and not the backlog.
 % CONCLUSION REWRITTEN 2026-08-20. Structure: finding, evidence, significance.
 % The v2 paragraph restated every headline number already in the abstract and in
 % Sections VII-A through VII-E, so it read as a summary rather than an answer.
@@ -448,6 +448,9 @@ Further, we call on the community to report authorization performance as cycle-l
 % Introduction at a cost of 21 words:
 %   Layla's interlock becomes a precondition the fabric checks in bounded time, not a procedure she hopes the operator follows.
 Security dimensionality is free in time. On a Zynq-7020 at 100~MHz, \new{three-, }four- and five-dimensional H-NGAC kernels resolve every decision in the same number of clock cycles at every policy size, yet across one 2{,}307-request corpus the three-dimensional kernel permits \new{1{,}443} requests the five-dimensional kernel denies. Latency is closed-form at $12 + n/2$ cycles, zero jitter by construction\new{ and confirmed on silicon}. Area, not time, is what a dimension costs. Thus the security question a control path can afford to ask is no longer set by its latency budget. A robotics or functional-safety engineer fixes the authorization worst case at synthesis and spends the remaining margin on policy.
+
+Three questions follow. \new{1.~At what clock does the next dimension stop being free, and does that ceiling move with policy width or only with stage depth? 2.~What does a software decision path on the board's own Cortex-A9 cost, so the wall-clock comparison runs at one class of silicon?} 3.~Does \eqref{eq:latency} survive a dynamic policy update path, or does update traffic reintroduce jitter? %4.~How does the primitive compose with time-scoped delegation, which TS-NGAC develops in software \cite{karim2026tsngac}?
+Further, we call on the community to report authorization performance as cycle-level worst cases rather than means, because a mean is the statistic a control loop cannot budget against.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
