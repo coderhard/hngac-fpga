@@ -77,7 +77,7 @@ access control, NGAC, FPGA, high-level synthesis, real-time systems, robotics, R
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{fig-scenario.pdf}
+\includegraphics[width=\columnwidth]{figures/fig-scenario-Verticle.drawio.pdf}
 \caption{\new{Authenticated but unauthorized. Three commands clear DDS/SROS2 authentication and arrive as equals. The five-dimensional kernel separates them, one on the state precondition the maintenance lock clears and one on provenance. A three-dimensional kernel permits all three.}}
 \label{fig:scenario}
 \end{figure}
@@ -430,7 +430,8 @@ The fabric does not outpace the CPU, and we say so directly. At 500 rules the i7
 \section{Future Work and Conclusion}
 \label{sec:conclusion}
 
-Four questions follow. \new{1.~At what clock does the next dimension stop being free, and does that ceiling move with policy width or only with stage depth? 2.~What does a software decision path on the board's own Cortex-A9 cost, so the wall-clock comparison runs at one class of silicon?} 3.~Does \eqref{eq:latency} survive a dynamic policy update path, or does update traffic reintroduce jitter? 4.~How does the primitive compose with time-scoped delegation, which TS-NGAC develops in software \cite{karim2026tsngac}? Further, we call on the community to report authorization performance as cycle-level worst cases rather than means, because a mean is the statistic a control loop cannot budget against.
+Future work will seek to address three questions: \new{1.~At what clock does the next dimension stop being free, and does that ceiling move with policy width or only with stage depth? 2.~What does a software decision path on the board's own Cortex-A9 cost, so the wall-clock comparison runs at one class of silicon?} 3.~Does \eqref{eq:latency} survive a dynamic policy update path, or does update traffic reintroduce jitter? %4.~How does the primitive compose with time-scoped delegation, which TS-NGAC develops in software \cite{karim2026tsngac}?
+Further, we call on the community to report authorization performance as cycle-level worst cases rather than means, because a mean is the statistic a control loop cannot budget against.
 
 We extended the H-NGAC bitmask primitive with system-state and command-provenance dimensions and synthesized \new{three-, }four- and five-dimensional kernels to a Zynq-7020. The added \new{dimensions} cost zero clock cycles and \new{1{,}336} LUTs. Latency is closed-form at $12 + n/2$ cycles with zero jitter by construction\new{, confirmed on silicon by a hardware-latched counter. At identical cycle cost, the three-dimensional kernel permits in full the same corpus the five-dimensional kernel denies 1{,}443 times}, and the five-dimensional policy blocked 18{,}878 of 18{,}878 credentialed injection attempts in ROS~2 with zero false positives in 17{,}059 legitimate commands. Robotics and functional-safety engineers can treat the authorization worst case as a synthesis parameter, place the decision inside the control loop budget, and close the two attack classes identity-based authorization admits. Layla's interlock becomes a precondition the fabric checks in bounded time, not a procedure she hopes the operator follows.
 

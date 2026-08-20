@@ -364,3 +364,32 @@
   3:1 mark floor; the relief is the direct labels plus Tables I-III, which
   carry the same numbers the figures plot.
 - Build state: 7 pages, zero overfull, zero undefined references.
+
+## 2026-08-20 — Fig. 1 (scenario) redrawn top-to-bottom; manuscript at 8 pages
+
+- Fig. 1 is now the author's own draw.io artwork, exported as
+  `paper/figures/fig-scenario-Verticle.drawio.pdf` and wired into
+  `paper/main-author-rev-2026-08-19.tex`. It replaces the TikZ-generated
+  `fig-scenario.pdf` (252 x 138 bp), which is retained but no longer referenced.
+- Layout reads in six bands top to bottom: three aligned senders, one DDS/SROS2
+  transport band, three identical AUTHENTICATED badges, the 5D kernel with the
+  S/O/A/sigma/pi conjunction, then three outcomes aligned under the sender that
+  produced each. Compromised -> DENY-pi, Operator console -> DENY-sigma,
+  Nav node -> PERMIT. The column alignment is load-bearing: the fan-out arrows
+  leave the kernel from one point, so column position is the only thing that
+  maps a request to its outcome.
+- Export geometry, measured not estimated: MediaBox 400.08 x 348 pt, one page.
+  At `\columnwidth` that scales by 0.630 and prints 252 x 219 bp, so draw.io
+  15 px body type lands at 6.8 bp. An earlier export of the same drawing was
+  756 x 468 pt across two pages (page 2 held only two orphan edges sitting 460
+  units below the artwork) and was not usable.
+- Future Work lost its fourth question (time-scoped delegation composition,
+  TS-NGAC). The question is commented out in place, and the lead-in now reads
+  "three questions" to match. That cut is what pays for the taller figure.
+- Build state: 8 pages, zero overfull, zero undefined references, zero
+  multiply-defined labels. Verified by build, not estimated.
+- Known cosmetic gap, not fixed: the compromised sender's italic line reads
+  "stolen DDS cert, valid" where the other two senders carry a source type
+  (`remote_operator`, `authenticated_ros2_node`). Since the pi branch tests
+  source type, that field should read `unregistered_publisher` for the three
+  columns to be parallel.
