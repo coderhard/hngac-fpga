@@ -403,3 +403,45 @@
   review-red pixels: the only red left is figure content (the Fig. 1 DENY
   stroke #A03030, the Vitis HLS badge inside the IP block in Fig. 2, and the
   #EB6834 hardware accent in Figs. 3 and 4). Still 8 pages, zero overfull.
+
+## 2026-08-20 — IPCCC upload checker: three rejections cleared
+
+Submission #1571338382 was rejected by the upload checker on three counts. All
+three are build/preamble issues. No prose, table, figure content or claim moved.
+
+1. **`notembedded: The font Helvetica is not embedded (FAQ 109).`** The source
+   was `paper/figures/fig-system-bd.pdf`, the Vivado block-design export, which
+   carried `Helvetica` as a non-embedded Type 1 with MacRoman encoding. The other
+   three figures were already clean (Liberation/DejaVu subsets from draw.io,
+   Nimbus/STIX subsets from matplotlib). Fixed by re-distilling that one file:
+
+   ```
+   gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pdfwrite \
+      -dCompatibilityLevel=1.5 -dPDFSETTINGS=/prepress \
+      -dEmbedAllFonts=true -dSubsetFonts=true -dAutoRotatePages=/None \
+      -sOutputFile=fig-system-bd-embedded.pdf fig-system-bd.pdf
+   ```
+
+   Result is `KSPCIL+Helvetica`, Type 1C, embedded and subsetted. Page box
+   unchanged at 547.38 x 310.34 pt. Verified against the original by rendering
+   both at 150 dpi and differencing: 24 pixels of 738,227 differ by more than 32
+   levels, all of them glyph-edge antialiasing. The pre-fix file is in git
+   history at commit 08ab6b0.
+
+2. **`bookmarks: Bookmarks are not allowed (FAQ 115).`** and
+3. **`links: PDF links (URLs) are not allowed (FAQ 221).`** Both came from
+   hyperref. `hidelinks` only suppresses the visible frame around a link, it does
+   not stop the annotation being written. hyperref now loads as
+   `\usepackage[draft]{hyperref}`, which turns every hypertext feature off.
+   Nothing in the document depends on it: `\ref`, `\eqref` and `\cite` are LaTeX
+   and amsmath, and `\url` typesets through the `url` package. The
+   `[hidelinks,breaklinks]` line is preserved in a comment for arXiv or a
+   camera-ready that wants live links.
+
+Verified on the built PDF rather than from the source: zero fonts with `emb=no`,
+no `/Type /Outlines`, zero `/Subtype /Link` annotations, zero `/URI` actions.
+Still 8 pages, letter, zero overfull, zero undefined.
+
+**Overleaf note.** The hyperref change travels in the `.tex`, but the font fix is
+inside the figure binary. `paper/figures/fig-system-bd.pdf` has to be re-uploaded
+to Overleaf or the Helvetica rejection returns.

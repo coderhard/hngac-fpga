@@ -9,11 +9,16 @@
 \usepackage[table]{xcolor}
 \graphicspath{{figures/}}
 
-% hyperref LAST, after every other package. hidelinks keeps Section/Table/Figure
-% and citation numbers clickable without printing them in a box or a color, which
-% matters here for two reasons: IEEE wants a print-clean PDF, and this draft
-% already uses red for the \new{} review markup, so colored links would collide.
-\usepackage[hidelinks,breaklinks]{hyperref}
+% hyperref LAST, after every other package. LOADED IN DRAFT MODE FOR SUBMISSION
+% 2026-08-20: the IPCCC upload checker rejects PDF bookmarks (FAQ 115) and URL
+% link annotations (FAQ 221), and hidelinks only suppresses the visible frame,
+% not the annotation itself. Draft mode turns every hypertext feature off, so no
+% /Outlines tree and no /Annots array reach the PDF. Nothing in the document
+% breaks: \ref, \eqref and \cite come from LaTeX and amsmath, and \url still
+% typesets through the url package loaded above.
+% For arXiv or a camera-ready that wants live links, restore:
+%   \usepackage[hidelinks,breaklinks]{hyperref}
+\usepackage[draft]{hyperref}
 
 
 % TO TURN THE MARKING OFF FOR SUBMISSION: change the \new definition below to
@@ -408,7 +413,7 @@ Rules & Co-sim cycles & Board cycles & Offset \\
 
 \new{The board tracks co-simulation with a constant 25-cycle offset at all six policy sizes, and minimum, mean and maximum are equal on silicon as they are in simulation. The offset is the AXI-Lite handshake that moves the request in and the decision out. Being constant, it enters \eqref{eq:latency} as an additive term rather than a source of variance. The determinism argued from pipeline structure in Section~\ref{sec:arch} holds on the real part.}
 
-\new{The same run measured round-trip latency from the processing system, and that number behaves differently. Mean round trip rises from 2.09~$\mu$s at four rules to 4.77~$\mu$s at 500, but the maximum reaches 5.92~ms at 500 rules, three orders of magnitude above its own mean. The tail comes entirely from the Linux userspace stack on the board's Cortex-A9 between the timer read and the application, the same mechanism behind the i7's tail in Section~\ref{subsec:comparison}. A deterministic primitive does not make a non-deterministic caller deterministic. It bounds the part of the path a designer can bound, and Table~\ref{tab:board} is that part.}
+\new{The same run measured round-trip latency from the processing system, and that number behaves differently. Mean round trip rises from 2.09~$\mu$s at four rules to 4.77~$\mu$s at 500, but the maximum reaches 5.92~ms at 500 rules, three orders of magnitude above its own mean. The tail comes entirely from the Linux userspace stack on the board's Cortex-A9 between the timer read and the application, the same mechanism behind the i7's tail in Section~\ref{subsec:comparison}. A deterministic primitive does not make a non-deterministic caller deterministic. It bounds the part of the path a designer can bound, and we present that in Table~\ref{tab:board}.}
 
 \subsection{Mean versus worst case}
 \label{subsec:comparison}
@@ -447,10 +452,10 @@ The fabric does not outpace the CPU, and we say so directly. At 500 rules the i7
 % them first. Optional closing sentence, restores the Layla bookend from the
 % Introduction at a cost of 21 words:
 %   Layla's interlock becomes a precondition the fabric checks in bounded time, not a procedure she hopes the operator follows.
-Security dimensionality is free in time. On a Zynq-7020 at 100~MHz, \new{three-, }four- and five-dimensional H-NGAC kernels resolve every decision in the same number of clock cycles at every policy size, yet across one 2{,}307-request corpus the three-dimensional kernel permits \new{1{,}443} requests the five-dimensional kernel denies. Latency is closed-form at $12 + n/2$ cycles, zero jitter by construction\new{ and confirmed on silicon}. Area, not time, is what a dimension costs. Thus the security question a control path can afford to ask is no longer set by its latency budget. A robotics or functional-safety engineer fixes the authorization worst case at synthesis and spends the remaining margin on policy.
+We've determined that in hardware, security dimensionality is free in time. On a Zynq-7020 at 100~MHz, \new{three-, }four- and five-dimensional H-NGAC kernels resolve every decision in the same number of clock cycles at every policy size, yet across one 2{,}307-request corpus the three-dimensional kernel permits \new{1{,}443} requests the five-dimensional kernel denies. Latency is closed-form at $12 + n/2$ cycles, zero jitter by construction\new{ and confirmed on silicon}. Area, not time, is what a dimension costs. Thus the security question a control path can afford to ask is no longer set by its latency budget. A robotics or functional-safety engineer fixes the authorization worst case at synthesis and spends the remaining margin on policy.
 
-Three questions follow. \new{1.~At what clock does the next dimension stop being free, and does that ceiling move with policy width or only with stage depth? 2.~What does a software decision path on the board's own Cortex-A9 cost, so the wall-clock comparison runs at one class of silicon?} 3.~Does \eqref{eq:latency} survive a dynamic policy update path, or does update traffic reintroduce jitter? %4.~How does the primitive compose with time-scoped delegation, which TS-NGAC develops in software \cite{karim2026tsngac}?
-Further, we call on the community to report authorization performance as cycle-level worst cases rather than means, because a mean is the statistic a control loop cannot budget against.
+For future works, three questions remain outstanding: \new{1.~At what clock does the next dimension stop being free, and does that ceiling move with policy width or only with stage depth? 2.~What does a software decision path on the board's own Cortex-A9 cost, so the wall-clock comparison runs at one class of silicon?} 3.~Does \eqref{eq:latency} survive a dynamic policy update path, or does update traffic reintroduce jitter? %4.~How does the primitive compose with time-scoped delegation, which TS-NGAC develops in software \cite{karim2026tsngac}?
+Further, we call on the community to report authorization performance as cycle-level worst cases rather than means, because a mean creates probabilistic uncertainty preventing tight control loop budgeting.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
